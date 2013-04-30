@@ -64,7 +64,16 @@ public class HelloWorld extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.getWriter().print("Hello from Java!\n");
         try {
-            test();
+            Connection connection = getConnection();
+            
+            Statement stmt = connection.createStatement();
+            stmt.executeUpdate("DROP TABLE IF EXISTS ticks");
+            stmt.executeUpdate("CREATE TABLE ticks (tick timestamp)");
+            stmt.executeUpdate("INSERT INTO ticks VALUES (now())");
+            ResultSet rs = stmt.executeQuery("SELECT tick FROM ticks");
+            while (rs.next()) {
+                response.getWriter().print("Read from DB: " + rs.getTimestamp("tick"));
+            }
         }
         catch (SQLException se) {
         }
