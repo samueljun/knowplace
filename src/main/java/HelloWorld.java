@@ -76,8 +76,10 @@ public class HelloWorld extends HttpServlet {
             }
         }
         catch (SQLException se) {
+            response.getWriter().print("SQLException");
         }
         catch (URISyntaxException ue) {
+            response.getWriter().print("URISyntaxException");
         }
     }
 
