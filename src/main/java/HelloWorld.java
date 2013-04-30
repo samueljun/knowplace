@@ -47,7 +47,6 @@ class ConnectionHolder implements HttpSessionBindingListener {
 */
 
 
-
 public class HelloWorld extends HttpServlet {
 
     private static Connection getConnection() throws URISyntaxException, SQLException {
