@@ -7,48 +7,10 @@ import org.eclipse.jetty.servlet.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.*;
-/*
-class ConnectionHolder implements HttpSessionBindingListener {
-    private Connection con = null;
-
-    public ConnectionHolder(Connection con) {
-        // Save the Connection
-        this.con = con;
-        try {
-            con.setAutoCommit(false); // transactions can extend between web pages!
-        }
-        catch (SQLException e) {
-            // Perform error handling
-        }
-    }
-
-    public Connection getConnection() {
-        return con; // return the cargo
-    }
-
-    public void valueBound(HttpSessionBindingEvent event) {
-        // Do nothing when added to a Session
-    }
-
-    public void valueUnbound(HttpSessionBindingEvent event) {
-        // Roll back changes when removed from a Session
-        // (or when the Session expires)
-        try {
-            if (con != null) {
-                con.rollback(); // abandon any uncomitted data
-                con.close();
-            }
-        }
-        catch (SQLException e) {
-            // Report it
-        }
-    }
-}
-*/
-
 
 public class HelloWorld extends HttpServlet {
 
+    // Database Connection
     private static Connection getConnection() throws URISyntaxException, SQLException {
         URI dbUri = new URI(System.getenv("DATABASE_URL"));
         
@@ -62,6 +24,7 @@ public class HelloWorld extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.getWriter().print("Hello from Java!\n");
+
         try {
             Connection connection = getConnection();
             
@@ -73,26 +36,10 @@ public class HelloWorld extends HttpServlet {
             while (rs.next()) {
                 response.getWriter().print("Read from DB: " + rs.getTimestamp("tick"));
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             response.getWriter().print("SQLException: " + e.getMessage());
-        }
-        catch (URISyntaxException e) {
+        } catch (URISyntaxException e) {
             response.getWriter().print("URISyntaxException: " + e.getMessage());
-        }
-    }
-
-    private static void test() throws SQLException, URISyntaxException {
-
-        Connection connection = getConnection();
-
-        Statement stmt = connection.createStatement();
-        stmt.executeUpdate("DROP TABLE IF EXISTS ticks");
-        stmt.executeUpdate("CREATE TABLE ticks (tick timestamp)");
-        stmt.executeUpdate("INSERT INTO ticks VALUES (now())");
-        ResultSet rs = stmt.executeQuery("SELECT tick FROM ticks");
-        while (rs.next()) {
-            System.out.println("Read from DB: " + rs.getTimestamp("tick"));
         }
     }
 
