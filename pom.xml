@@ -19,7 +19,7 @@
         </dependency>
         <dependency>
             <groupId>postgresql</groupId>
-            <artifcatId>postgresql></artifactId>
+            <artifactId>postgresql></artifactId>
             <version>9.1-901.jdbc4</verion>
         </dependency>
     </dependencies>
