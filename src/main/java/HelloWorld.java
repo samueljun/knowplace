@@ -4,6 +4,8 @@ import javax.servlet.http.*;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.*;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.sql.*;
 /*
 class ConnectionHolder implements HttpSessionBindingListener {
@@ -61,6 +63,16 @@ public class HelloWorld extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.getWriter().print("Hello from Java!\n");
+        try {
+            test();
+        }
+        catch (SQLException se) {
+        }
+        catch (URISyntaxException ue) {
+        }
+    }
+
+    private static void test() throws SQLException, URISyntaxException {
 
         Connection connection = getConnection();
 
