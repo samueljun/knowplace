@@ -75,11 +75,11 @@ public class HelloWorld extends HttpServlet {
                 response.getWriter().print("Read from DB: " + rs.getTimestamp("tick"));
             }
         }
-        catch (SQLException se) {
-            response.getWriter().print("SQLException");
+        catch (SQLException e) {
+            response.getWriter().print("SQLException: " + e.getMessage());
         }
-        catch (URISyntaxException ue) {
-            response.getWriter().print("URISyntaxException");
+        catch (URISyntaxException e) {
+            response.getWriter().print("URISyntaxException: " + e.getMessage());
         }
     }
 
