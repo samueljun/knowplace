@@ -13,11 +13,11 @@ public class HelloWorld extends HttpServlet {
     // Database Connection
     private static Connection getConnection() throws URISyntaxException, SQLException {
         URI dbUri = new URI(System.getenv("DATABASE_URL"));
-        
+
         String username = dbUri.getUserInfo().split(":")[0];
         String password = dbUri.getUserInfo().split(":")[1];
         String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + dbUri.getPath();
-        
+
         return DriverManager.getConnection(dbUrl, username, password);
     }
 
@@ -27,7 +27,7 @@ public class HelloWorld extends HttpServlet {
 
         try {
             Connection connection = getConnection();
-            
+
             Statement stmt = connection.createStatement();
             stmt.executeUpdate("DROP TABLE IF EXISTS ticks");
             stmt.executeUpdate("CREATE TABLE ticks (tick timestamp)");
@@ -36,9 +36,11 @@ public class HelloWorld extends HttpServlet {
             while (rs.next()) {
                 response.getWriter().print("Read from DB: " + rs.getTimestamp("tick"));
             }
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             response.getWriter().print("SQLException: " + e.getMessage());
-        } catch (URISyntaxException e) {
+        }
+        catch (URISyntaxException e) {
             response.getWriter().print("URISyntaxException: " + e.getMessage());
         }
     }
@@ -50,7 +52,7 @@ public class HelloWorld extends HttpServlet {
         server.setHandler(context);
         context.addServlet(new ServletHolder(new HelloWorld()),"/*");
         server.start();
-        server.join();   
+        server.join();
     }
 }
 
