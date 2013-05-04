@@ -23,7 +23,7 @@ public class HelloWorld extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.getWriter().print("Hello from Java!\n");
+        // response.getWriter().print("Hello from Java!\n");
 
         try {
             Connection connection = getConnection();
@@ -34,7 +34,7 @@ public class HelloWorld extends HttpServlet {
             stmt.executeUpdate("INSERT INTO ticks VALUES (now())");
             ResultSet rs = stmt.executeQuery("SELECT tick FROM ticks");
             while (rs.next()) {
-                response.getWriter().print("Read from DB: " + rs.getTimestamp("tick"));
+                // response.getWriter().print("Read from DB: " + rs.getTimestamp("tick"));
             }
         }
         catch (SQLException e) {
@@ -43,6 +43,8 @@ public class HelloWorld extends HttpServlet {
         catch (URISyntaxException e) {
             response.getWriter().print("URISyntaxException: " + e.getMessage());
         }
+
+        request.getRequestDispatcher("/index.jsp").forward(request, response);
     }
 
     public static void main(String[] args) throws Exception{
