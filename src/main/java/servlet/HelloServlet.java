@@ -33,7 +33,6 @@ public class HelloServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // response.getWriter().print("Hello from Java!\n");
-        String test_var = "";
 
         try {
             Connection connection = getConnection();
@@ -44,19 +43,17 @@ public class HelloServlet extends HttpServlet {
             stmt.executeUpdate("INSERT INTO ticks VALUES (now())");
             ResultSet rs = stmt.executeQuery("SELECT tick FROM ticks");
             while (rs.next()) {
-                test_var = rs.getTimestamp("tick").toString();
+                request.setAttribute("test_var", rs.getTimestamp("tick").toString());
             }
         }
         catch (SQLException e) {
-            response.getWriter().print("SQLException: " + e.getMessage());
+            request.setAttribute("SQLException", e.getMessage());
         }
         catch (URISyntaxException e) {
-            response.getWriter().print("URISyntaxException: " + e.getMessage());
+            request.setAttribute("URISyntaxException", e.getMessage());
         }
 
-        request.setAttribute("test_var", test_var);
         request.setAttribute("test_var2", "This is test var 2");
-
         request.getRequestDispatcher("/hello.jsp").forward(request, response);
     }
 
