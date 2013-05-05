@@ -34,6 +34,7 @@ public class HelloServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // response.getWriter().print("Hello from Java!\n");
         String test_var;
+        boolean test_var_set = false;
 
         try {
             Connection connection = getConnection();
@@ -45,6 +46,7 @@ public class HelloServlet extends HttpServlet {
             ResultSet rs = stmt.executeQuery("SELECT tick FROM ticks");
             while (rs.next()) {
                 test_var = rs.getTimestamp("tick").toString();
+                test_var_set = true;
             }
         }
         catch (SQLException e) {
@@ -52,6 +54,10 @@ public class HelloServlet extends HttpServlet {
         }
         catch (URISyntaxException e) {
             response.getWriter().print("URISyntaxException: " + e.getMessage());
+        }
+
+        if (test_var_set == false) {
+            test_var = "Did not initialize";
         }
 
         request.setAttribute("test_var", test_var);
