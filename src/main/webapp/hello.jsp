@@ -4,5 +4,6 @@
     </head>
     <body>
         <%= request.getAttribute("test_var") %>
+        <%= request.getAttribute("test_var2") %>
     </body>
 </html>

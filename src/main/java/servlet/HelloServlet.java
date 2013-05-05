@@ -53,6 +53,8 @@ public class HelloServlet extends HttpServlet {
             response.getWriter().print("URISyntaxException: " + e.getMessage());
         }
 
+        request.setAttribute("test_var2", "This is test var 2");
+
         request.getRequestDispatcher("/hello.jsp").forward(request, response);
     }
 
