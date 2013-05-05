@@ -43,7 +43,7 @@ public class HelloServlet extends HttpServlet {
             stmt.executeUpdate("INSERT INTO ticks VALUES (now())");
             ResultSet rs = stmt.executeQuery("SELECT tick FROM ticks");
             while (rs.next()) {
-                request.setAttribute("test_var", "Time: " + rs.getTimestamp("tick"));
+                request.setAttribute("test_var", "Time: " + rs.getTimestamp("tick").toString());
             }
         }
         catch (SQLException e) {
