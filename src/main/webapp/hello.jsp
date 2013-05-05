@@ -3,15 +3,15 @@
         <title>Hello Servlet Page</title>
     </head>
     <body>
-        <%= request.getAttribute("test_var") %><br>
-
-        SQLException:<br>
-        <%= request.getAttribute("SQLException") %><br>
-
-        URI Syntax Exception:<br>
-        <%= request.getAttribute("URI Syntax Exception") %><br>
-
-        Test Var 2:<br>
-        <%= request.getAttribute("test_var2") %><br>
+        <dl>
+            <dt>Test Var</dt>
+            <dd><%= request.getAttribute("test_var") %></dd>
+            <dt>SQL Exception:</dt>
+            <dd><%= request.getAttribute("SQLException") %></dd>
+            <dt>URI Syntax Exception:<dt>
+            <dd><%= request.getAttribute("URI Syntax Exception") %></dd>
+            <dt>Test Var 2:</dt>
+            <dd><%= request.getAttribute("test_var2") %></dt>
+        </dl>
     </body>
 </html>
