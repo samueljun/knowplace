@@ -104,7 +104,7 @@
           <div class="nav-collapse collapse">
             <ul class="nav">
               <li class="active"><a href="index.php">Home</a></li>
-              <li><a href="data.php">My Data</a></li>
+              <li><a href="#data">My Data</a></li>
               <li><a href="#contact">Contact</a></li>
             </ul>
             <form class="navbar-form pull-right" method="post" action="#">
