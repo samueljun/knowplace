@@ -30,10 +30,16 @@
     <div id="fb-root"></div>
     <script>
       var isConnected = false;
+      var app_id;
+      if (location.hostname === 'localhost') {
+        app_id = '459658667442635';
+      } else {
+        app_id = '130174813840003';
+      }
         // Additional JS functions here
         window.fbAsyncInit = function() {
           FB.init({
-            appId      : '459658667442635', // App ID
+            appId      : app_id, // App ID
             //channelUrl : '//WWW.YOUR_DOMAIN.COM/channel.html', // Channel File
             status     : true, // check login status
             cookie     : true, // enable cookies to allow the server to access the session
