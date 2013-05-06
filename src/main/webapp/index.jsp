@@ -106,10 +106,10 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="brand" href="index.php">Know Place</a>
+          <a class="brand" href="index.jsp">Know Place</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <li class="active"><a href="index.php">Home</a></li>
+              <li class="active"><a href="index.jsp">Home</a></li>
               <li><a href="#data">My Data</a></li>
               <li><a href="#contact">Contact</a></li>
             </ul>
