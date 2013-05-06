@@ -19,6 +19,9 @@
       }
     </style>
     <link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <script src="bootstrap/js/jquery.js"></script>
+    <script src="bootstrap/js/bootstrap.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
 
   </head>
 
@@ -30,7 +33,7 @@
         // Additional JS functions here
         window.fbAsyncInit = function() {
           FB.init({
-            appId      : '130174813840003', // App ID
+            appId      : '459658667442635', // App ID
             //channelUrl : '//WWW.YOUR_DOMAIN.COM/channel.html', // Channel File
             status     : true, // check login status
             cookie     : true, // enable cookies to allow the server to access the session
@@ -74,7 +77,19 @@
                   window.alert("not logged in");
               }
         });
-}
+        }
+
+        imgs=Array("onBulb.jpg","offBulb.jpg");
+        function lampStatusChange() {
+          setTimeout(function() {
+            if(document.getElementById("lampOn").checked==true) {
+              document.getElementById("bulbPic").src=imgs[0];
+            }
+            else {
+              document.getElementById("bulbPic").src=imgs[1];
+            }
+          },4000);
+        }
     </script>
 
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -104,18 +119,23 @@
 
       <!-- Main hero unit for a primary marketing message or call to action -->
       <div class="hero-unit">
-        <h1>Welcome!</h1>
+        <h2>KnowPlace</h2>
         <p>
-          A short description about the website and how to control specific devices will be located here.
+          It's like home automation!
         </p>
 
         <p><a href="#" class="btn btn-primary btn-large" data-toggle="collapse" data-target="#info">Learn more &raquo;</a></p>
         <div id="info" class="collapse out">
           <p>   
-            More information about the project will go here along with how to customize personal devices.
-          </p>
-          <p>   
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam tristique vestibulum leo, vel convallis risus ornare et. Integer ac nibh id tortor facilisis cursus. Mauris eleifend egestas sollicitudin. Curabitur varius orci non dolor facilisis egestas. Maecenas vitae justo et sem vulputate laoreet nec ut quam. Sed vitae massa ultrices felis euismod vehicula ac nec tortor. Sed leo felis, blandit sit amet ornare at, euismod quis mi.
+            Control you home devices without actually being there. <br>
+            Created by: <br>
+            Ryan Mercer <br>
+            Samuel Jun <br>
+            Roger Lam <br>
+            Ray Tong <br>
+            Samir Mody <br>
+            Se Hun Choi <br>
+            Yoshinori Osone
           </p>
         </div>
  
@@ -124,31 +144,31 @@
 
       <!-- Example row of columns -->
       <div class="row">
-        <div class="span4">
+        <div class="span6">
           <h2>lamp light</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-
-          <form method="post" action="check.php">
-            <input type="radio" name="test1" value="on"> On<br>
-            <input type="radio" name="test1" value="off"> Off<br><br>
-            <button type="submit" inline class="btn">submit</button>
-          </form>
-
+          <div class="row">
+            <div class="span2">
+            <img src="onBulb.jpg" id="bulbPic" width="100" height="160" alt="">
+            </div>
+            <div class="span3">
+              <br><br>
+            <form method="post" action="check.php">
+              <input type="radio" id="lampOn" name="test1" value="on" checked> On<br>
+              <input type="radio" id="lampOff" name="test1" value="off"> Off<br><br>
+              <button type="button" inline class="btn" onclick="lampStatusChange()">submit</button>
+            </form>
+            </div>
+          </div>
         </div>
-        <div class="span4">
-          <h2>Device 2</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+        <div class="span6">
+          <h2>Brightness Level</h2>
+          <p>Adjust the brightness of your lamp!</p>
           <!--<p><a class="btn" href="#">View details &raquo;</a></p>-->
        </div>
-        <div class="span4">
-          <h2>Device 3</h2>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-          
-        </div>
       </div>
 
       <hr>
-
+      <br><br><br><br><br>
       <footer>
         <p>&copy; Know Place - 2013</p>
       </footer>
@@ -158,9 +178,7 @@
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="bootstrap/js/jquery.js"></script>
-    <script src="bootstrap/js/bootstrap.js"></script>
-    <script src="bootstrap/js/bootstrap.min.js"></script>
+
 
   </body>
 </html>
