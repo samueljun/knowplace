@@ -2,8 +2,6 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-
-
     <meta charset="utf-8">
     <title>Know Place</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,6 +10,11 @@
 
     <!-- Le styles -->
     <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="bootstrap/css/slider.css" rel="stylesheet">
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+   
+  
+
     <style type="text/css">
       body {
         padding-top: 60px;
@@ -22,13 +25,41 @@
     <script src="bootstrap/js/jquery.js"></script>
     <script src="bootstrap/js/bootstrap.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="bootstrap/js/slider.js"></script>
+
 
   </head>
 
   <body>
 
     <div id="fb-root"></div>
+
+
+    <style>
+    #slider{
+      width: 60%;
+    }
+    </style>
+
     <script>
+     $(function() {
+        $( "#slider" ).slider({
+          value:0,
+          min: 0,
+          max: 100,
+          step: 1,
+
+        slide: function( event, ui ) {
+          $( "#amount" ).val(ui.value );
+         }
+
+       
+
+        });
+        $( "#amount" ).val($( "#slider" ).slider( "value" ) );
+
+    });
+
       var isConnected = false;
       var app_id;
       if (location.hostname === 'localhost') {
@@ -96,6 +127,9 @@
             }
           },4000);
         }
+
+         
+
     </script>
 
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -167,10 +201,22 @@
           </div>
         </div>
         <div class="span6">
-          <h2>Brightness Level</h2>
+          <h2>Brightness Intensity</h2>
           <p>Adjust the brightness of your lamp!</p>
           <!--<p><a class="btn" href="#">View details &raquo;</a></p>-->
+
+
+        <p>
+          <input type="text" id="amount" style="border: 0; color: #f6931f; font-weight: bold;" />
+        </p>
+ 
+        <div id="slider"></div>
+        
+          
+
        </div>
+
+
       </div>
 
       <hr>
