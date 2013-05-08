@@ -58,8 +58,8 @@ public class HelloServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // response.getWriter().print("Hello from Java!\n");
-
+        String response1 = request.getAttribute("name1");
+/*
         try {
             Connection connection = getConnection();
 
@@ -78,8 +78,8 @@ public class HelloServlet extends HttpServlet {
         catch (URISyntaxException e) {
             request.setAttribute("URISyntaxException", e.getMessage());
         }
-
-        request.setAttribute("test_var2", "This is test var 2");
+*/
+        request.setAttribute("response1", response1);
         request.getRequestDispatcher("/hello.jsp").forward(request, response);
     }
 
