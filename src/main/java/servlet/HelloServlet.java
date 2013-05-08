@@ -58,7 +58,7 @@ public class HelloServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String response1 = request.getAttribute("name1");
+        String response1 = (String)request.getAttribute("name1");
 /*
         try {
             Connection connection = getConnection();
