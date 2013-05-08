@@ -192,7 +192,7 @@
             </div>
             <div class="span3">
               <br><br>
-            <form method="post" action="check.php">
+            <form method="post" action="/hello">
               <input type="radio" id="lampOn" name="test1" value="on" checked> On<br>
               <input type="radio" id="lampOff" name="test1" value="off"> Off<br><br>
               <button type="button" inline class="btn" onclick="lampStatusChange()">submit</button>
