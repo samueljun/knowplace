@@ -12,8 +12,8 @@
     <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="bootstrap/css/slider.css" rel="stylesheet">
     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-   
-  
+
+
 
     <style type="text/css">
       body {
@@ -53,7 +53,7 @@
           $( "#amount" ).val(ui.value );
          }
 
-       
+
 
         });
         $( "#amount" ).val($( "#slider" ).slider( "value" ) );
@@ -128,7 +128,7 @@
           },4000);
         }
 
-         
+
 
     </script>
 
@@ -166,7 +166,7 @@
 
         <p><a href="#" class="btn btn-primary btn-large" data-toggle="collapse" data-target="#info">Learn more &raquo;</a></p>
         <div id="info" class="collapse out">
-          <p>   
+          <p>
             Control you home devices without actually being there. <br>
             Created by: <br>
             Ryan Mercer <br>
@@ -178,7 +178,7 @@
             Yoshinori Osone
           </p>
         </div>
- 
+
 
       </div>
 
@@ -193,9 +193,9 @@
             <div class="span3">
               <br><br>
             <form method="post" action="/hello">
-              <input type="radio" id="lampOn" name="test1" value="on" checked> On<br>
-              <input type="radio" id="lampOff" name="test1" value="off"> Off<br><br>
-              <button type="button" inline class="btn" onclick="lampStatusChange()">submit</button>
+              <input type="radio" id="lampOn" name="lightInput" value="on" checked> On<br>
+              <input type="radio" id="lampOff" name="lightInput" value="off"> Off<br><br>
+              <input type="submit" inline class="btn" value="Submit">
             </form>
             </div>
           </div>
@@ -209,10 +209,10 @@
         <p>
           <input type="text" id="amount" style="border: 0; color: #f6931f; font-weight: bold;" />
         </p>
- 
+
         <div id="slider"></div>
-        
-          
+
+
 
        </div>
 

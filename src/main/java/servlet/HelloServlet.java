@@ -60,26 +60,7 @@ public class HelloServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String response1 = (String)request.getAttribute("name1");
         String lightInput = (String)request.getAttribute("lightInput");
-/*
-        try {
-            Connection connection = getConnection();
 
-            Statement stmt = connection.createStatement();
-            stmt.executeUpdate("DROP TABLE IF EXISTS ticks");
-            stmt.executeUpdate("CREATE TABLE ticks (tick timestamp)");
-            stmt.executeUpdate("INSERT INTO ticks VALUES (now())");
-            ResultSet rs = stmt.executeQuery("SELECT tick FROM ticks");
-            while (rs.next()) {
-                request.setAttribute("test_var", rs.getTimestamp("tick").toString());
-            }
-        }
-        catch (SQLException e) {
-            request.setAttribute("SQLException", e.getMessage());
-        }
-        catch (URISyntaxException e) {
-            request.setAttribute("URISyntaxException", e.getMessage());
-        }
-*/
         request.setAttribute("response1", lightInput);
         //request.setAttribute("response1", response1);
         request.getRequestDispatcher("/hello.jsp").forward(request, response);
