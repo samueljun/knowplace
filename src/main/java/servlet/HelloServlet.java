@@ -58,8 +58,8 @@ public class HelloServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String response1 = (String)request.getAttribute("name1");
-        String lightInput = (String)request.getAttribute("lightInput");
+        String response1 = (String)request.getParameter("name1");
+        String lightInput = (String)request.getParameter("lightInput");
 
         request.setAttribute("response1", lightInput);
         //request.setAttribute("response1", response1);
