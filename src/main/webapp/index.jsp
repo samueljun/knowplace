@@ -48,18 +48,14 @@
           min: 0,
           max: 100,
           step: 1,
-
         slide: function( event, ui ) {
           $( "#amount" ).val(ui.value );
          }
-
-
-
         });
         $( "#amount" ).val($( "#slider" ).slider( "value" ) );
-
     });
 
+      var fbID;
       var isConnected = false;
       var app_id;
       if (location.hostname === 'localhost') {
@@ -81,7 +77,8 @@
           FB.getLoginStatus(function(response) {
             if (response.status === 'connected') {
               isConnected = true;
-              testAPI();
+              getID(response);
+              //testAPI();
             } else {
               login();
             }
@@ -104,11 +101,18 @@
             });
         }
 
+        function getID(response) {
+          window.alert(response.name + ' ' + response.authResponse);
+
+        }
+
         function login() {
           FB.login(function(response) {
               if (response.authResponse) {
                   // connected
-                  testAPI();
+                  //testAPI();
+                  getID(response);
+
               } else {
                   // cancelled
                   window.alert("not logged in");
