@@ -77,7 +77,7 @@
           FB.getLoginStatus(function(response) {
             if (response.status === 'connected') {
               isConnected = true;
-              getID(response);
+              getID(response.authResponse);
               //testAPI();
             } else {
               login();
@@ -102,7 +102,7 @@
         }
 
         function getID(response) {
-          window.alert(response.name + ' ' + response.authResponse);
+          window.alert(response.accessToken + ' ' + response.userID);
 
         }
 
@@ -111,7 +111,7 @@
               if (response.authResponse) {
                   // connected
                   //testAPI();
-                  getID(response);
+                  getID(response.authResponse);
 
               } else {
                   // cancelled
