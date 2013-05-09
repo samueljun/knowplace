@@ -76,9 +76,9 @@
           // Additional init code here
           FB.getLoginStatus(function(response) {
             if (response.status === 'connected') {
+              //connected
               isConnected = true;
               getID(response.authResponse);
-              //testAPI();
             } else {
               login();
             }
@@ -94,28 +94,28 @@
            ref.parentNode.insertBefore(js, ref);
          }(document));
 
+        /*
         function testAPI() {
             console.log('Welcome!  Fetching your information.... ');
             FB.api('/me', function(response) {
                 window.alert('Good to see you, ' + response.name + '.');
             });
         }
+        */
 
         function getID(response) {
-          window.alert(response.userID);
-
+          fbID = response.userID;
         }
 
         function login() {
           FB.login(function(response) {
               if (response.authResponse) {
                   // connected
-                  //testAPI();
+                  isConnected = true;
                   getID(response.authResponse);
-
               } else {
                   // cancelled
-                  window.alert("not logged in");
+                  window.alert("You are not logged in.");
               }
         });
         }
