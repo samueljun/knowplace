@@ -102,7 +102,7 @@
         }
 
         function getID(response) {
-          window.alert(response.accessToken + ' ' + response.userID);
+          window.alert(response.userID);
 
         }
 
