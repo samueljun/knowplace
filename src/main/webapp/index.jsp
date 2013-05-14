@@ -53,7 +53,7 @@
          }
         });
         $( "#amount" ).val($( "#slider" ).slider( "value" ) );
-    });
+      });
 
       var fbID;
       var isConnected = false;
@@ -102,6 +102,33 @@
             });
         }
         */
+
+
+        function getCurrentStatusonLogin() {
+          $.ajax({
+            type: "post",
+            url: "/hello",
+            data: JSON.stringify({
+                "fb_id" : fbID
+              }),
+            success: function (response) {
+              var status = response["status"];
+              console.log(status);
+              if (status === "READY") {
+                //ENTRY READ
+                if(response["lampStatus"] == "on") {
+                  document.getElementById("lampOn").checked = true;
+                  document.getElementById("bulbPic").src=imgs[0];
+                } else {
+                  document.getElementById("lampOff").checked = true;
+                  document.getElementById("bulbPic").src=imgs[1];
+                }
+              } else if (status === "FAILED") {
+                //NO ENTRY
+              }
+            }
+          });
+        }
 
         function getID(response) {
           fbID = response.userID;
