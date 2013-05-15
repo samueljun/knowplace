@@ -7,6 +7,16 @@
         <servlet-name>HelloServlet</servlet-name>
         <url-pattern>/hello</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>TestLamp</servlet-name>
+        <servlet-class>main.java.servlet.TestLamp</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TestLamp</servlet-name>
+        <rul-pattern>/testlamp</url-pattern>
+    </servlet-mapping>
+
 <!--     <servlet>
         <servlet-name>ItemServlet</servlet-name>
         <servlet-class>edu.ucla.cs.cs144.ItemServlet</servlet-class>
