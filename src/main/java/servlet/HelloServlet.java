@@ -58,7 +58,7 @@ public class HelloServlet extends HttpServlet {
             Connection connection = getConnection();
 
             Statement stmt = connection.createStatement();
-            stmt.executeUpdate("INSERT INTO test_lamp VALUE ('" + data_value + "', (now())");
+            stmt.executeUpdate("INSERT INTO test_lamp VALUES ('" + data_value + "', (now())");
         }
         catch (SQLException e) {
             request.setAttribute("SQLException", e.getMessage());
