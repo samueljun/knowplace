@@ -10,7 +10,7 @@
 
     <servlet>
         <servlet-name>TestLamp</servlet-name>
-        <servlet-class>main.java.servlet.TestLamp</servlet-class>
+        <servlet-class>main.java.servlet.TestLampServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>TestLamp</servlet-name>
