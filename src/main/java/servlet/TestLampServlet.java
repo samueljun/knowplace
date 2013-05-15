@@ -34,7 +34,7 @@ public class TestLampServlet extends HttpServlet {
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT data_value FROM test_lamp ORDER BY time DESC LIMIT 1");
             rs.next();
-            request.setAttribute("data_value", rs.getString(1) );
+            request.setAttribute("data_value", rs.getInt(1) );
         }
         catch (SQLException e) {
             request.setAttribute("SQLException", e.getMessage());
@@ -48,13 +48,23 @@ public class TestLampServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String data_value = (String)request.getParameter("data_value");
+        String data_value_str = (String)request.getParameter("data_value");
+        data_value_str = data_value_str.toLowerCase();
 
+        int data_value_int;
+
+        if (data_value_str == "on") {
+            data_value_int = 0;
+        }
+        else {
+            data_value_int = 1;
+        }
+            
         try {
             Connection connection = getConnection();
 
             Statement stmt = connection.createStatement();
-            stmt.executeUpdate("INSERT INTO test_lamp VALUES ('" + data_value + "', now())");
+            stmt.executeUpdate("INSERT INTO test_lamp VALUES ('" + data_value_int + "', now())");
         }
         catch (SQLException e) {
             request.setAttribute("SQLException", e.getMessage());

@@ -223,9 +223,9 @@
             </div>
             <div class="span3">
               <br><br>
-            <form method="post" action="/hello">
-              <input type="radio" id="lampOn" name="lightInput" value="on" checked> On<br>
-              <input type="radio" id="lampOff" name="lightInput" value="off"> Off<br><br>
+            <form method="post" action="/testlamp">
+              <input type="radio" id="lampOn" name="data_value" value="on" checked> On<br>
+              <input type="radio" id="lampOff" name="data_value" value="off"> Off<br><br>
               <input type="submit" inline class="btn" value="Submit">
             </form>
             </div>
