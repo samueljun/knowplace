@@ -38,7 +38,7 @@ public class HelloServlet extends HttpServlet {
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT data_value FROM test_lamp ORDER BY time LIMIT 1");
             rs.next();
-            request.setAttribute("data_value", rs.getString(0) );
+            request.setAttribute("data_value", rs.getString(1) );
         }
         catch (SQLException e) {
             request.setAttribute("SQLException", e.getMessage());
