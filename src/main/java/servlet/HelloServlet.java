@@ -32,18 +32,13 @@ public class HelloServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // response.getWriter().print("Hello from Java!\n");
-
         try {
             Connection connection = getConnection();
 
             Statement stmt = connection.createStatement();
-            stmt.executeUpdate("DROP TABLE IF EXISTS ticks");
-            stmt.executeUpdate("CREATE TABLE ticks (tick timestamp)");
-            stmt.executeUpdate("INSERT INTO ticks VALUES (now())");
-            ResultSet rs = stmt.executeQuery("SELECT tick FROM ticks");
-            while (rs.next()) {
-                request.setAttribute("test_var", rs.getTimestamp("tick").toString());
+            ResultSet rs = stmt.executeQuery("SELECT data_value FROM test_lamp");
+            while (rs.last()) {
+                request.setAttribute("data_value", rs.getString(0) );
             }
         }
         catch (SQLException e) {
@@ -53,16 +48,26 @@ public class HelloServlet extends HttpServlet {
             request.setAttribute("URISyntaxException", e.getMessage());
         }
 
-        request.setAttribute("test_var2", "This is test var 2");
         request.getRequestDispatcher("/hello.jsp").forward(request, response);
     }
 
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String response1 = (String)request.getParameter("name1");
-        String lightInput = (String)request.getParameter("lightInput");
+        String data_value = (String)request.getParameter("data_value");
 
-        request.setAttribute("response1", lightInput);
-        //request.setAttribute("response1", response1);
+        try {
+            Connection connection = getConnection();
+
+            Statement stmt = connection.createStatement();
+            stmt.executeUpdate("INSERT INTO test_lamp VALUE ('" + data_value + "', (now())");
+        }
+        catch (SQLException e) {
+            request.setAttribute("SQLException", e.getMessage());
+        }
+        catch (URISyntaxException e) {
+            request.setAttribute("URISyntaxException", e.getMessage());
+        }
+
         request.getRequestDispatcher("/hello.jsp").forward(request, response);
     }
 
