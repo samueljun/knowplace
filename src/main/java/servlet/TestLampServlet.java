@@ -81,7 +81,7 @@ public class TestLampServlet extends HttpServlet {
             rs.next();
             
             // Convert int to string
-            String lampStatus_str = convertIntToStatus(re.getInt(1));
+            String lampStatus_str = convertIntToStatus(rs.getInt(1));
 
             request.setAttribute("lampStatus", lampStatus_str);
         }
