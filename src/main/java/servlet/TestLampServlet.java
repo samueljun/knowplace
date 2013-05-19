@@ -77,7 +77,7 @@ public class TestLampServlet extends HttpServlet {
             stmt.executeUpdate("INSERT INTO test_lamp VALUES ('" + data_value_int + "', now())");
 
             // Return the latest status of the test lamp
-            ResultSet rs = stmt.executeUpdate("SELECT data_value FROM test_lamp ORDER BY DESC LIMIT 1");
+            ResultSet rs = stmt.executeQuery("SELECT data_value FROM test_lamp ORDER BY DESC LIMIT 1");
             rs.next();
             
             // Convert int to string
