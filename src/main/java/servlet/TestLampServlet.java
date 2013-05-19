@@ -26,7 +26,16 @@ public class TestLampServlet extends HttpServlet {
         return DriverManager.getConnection(dbUrl, username, password);
     }
 
-    @Override
+    private static String convertIntToStatus(int data_value_int) {
+        // Convert int to string
+        String status_str = "on";
+        if (data_value_int == 0) {
+            status_str = "off";
+        }
+
+        return status_str;
+    }
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             Connection connection = getConnection();
@@ -51,9 +60,9 @@ public class TestLampServlet extends HttpServlet {
         String data_value_str = (String)request.getParameter("data_value");
         data_value_str = data_value_str.toLowerCase();
 
+        // Convert string to corresponding int 0-off 1-on
         int data_value_int;
-
-        if (data_value_str == "on") {
+        if (data_value_str == "off") {
             data_value_int = 0;
         }
         else {
@@ -63,8 +72,18 @@ public class TestLampServlet extends HttpServlet {
         try {
             Connection connection = getConnection();
 
+            // Insert latest test lamp change
             Statement stmt = connection.createStatement();
             stmt.executeUpdate("INSERT INTO test_lamp VALUES ('" + data_value_int + "', now())");
+
+            // Return the latest status of the test lamp
+            ResultSet rs = stmt.executeUpdate("SELECT data_value FROM test_lamp ORDER BY DESC LIMIT 1");
+            rs.next();
+            
+            // Convert int to string
+            String lampStatus_str = convertIntToStatus(re.getInt(1));
+
+            request.setAttribute("lampStatus", lampStatus_str);
         }
         catch (SQLException e) {
             request.setAttribute("SQLException", e.getMessage());
@@ -76,5 +95,5 @@ public class TestLampServlet extends HttpServlet {
         request.getRequestDispatcher("/testlamp-post.jsp").forward(request, response);
     }
 
-}
+};
 
