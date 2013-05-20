@@ -62,14 +62,14 @@ public class TestLampServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String data_value_str = request.getParameter("data_value");
-        data_value_str = data_value_str.toLowerCase();
+        // data_value_str = data_value_str.toLowerCase();
 
         // Convert string to corresponding int 0-off 1-on
         int data_value_int;
-        if (data_value_str == 'off') {
+        if (data_value_str == "off") {
             data_value_int = 0;
         }
-        else if (data_value_str == 'on') {
+        else if (data_value_str == "on") {
             data_value_int = 1;
         }
         else {
