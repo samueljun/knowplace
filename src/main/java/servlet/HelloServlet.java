@@ -13,10 +13,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.*;
 
-// @WebServlet(
-//         name = "HelloServlet",
-//         urlPatterns = {"/hello"}
-//     )
 public class HelloServlet extends HttpServlet {
 
     // Database Connection
@@ -30,14 +26,26 @@ public class HelloServlet extends HttpServlet {
         return DriverManager.getConnection(dbUrl, username, password);
     }
 
+    private static String convertIntToStatus(int data_value_int) {
+        // Convert int to string
+        String status_str = "on";
+        if (data_value_int == 0) {
+            status_str = "off";
+        }
+
+        return status_str;
+    }
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             Connection connection = getConnection();
-
+            // Return the latest status of the test lamp
             Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT data_value FROM test_lamp ORDER BY time DESC LIMIT 1");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM test_lamps ORDER BY time DESC LIMIT 1");
             rs.next();
-            request.setAttribute("data_value", rs.getString(1) );
+            request.setAttribute("lampAddress", rs.getString(1));
+            request.setAttribute("lampStatus", rs.getString(2));
+            request.setAttribute("lampStatusTime", rs.getString(3));
             connection.close();
         }
         catch (SQLException e) {
@@ -47,17 +55,44 @@ public class HelloServlet extends HttpServlet {
             request.setAttribute("URISyntaxException", e.getMessage());
         }
 
-        request.getRequestDispatcher("/hello.jsp").forward(request, response);
+        request.getRequestDispatcher("/testlamp-get.jsp").forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String data_value = (String)request.getParameter("data_value");
+        String node_address = request.getParameter("node_address").toLowerCase().replaceAll("\\s","");
+        String data_value_str = request.getParameter("data_value").toLowerCase().replaceAll("\\s","");
+        int data_value_int = 0;
+
+        if (node_address == null) {
+            request.setAttribute("error", "No node_address specified.");
+        }
+
+        if (data_value_str == null) {
+            request.setAttribute("error", "No data_value specified.");
+        }
+        else {
+            // Convert string to corresponding int 0-off 1-on
+            if (data_value_str.contains("off")) {
+                data_value_int = 0;
+            }
+            else {
+                data_value_int = 1;
+            }
+        }
 
         try {
             Connection connection = getConnection();
 
+            // Insert latest test lamp change
             Statement stmt = connection.createStatement();
-            stmt.executeUpdate("INSERT INTO test_lamp VALUES ('" + data_value + "', now())");
+            stmt.executeUpdate("INSERT INTO test_lamps VALUES ('" + node_address + "', " + data_value_int + ", now())");
+
+            // Return the latest status of the test lamp
+            ResultSet rs = stmt.executeQuery("SELECT * FROM test_lamps ORDER BY time DESC LIMIT 1");
+            rs.next();
+            request.setAttribute("lampAddress", rs.getString(1));
+            request.setAttribute("lampStatus", rs.getString(2));
+            request.setAttribute("lampStatusTime", rs.getString(3));
             connection.close();
         }
         catch (SQLException e) {
@@ -67,8 +102,8 @@ public class HelloServlet extends HttpServlet {
             request.setAttribute("URISyntaxException", e.getMessage());
         }
 
-        request.getRequestDispatcher("/hello.jsp").forward(request, response);
+        request.getRequestDispatcher("/testlamp-post.jsp").forward(request, response);
     }
 
-}
+};
 

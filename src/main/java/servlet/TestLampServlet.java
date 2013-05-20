@@ -59,8 +59,8 @@ public class TestLampServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String node_address = request.getParameter("node_address");
-        String data_value_str = request.getParameter("data_value");
+        String node_address = request.getParameter("node_address").toLowerCase().replaceAll("\\s","");
+        String data_value_str = request.getParameter("data_value").toLowerCase().replaceAll("\\s","");
         int data_value_int = 0;
 
         if (node_address == null) {
@@ -71,8 +71,6 @@ public class TestLampServlet extends HttpServlet {
             request.setAttribute("error", "No data_value specified.");
         }
         else {
-            data_value_str = data_value_str.toLowerCase();
-
             // Convert string to corresponding int 0-off 1-on
             if (data_value_str.contains("off")) {
                 data_value_int = 0;
