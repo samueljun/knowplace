@@ -69,8 +69,11 @@ public class TestLampServlet extends HttpServlet {
         if (data_value_str == "off") {
             data_value_int = 0;
         }
-        else {
+        else if (data_value_str == "on") {
             data_value_int = 1;
+        }
+        else {
+            data_value_int = 2;
         }
             
         try {
@@ -79,7 +82,7 @@ public class TestLampServlet extends HttpServlet {
             // Insert latest test lamp change
             Statement stmt = connection.createStatement();
             stmt.executeUpdate("INSERT INTO test_lamp VALUES (" + data_value_int + ", now())");
-            stmt.executeUpdate("INSERT INTO testing VALUES (" + data_value_str + ")");
+            stmt.executeUpdate("INSERT INTO testing VALUES ('" + data_value_str + "')");
 
             // Return the latest status of the test lamp
             ResultSet rs = stmt.executeQuery("SELECT * FROM test_lamp ORDER BY time DESC LIMIT 1");
