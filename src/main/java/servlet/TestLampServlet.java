@@ -41,10 +41,12 @@ public class TestLampServlet extends HttpServlet {
             Connection connection = getConnection();
             // Return the latest status of the test lamp
             Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM test_lamp ORDER BY time DESC LIMIT 1");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM test_lamps ORDER BY time DESC LIMIT 1");
             rs.next();
-            request.setAttribute("lampStatus", rs.getInt(1));
-            request.setAttribute("lampStatusTime", rs.getString(2));
+            request.setAttribute("lampAddress", rs.getString(1));
+            request.setAttribute("lampStatus", rs.getString(2));
+            request.setAttribute("lampStatusTime", rs.getString(3));
+            connection.close();
         }
         catch (SQLException e) {
             request.setAttribute("SQLException", e.getMessage());
@@ -57,31 +59,43 @@ public class TestLampServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String node_address = request.getParameter("node_address");
         String data_value_str = request.getParameter("data_value");
-        data_value_str = data_value_str.toLowerCase();
+        int data_value_int = 0;
 
-        // Convert string to corresponding int 0-off 1-on
-        int data_value_int;
-        if (data_value_str.contains("off")) {
-            data_value_int = 0;
+        if (node_address == null) {
+            request.setAttribute("error", "No node_address specified.");
+        }
+
+        if (data_value_str == null) {
+            request.setAttribute("error", "No data_value specified.");
         }
         else {
-            data_value_int = 1;
+            data_value_str = data_value_str.toLowerCase();
+
+            // Convert string to corresponding int 0-off 1-on
+            if (data_value_str.contains("off")) {
+                data_value_int = 0;
+            }
+            else {
+                data_value_int = 1;
+            }
         }
-            
+
         try {
             Connection connection = getConnection();
 
             // Insert latest test lamp change
             Statement stmt = connection.createStatement();
-            stmt.executeUpdate("INSERT INTO test_lamp VALUES (" + data_value_int + ", now())");
-            stmt.executeUpdate("INSERT INTO testing VALUES ('" + data_value_str + "')");
+            stmt.executeUpdate("INSERT INTO test_lamps VALUES (" + node_address + ", " + data_value_int + ", now())");
 
             // Return the latest status of the test lamp
-            ResultSet rs = stmt.executeQuery("SELECT * FROM test_lamp ORDER BY time DESC LIMIT 1");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM test_lamps ORDER BY time DESC LIMIT 1");
             rs.next();
-            request.setAttribute("lampStatus", convertIntToStatus(rs.getInt(1)));
-            request.setAttribute("lampStatusTime", rs.getString(2));
+            request.setAttribute("lampAddress", rs.getString(1));
+            request.setAttribute("lampStatus", rs.getString(2));
+            request.setAttribute("lampStatusTime", rs.getString(3));
+            connection.close();
         }
         catch (SQLException e) {
             request.setAttribute("SQLException", e.getMessage());

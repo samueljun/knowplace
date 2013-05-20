@@ -38,6 +38,7 @@ public class HelloServlet extends HttpServlet {
             ResultSet rs = stmt.executeQuery("SELECT data_value FROM test_lamp ORDER BY time DESC LIMIT 1");
             rs.next();
             request.setAttribute("data_value", rs.getString(1) );
+            connection.close();
         }
         catch (SQLException e) {
             request.setAttribute("SQLException", e.getMessage());
@@ -57,6 +58,7 @@ public class HelloServlet extends HttpServlet {
 
             Statement stmt = connection.createStatement();
             stmt.executeUpdate("INSERT INTO test_lamp VALUES ('" + data_value + "', now())");
+            connection.close();
         }
         catch (SQLException e) {
             request.setAttribute("SQLException", e.getMessage());
