@@ -45,9 +45,10 @@ public class TestLampServlet extends HttpServlet {
             Connection connection = getConnection();
 
             Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT data_value FROM test_lamp ORDER BY time DESC LIMIT 1");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM test_lamp ORDER BY time DESC LIMIT 1");
             rs.next();
-            request.setAttribute("data_value", convertIntToStatus(rs.getInt(1)) );
+            request.setAttribute("lampStatus", convertIntToStatus(rs.getInt(1)));
+            request.setAttribute("lampStatusTime", rs.getString(2));
         }
         catch (SQLException e) {
             request.setAttribute("SQLException", e.getMessage());
@@ -80,13 +81,11 @@ public class TestLampServlet extends HttpServlet {
             stmt.executeUpdate("INSERT INTO test_lamp VALUES ('" + data_value_int + "', now())");
 
             // Return the latest status of the test lamp
-            ResultSet rs = stmt.executeQuery("SELECT data_value FROM test_lamp ORDER BY time DESC LIMIT 1");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM test_lamp ORDER BY time DESC LIMIT 1");
             rs.next();
-            
-            // Convert int to string
-            String lampStatus_str = convertIntToStatus(rs.getInt(1));
 
-            request.setAttribute("lampStatus", lampStatus_str);
+            request.setAttribute("lampStatus", convertIntToStatus(rs.getInt(1)));
+            request.setAttribute("lampStatusTime", rs.getString(2));
         }
         catch (SQLException e) {
             request.setAttribute("SQLException", e.getMessage());

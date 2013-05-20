@@ -5,8 +5,8 @@
     <body>
         <p>Post Request</p>
         <dl>
-            <dt>response1:</dt>
-            <dd><%= request.getAttribute("response1") %></dd>
+            <dt>Latest Lamp Status for the test_lamp:</dt>
+            <dd>"<%= request.getAttribute("lampStatus") %>" with timestamp of: "<%=request.getAttribute("lampStatusTime") %>"</dd>
             <dt>SQLException:</dt>
             <dd><%= request.getAttribute("SQLException") %></dd>
             <dt>URISyntaxException:<dt>
