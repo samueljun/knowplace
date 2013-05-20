@@ -25,14 +25,15 @@ public class HelloServlet extends HttpServlet {
 
         String username = dbUri.getUserInfo().split(":")[0];
         String password = dbUri.getUserInfo().split(":")[1];
-        String dbUrl = "jdbc:postgres://ixhixpfgeanclh:p1uyfk5c9yLh1VEWoCOGb4FIEX@ec2-54-225-112-205.compute-1.amazonaws.com:5432/d3lbshfcpi0soa";
-        //  Heroku dbUrl:
-        //      String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + dbUri.getPath();
+        
+        // Hardcoded dbUrl:
+        // String dbUrl = "jdbc:postgres://ixhixpfgeanclh:p1uyfk5c9yLh1VEWoCOGb4FIEX@ec2-54-225-112-205.compute-1.amazonaws.com:5432/d3lbshfcpi0soa";
+        // Heroku dbUrl:
+        String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + dbUri.getPath();
 
         return DriverManager.getConnection(dbUrl, username, password);
     }
 
-    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             Connection connection = getConnection();
@@ -52,7 +53,6 @@ public class HelloServlet extends HttpServlet {
         request.getRequestDispatcher("/hello.jsp").forward(request, response);
     }
 
-    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String data_value = (String)request.getParameter("data_value");
 
