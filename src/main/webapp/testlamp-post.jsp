@@ -5,7 +5,7 @@
     <body>
         <p>Post Request</p>
         <dl>
-            <dt>Latest Lamp Status for the Lamp with address <%= request.getAttribute("node_address") %>:</dt>
+            <dt>Latest Lamp Status for the Lamp with address <%= request.getAttribute("lampAddress") %>:</dt>
             <dd>"<%= request.getAttribute("lampStatus") %>" with timestamp of: "<%=request.getAttribute("lampStatusTime") %>"</dd>
             <dt>Error:</dt>
             <dd><%= request.getAttribute("error") %></dd>
