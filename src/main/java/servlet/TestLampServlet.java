@@ -61,7 +61,7 @@ public class TestLampServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String data_value_str = (String)request.getParameter("data_value");
+        String data_value_str = request.getParameter("data_value");
         data_value_str = data_value_str.toLowerCase();
 
         // Convert string to corresponding int 0-off 1-on
@@ -78,7 +78,7 @@ public class TestLampServlet extends HttpServlet {
 
             // Insert latest test lamp change
             Statement stmt = connection.createStatement();
-            stmt.executeUpdate("INSERT INTO test_lamp VALUES ('" + data_value_int + "', now())");
+            stmt.executeUpdate("INSERT INTO test_lamp VALUES (" + data_value_int + "', now())");
 
             // Return the latest status of the test lamp
             ResultSet rs = stmt.executeQuery("SELECT * FROM test_lamp ORDER BY time DESC LIMIT 1");
