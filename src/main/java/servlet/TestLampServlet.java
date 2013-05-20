@@ -43,7 +43,7 @@ public class TestLampServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             Connection connection = getConnection();
-
+            // Return the latest status of the test lamp
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM test_lamp ORDER BY time DESC LIMIT 1");
             rs.next();
@@ -79,11 +79,11 @@ public class TestLampServlet extends HttpServlet {
             // Insert latest test lamp change
             Statement stmt = connection.createStatement();
             stmt.executeUpdate("INSERT INTO test_lamp VALUES (" + data_value_int + ", now())");
+            stmt.executeUpdate("INSERT INTO testing VALUES (" + data_value_str);
 
             // Return the latest status of the test lamp
             ResultSet rs = stmt.executeQuery("SELECT * FROM test_lamp ORDER BY time DESC LIMIT 1");
             rs.next();
-
             request.setAttribute("lampStatus", convertIntToStatus(rs.getInt(1)));
             request.setAttribute("lampStatusTime", rs.getString(2));
         }
