@@ -87,7 +87,7 @@ public class TestLampServlet extends HttpServlet {
 
             // Insert latest test lamp change
             Statement stmt = connection.createStatement();
-            stmt.executeUpdate("INSERT INTO test_lamps VALUES (" + node_address + ", " + data_value_int + ", now())");
+            stmt.executeUpdate("INSERT INTO test_lamps VALUES ('" + node_address + "', " + data_value_int + ", now())");
 
             // Return the latest status of the test lamp
             ResultSet rs = stmt.executeQuery("SELECT * FROM test_lamps ORDER BY time DESC LIMIT 1");
