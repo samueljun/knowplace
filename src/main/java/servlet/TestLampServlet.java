@@ -21,7 +21,9 @@ public class TestLampServlet extends HttpServlet {
 
         String username = dbUri.getUserInfo().split(":")[0];
         String password = dbUri.getUserInfo().split(":")[1];
-        String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + dbUri.getPath();
+        String dbUrl = "jdbc:postgres://ixhixpfgeanclh:p1uyfk5c9yLh1VEWoCOGb4FIEX@ec2-54-225-112-205.compute-1.amazonaws.com:5432/d3lbshfcpi0soa";
+        //  Heroku dbUrl:
+        //      String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + dbUri.getPath();
 
         return DriverManager.getConnection(dbUrl, username, password);
     }
@@ -77,7 +79,7 @@ public class TestLampServlet extends HttpServlet {
             stmt.executeUpdate("INSERT INTO test_lamp VALUES ('" + data_value_int + "', now())");
 
             // Return the latest status of the test lamp
-            ResultSet rs = stmt.executeQuery("SELECT data_value FROM test_lamp ORDER BY DESC LIMIT 1");
+            ResultSet rs = stmt.executeQuery("SELECT data_value FROM test_lamp ORDER BY time DESC LIMIT 1");
             rs.next();
             
             // Convert int to string

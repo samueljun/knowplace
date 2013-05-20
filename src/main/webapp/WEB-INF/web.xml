@@ -17,7 +17,8 @@
         <url-pattern>/testlamp</url-pattern>
     </servlet-mapping>
 
-<!--     <servlet>
+<!--
+    <servlet>
         <servlet-name>ItemServlet</servlet-name>
         <servlet-class>edu.ucla.cs.cs144.ItemServlet</servlet-class>
     </servlet>
@@ -32,7 +33,8 @@
     <servlet-mapping>
         <servlet-name>ProxyServlet</servlet-name>
         <url-pattern>/suggest</url-pattern>
-    </servlet-mapping> -->
+    </servlet-mapping>
+-->
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
