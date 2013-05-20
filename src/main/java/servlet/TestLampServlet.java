@@ -21,10 +21,6 @@ public class TestLampServlet extends HttpServlet {
 
         String username = dbUri.getUserInfo().split(":")[0];
         String password = dbUri.getUserInfo().split(":")[1];
-
-        // Hardcoded dbUrl:
-        // String dbUrl = "jdbc:postgres://ixhixpfgeanclh:p1uyfk5c9yLh1VEWoCOGb4FIEX@ec2-54-225-112-205.compute-1.amazonaws.com:5432/d3lbshfcpi0soa";
-        // Heroku dbUrl:
         String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + dbUri.getPath();
 
         return DriverManager.getConnection(dbUrl, username, password);
@@ -47,7 +43,7 @@ public class TestLampServlet extends HttpServlet {
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM test_lamp ORDER BY time DESC LIMIT 1");
             rs.next();
-            request.setAttribute("lampStatus", convertIntToStatus(rs.getInt(1)));
+            request.setAttribute("lampStatus", rs.getInt(1));
             request.setAttribute("lampStatusTime", rs.getString(2));
         }
         catch (SQLException e) {
@@ -62,18 +58,15 @@ public class TestLampServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String data_value_str = request.getParameter("data_value");
-        // data_value_str = data_value_str.toLowerCase();
+        data_value_str = data_value_str.toLowerCase();
 
         // Convert string to corresponding int 0-off 1-on
         int data_value_int;
         if (data_value_str.contains("off")) {
             data_value_int = 0;
         }
-        else if (data_value_str.contains("on")) {
-            data_value_int = 1;
-        }
         else {
-            data_value_int = 2;
+            data_value_int = 1;
         }
             
         try {
