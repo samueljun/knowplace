@@ -208,8 +208,8 @@
                   It's Like Home Automation</div></a></li>
             
             </ul>
-            <form class="navbar-form pull-right" method="post" action="#">
-              <button type="submit" class="btn">Sign in</button>
+            <form class="navbar-form pull-right" action="#">
+              <button type="button" class="btn">Sign in</button>
             </form>
           </div><!--/.nav-collapse -->
         </div>
