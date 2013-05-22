@@ -13,6 +13,13 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.*;
 
+import java.util.Map;
+import java.util.Vector;
+
+@WebServlet(
+    name = "TestLampServlet",
+    urlPatterns = {"/testlamp"}
+)
 public class TestLampServlet extends HttpServlet {
 
     // Database Connection
@@ -36,16 +43,50 @@ public class TestLampServlet extends HttpServlet {
         return status_str;
     }
 
+    private static Boolean containsReqParameters(Vector reqParameterList, Map parameterMap) {
+        for (Object parameter : reqParameterList) {
+            if (!parameterMap.containsKey((String)parameter)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Check Required Parameters are Set
+        Vector reqParameterList = new Vector();
+        reqParameterList.addElement("node_address");
+
+        if (!containsReqParameters(reqParameterList, request.getParameterMap()))
+        {
+            request.setAttribute("error", "node_address was not given");
+            request.getRequestDispatcher("/testlamp-get.jsp").forward(request, response);
+            return;
+            // response.sendError(400, "Client did not request a node_address");
+        }
+
+        // Get Parameters
+        String requested_node_address = request.getParameter("node_address");
+
+        // Check for SQL injections
+
+        String node_address = "";
+        String time = "";
+        String data_value = "";
+
         try {
             Connection connection = getConnection();
             // Return the latest status of the test lamp
             Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM test_lamps ORDER BY time DESC LIMIT 1");
+
+            ResultSet rs = stmt.executeQuery("SELECT * FROM test_lamps WHERE node_address=" + requested_node_address + " ORDER BY time DESC LIMIT 1");
             rs.next();
-            request.setAttribute("lampAddress", rs.getString(1));
-            request.setAttribute("lampStatus", rs.getString(2));
-            request.setAttribute("lampStatusTime", rs.getString(3));
+
+            node_address = rs.getString("node_address");
+            time = rs.getString("time");
+            data_value = rs.getString("data_value");
+
             connection.close();
         }
         catch (SQLException e) {
@@ -54,45 +95,73 @@ public class TestLampServlet extends HttpServlet {
         catch (URISyntaxException e) {
             request.setAttribute("URISyntaxException", e.getMessage());
         }
+        catch (Exception e) {
+            throw new ServletException(e);
+        }
+
+        request.setAttribute("lampAddress", node_address);
+        request.setAttribute("lampStatusTime", time);
+        request.setAttribute("lampStatus", data_value);
 
         request.getRequestDispatcher("/testlamp-get.jsp").forward(request, response);
     }
 
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String node_address = request.getParameter("node_address").toLowerCase().replaceAll("\\s","");
-        String data_value_str = request.getParameter("data_value").toLowerCase().replaceAll("\\s","");
+        Vector reqParameterList = new Vector();
+        reqParameterList.addElement("node_address");
+        reqParameterList.addElement("data_value");
+
+        if (!containsReqParameters(reqParameterList, request.getParameterMap()))
+        {
+            request.setAttribute("error", "Client is missing parameters was not given");
+            request.getRequestDispatcher("/testlamp-post.jsp").forward(request, response);
+            return;
+            // response.sendError(400, "Client did not request a node_address");
+        }
+
+
+        // String node_address = request.getParameter("node_address").toLowerCase();
+        String data_value_str = request.getParameter("data_value").toLowerCase();
+
+        if (!data_value_str.equals("off") && !data_value_str.equals("on")) {
+            request.setAttribute("error", "Client has provided invalid data_value");
+            request.getRequestDispatcher("/testlamp-post.jsp").forward(request, response);
+            return;
+            // response.sendError(400, "Client did not request a node_address");
+        }
+
+        String requested_node_address = request.getParameter("node_address");
+
         int data_value_int = 0;
 
-        if (node_address == null) {
-            request.setAttribute("error", "No node_address specified.");
-        }
-
-        if (data_value_str == null) {
-            request.setAttribute("error", "No data_value specified.");
+        // Convert string to corresponding int 0-off 1-on
+        if (data_value_str.equals("off")) {
+            data_value_int = 0;
         }
         else {
-            // Convert string to corresponding int 0-off 1-on
-            if (data_value_str.contains("off")) {
-                data_value_int = 0;
-            }
-            else {
-                data_value_int = 1;
-            }
+            data_value_int = 1;
         }
+
+        String node_address = "";
+        String time = "";
+        String data_value = "";
 
         try {
             Connection connection = getConnection();
 
             // Insert latest test lamp change
             Statement stmt = connection.createStatement();
-            stmt.executeUpdate("INSERT INTO test_lamps VALUES ('" + node_address + "', " + data_value_int + ", now())");
+            stmt.executeUpdate("INSERT INTO test_lamps VALUES (" + requested_node_address + ", now(), " + data_value_int + ")");
 
             // Return the latest status of the test lamp
-            ResultSet rs = stmt.executeQuery("SELECT * FROM test_lamps ORDER BY time DESC LIMIT 1");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM test_lamps WHERE node_address=" + requested_node_address + " ORDER BY time DESC LIMIT 1");
             rs.next();
-            request.setAttribute("lampAddress", rs.getString(1));
-            request.setAttribute("lampStatus", rs.getString(2));
-            request.setAttribute("lampStatusTime", rs.getString(3));
+
+            node_address = rs.getString("node_address");
+            time = rs.getString("time");
+            data_value = rs.getString("data_value");
+
             connection.close();
         }
         catch (SQLException e) {
@@ -101,6 +170,10 @@ public class TestLampServlet extends HttpServlet {
         catch (URISyntaxException e) {
             request.setAttribute("URISyntaxException", e.getMessage());
         }
+
+        request.setAttribute("lampAddress", node_address);
+        request.setAttribute("lampStatusTime", time);
+        request.setAttribute("lampStatus", data_value);
 
         request.getRequestDispatcher("/testlamp-post.jsp").forward(request, response);
     }

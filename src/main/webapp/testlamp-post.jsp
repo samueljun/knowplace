@@ -1,3 +1,7 @@
+<% if (request.getAttribute("error") != null) { %>
+    <%= request.getAttribute("error") %>
+<% } else { %>
+
 <html>
     <head>
         <title>Test Lamp Servlet Page</title>
@@ -6,7 +10,7 @@
         <p>Post Request</p>
         <dl>
             <dt>Latest Lamp Status for the Lamp with address <%= request.getAttribute("lampAddress") %>:</dt>
-            <dd>"<%= request.getAttribute("lampStatus") %>" with timestamp of: "<%=request.getAttribute("lampStatusTime") %>"</dd>
+            <dd>"<%= request.getAttribute("lampStatus") %>" with timestamp of: "<%= request.getAttribute("lampStatusTime") %>"</dd>
             <dt>Error:</dt>
             <dd><%= request.getAttribute("error") %></dd>
             <dt>SQLException:</dt>
@@ -14,5 +18,10 @@
             <dt>URISyntaxException:<dt>
             <dd><%= request.getAttribute("URI Syntax Exception") %></dd>
         </dl>
+
+        <p><a href="/">Index</a></p>
+
     </body>
 </html>
+
+<% } %>
