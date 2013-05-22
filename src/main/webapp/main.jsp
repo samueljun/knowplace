@@ -30,7 +30,7 @@
 
   </head>
 
-  <body>
+  <body onload="getCurrentStatus()">
 
     <div id="fb-root"></div>
 
@@ -42,19 +42,8 @@
     </style>
 
     <script>
-     $(function() {
-        $( "#slider" ).slider({
-          value:0,
-          min: 0,
-          max: 100,
-          step: 1,
-        slide: function( event, ui ) {
-          $( "#amount" ).val(ui.value );
-         }
-        });
-        $( "#amount" ).val($( "#slider" ).slider( "value" ) );
-      });
 
+      /*
       var fbID;
       var isConnected = false;
       var app_id;
@@ -94,42 +83,6 @@
            ref.parentNode.insertBefore(js, ref);
          }(document));
 
-        /*
-        function testAPI() {
-            console.log('Welcome!  Fetching your information.... ');
-            FB.api('/me', function(response) {
-                window.alert('Good to see you, ' + response.name + '.');
-            });
-        }
-        */
-
-
-        function getCurrentStatusonLogin() {
-          $.ajax({
-            type: "post",
-            url: "/hello",
-            data: JSON.stringify({
-                "fb_id" : fbID
-              }),
-            success: function (response) {
-              var status = response["status"];
-              console.log(status);
-              if (status === "READY") {
-                //ENTRY READ
-                if(response["lampStatus"] == "on") {
-                  document.getElementById("lampOn").checked = true;
-                  document.getElementById("bulbPic").src=imgs[0];
-                } else {
-                  document.getElementById("lampOff").checked = true;
-                  document.getElementById("bulbPic").src=imgs[1];
-                }
-              } else if (status === "FAILED") {
-                //NO ENTRY
-              }
-            }
-          });
-        }
-
         function getID(response) {
           fbID = response.userID;
         }
@@ -146,17 +99,95 @@
               }
         });
         }
+        */
 
-        imgs=Array("onBulb.jpg","offBulb.jpg");
-        function lampStatusChange() {
-          setTimeout(function() {
-            if(document.getElementById("lampOn").checked==true) {
-              document.getElementById("bulbPic").src=imgs[0];
+        imgs=Array("onBulb.png","offBulb.png");
+
+        function setLamp1(newVal) {
+          if(newVal == "ON") {
+            document.getElementById("lampOn1").checked = true;
+            //document.getElementById("bulbPic").src=imgs[0];
+          } else {
+            document.getElementById("lampOff1").checked = true;
+            //document.getElementById("bulbPic").src=imgs[1];
+          }
+        }
+
+        function setLamp2(newVal) {
+          if(newVal == "ON") {
+            document.getElementById("lampOn2").checked = true;
+            //document.getElementById("bulbPic").src=imgs[0];
+          } else {
+            document.getElementById("lampOff2").checked = true;
+            //document.getElementById("bulbPic").src=imgs[1];
+          }
+        }
+
+        function getCurrentStatus() {
+          $.ajax({
+            type: "post",
+            url: "/testlamp",
+            data: JSON.stringify({
+                "action" : "getStatus"
+              }),
+            success: function (response) {
+              var status = response["status"]
+              console.log(status);
+              if (status === "SUCCESS") {
+                var lamp1 = response["lamp1"];
+                var lamp2 = response["lamp2"];
+
+                setLamp1(lamp1);
+                setLamp2(lamp2);
+              } else if (status === "FAILED") {
+                //NO ENTRY
+              }
             }
-            else {
-              document.getElementById("bulbPic").src=imgs[1];
+          });
+        }
+
+
+        function lampStatusChange(val) {
+          var lamp;
+          var lampStatus;
+
+          if(val == "lampButton1") {
+            lamp = "lamp1";
+          } else {
+            lamp = "lamp2";
+          }
+
+          if(lamp == "lamp1" && document.getElementById("lampOn1").checked==true) {
+            lampStatus = "ON";
+          } else if (lamp == "lamp2" && document.getElementById("lampOn2").checked==true) {
+            lampStatus = "ON";
+          } else {
+            lampStatus = "OFF";
+          }
+  
+
+          $.ajax({
+            type: "post",
+            url: "/testlamp",
+            data: JSON.stringify({
+                "action" : lamp,
+                "newStatus" : lampStatus
+              }),
+            success: function (response) {
+              var status = response["status"]
+              console.log(status);
+              if (status === "SUCCESS") {
+                if(lamp=="lamp1") {
+                  setLamp1(response["lamp1"]);
+                }
+                else {
+                  setLamp2(response["lamp2"]);
+                }
+              } else if (status === "FAILED") {
+                //NO ENTRY
+              }
             }
-          },4000);
+          });
         }
 
 
@@ -272,17 +303,18 @@
             <div class="large-event" id="space-font">
               <!-- Collapsable Button -->
               <a data-toggle="collapse" data-target="#light1" href="#">
-                Light 1 <i class="icon-eye-open"></i>
+                Light 1 <i class="icon-eye-open"></i> 
+                <img src="onBulb.png" id="bulbPic" width="50" height="80" alt="">
               </a>
 
-              <!-- Collapse Material -->
+              <!-- LIGHT 1 Collapse Material -->
               <div id="light1" class="collapse out">
                 <div class="shift-right">
                   <form method="post" style="display:inline" action="/testlamp">
                     <input type="hidden" name="node_address" value="1">
-                    <input type="radio" id="lampOn" name="data_value" value="on" checked> On
-                    <input type="radio" id="lampOff" name="data_value" value="off"> Off
-                    <input type="submit" inline class="btn" value="Submit">
+                    <input type="radio" id="lampOn1" name="data_value" value="on" checked> On
+                    <input type="radio" id="lampOff1" name="data_value" value="off"> Off
+                    <input type="button" id="lampButton1" inline class="btn" onclick="lampStatusChange(this.id)" value="Submit">
                   </form>
                 </div>
               </div>
@@ -294,13 +326,13 @@
                 Light 2 <i class="icon-eye-close"></i>
               </a>
               
-              <!-- Collapse Material -->
+              <!-- LIGHT 2 Collapse Material -->
               <div id="light2" class="collapse out">
                 <div class="shift-right">
                   <form method="post" style="display:inline" action="/testlamp">
                     <input type="hidden" name="node_address" value="2">
-                    <input type="radio" id="lampOn" name="data_value" value="on" checked> On
-                    <input type="radio" id="lampOff" name="data_value" value="off"> Off
+                    <input type="radio" id="lampOn2" name="data_value" value="on" checked> On
+                    <input type="radio" id="lampOff2" name="data_value" value="off"> Off
                     <input type="submit" inline class="btn" value="Submit">
                   </form>
                 </div>
