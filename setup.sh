@@ -1,4 +1,3 @@
 #!/bin/bash
 
-mvn package
-sh target/bin/webapp
+mvn package && sh target/bin/webapp
