@@ -22,17 +22,6 @@ import java.util.Vector;
 )
 public class TestLampServlet extends HttpServlet {
 
-    // Database Connection
-    private static Connection getConnection() throws URISyntaxException, SQLException {
-        URI dbUri = new URI(System.getenv("DATABASE_URL"));
-
-        String username = dbUri.getUserInfo().split(":")[0];
-        String password = dbUri.getUserInfo().split(":")[1];
-        String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + dbUri.getPath();
-
-        return DriverManager.getConnection(dbUrl, username, password);
-    }
-
     private static String convertIntToStatus(int data_value_int) {
         // Convert int to string
         String status_str = "on";
@@ -76,10 +65,8 @@ public class TestLampServlet extends HttpServlet {
         String data_value = "";
 
         try {
-            Connection connection = getConnection();
-            // Return the latest status of the test lamp
-            Statement stmt = connection.createStatement();
-
+            Connection conn = DbManager.getConnection();
+            Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM test_lamps WHERE node_address=" + requested_node_address + " ORDER BY time DESC LIMIT 1");
             rs.next();
 
@@ -87,7 +74,7 @@ public class TestLampServlet extends HttpServlet {
             time = rs.getString("time");
             data_value = rs.getString("data_value");
 
-            connection.close();
+            conn.close();
         }
         catch (SQLException e) {
             request.setAttribute("SQLException", e.getMessage());
@@ -148,10 +135,8 @@ public class TestLampServlet extends HttpServlet {
         String data_value = "";
 
         try {
-            Connection connection = getConnection();
-
-            // Insert latest test lamp change
-            Statement stmt = connection.createStatement();
+            Connection conn = DbManager.getConnection();
+            Statement stmt = conn.createStatement();
             stmt.executeUpdate("INSERT INTO test_lamps VALUES (" + requested_node_address + ", now(), " + data_value_int + ")");
 
             // Return the latest status of the test lamp
@@ -162,7 +147,7 @@ public class TestLampServlet extends HttpServlet {
             time = rs.getString("time");
             data_value = rs.getString("data_value");
 
-            connection.close();
+            conn.close();
         }
         catch (SQLException e) {
             request.setAttribute("SQLException", e.getMessage());
