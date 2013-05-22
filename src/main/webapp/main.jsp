@@ -106,20 +106,20 @@
         function setLamp1(newVal) {
           if(newVal == "ON") {
             document.getElementById("lampOn1").checked = true;
-            //document.getElementById("bulbPic").src=imgs[0];
+            document.getElementById("bulbPic1").src=imgs[0];
           } else {
             document.getElementById("lampOff1").checked = true;
-            //document.getElementById("bulbPic").src=imgs[1];
+            document.getElementById("bulbPic1").src=imgs[1];
           }
         }
 
         function setLamp2(newVal) {
           if(newVal == "ON") {
             document.getElementById("lampOn2").checked = true;
-            //document.getElementById("bulbPic").src=imgs[0];
+            document.getElementById("bulbPic2").src=imgs[0];
           } else {
             document.getElementById("lampOff2").checked = true;
-            //document.getElementById("bulbPic").src=imgs[1];
+            document.getElementById("bulbPic2").src=imgs[1];
           }
         }
 
@@ -303,8 +303,8 @@
             <div class="large-event" id="space-font">
               <!-- Collapsable Button -->
               <a data-toggle="collapse" data-target="#light1" href="#">
-                Light 1 <i class="icon-eye-open"></i> 
-                <img src="onBulb.png" id="bulbPic" width="50" height="80" alt="">
+                Light 1
+                <img src="onBulb.png" id="bulbPic1" width="25" height="40" alt="">
               </a>
 
               <!-- LIGHT 1 Collapse Material -->
@@ -323,7 +323,8 @@
             <div class="large-event" id="space-font">
               <!-- Collapsable Button -->
               <a data-toggle="collapse" data-target="#light2" href="#">
-                Light 2 <i class="icon-eye-close"></i>
+                Light 2 
+                <img src="onBulb.png" id="bulbPic2" width="25" height="40" alt="">
               </a>
               
               <!-- LIGHT 2 Collapse Material -->
@@ -333,7 +334,7 @@
                     <input type="hidden" name="node_address" value="2">
                     <input type="radio" id="lampOn2" name="data_value" value="on" checked> On
                     <input type="radio" id="lampOff2" name="data_value" value="off"> Off
-                    <input type="submit" inline class="btn" value="Submit">
+                    <input type="button" id="lampbutton2" inline class="btn" onclick="lampStatusChange(this.id)" value="Submit">
                   </form>
                 </div>
               </div>
