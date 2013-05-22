@@ -58,7 +58,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d6d6d6', end
 }
 .white-over{
   text-shadow: none;
-  color: black;
+  color: white;
   font-size: 14px;
 }
 
@@ -3540,11 +3540,11 @@ input[type="submit"].btn.btn-mini {
   padding-left: 20px;
   padding-right: 20px;
   background-color: #fbeeb3;
-  background-image: -moz-linear-gradient(top, #ffffff, #FFB90F);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#FFB90F));
-  background-image: -webkit-linear-gradient(top, #ffffff, #FFB90F);
-  background-image: -o-linear-gradient(top, #ffffff, #FFB90F);
-  background-image: linear-gradient(to bottom, #ffffff, #FFB90F);
+  background-image: -moz-linear-gradient(top, #FFB90F, #CC6600);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#FFB90F), to(#CC6600));
+  background-image: -webkit-linear-gradient(top, #FFB90F, #CC6600);
+  background-image: -o-linear-gradient(top, #FFB90F, #CC6600);
+  background-image: linear-gradient(to bottom, #FFB90F, #CC6600);
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffFFB90F', GradientType=0);
   border: 1px solid #edc40d;
