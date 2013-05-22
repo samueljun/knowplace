@@ -279,6 +279,7 @@
               <div id="light1" class="collapse out">
                 <div class="shift-right">
                   <form method="post" style="display:inline" action="/testlamp">
+                    <input type="hidden" name="node_address" value="1">
                     <input type="radio" id="lampOn" name="data_value" value="on" checked> On
                     <input type="radio" id="lampOff" name="data_value" value="off"> Off
                     <input type="submit" inline class="btn" value="Submit">
@@ -297,8 +298,9 @@
               <div id="light2" class="collapse out">
                 <div class="shift-right">
                   <form method="post" style="display:inline" action="/testlamp">
-                    <input type="radio" id="lampOn" name="data_value2" value="on" checked> On
-                    <input type="radio" id="lampOff" name="data_value2" value="off"> Off
+                    <input type="hidden" name="node_address" value="2">
+                    <input type="radio" id="lampOn" name="data_value" value="on" checked> On
+                    <input type="radio" id="lampOff" name="data_value" value="off"> Off
                     <input type="submit" inline class="btn" value="Submit">
                   </form>
                 </div>

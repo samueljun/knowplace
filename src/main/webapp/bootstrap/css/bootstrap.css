@@ -33,12 +33,7 @@
 }
 
 .large-event, .add-sub-title, #space-font{
-  text-shadow:
-       2px 2px 0 #000,
-     -2px -2px 0 #000,  
-      2px -2px 0 #000,
-      -2px 2px 0 #000,
-       2px 2px 0 #000;
+  text-shadow:none;
 }
 .large-event{
      
@@ -3913,12 +3908,7 @@ input[type="submit"].btn.btn-mini {
 .navbar-inverse .nav > li > a {
   color: #999999;
   
-  text-shadow:
-       2px 2px 0 #000,
-     -2px -2px 0 #000,  
-      2px -2px 0 #000,
-      -2px 2px 0 #000,
-       2px 2px 0 #000;
+  text-shadow:none
 }
 .navbar-inverse .brand:hover,
 .navbar-inverse .nav > li > a:hover,
