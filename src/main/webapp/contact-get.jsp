@@ -23,6 +23,14 @@
 	            <dt>URISyntaxException:<dt>
 	            <dd><%= request.getAttribute("URI Syntax Exception") %></dd>
 	        </dl>
+
+
+	        <form method="post" action=".">
+              <input type="hidden" name="node_address" value="1">
+              <input type="radio" id="lampOn" name="data_value" value="on" checked> On<br>
+              <input type="radio" id="lampOff" name="data_value" value="off"> Off<br><br>
+              <input type="submit" inline class="btn" value="Submit">
+            </form>
 	        <br><br><br>
 	        <p><a href="/">Index</a></p>
 
