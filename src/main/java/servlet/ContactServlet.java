@@ -52,7 +52,7 @@ public class ContactServlet extends HttpServlet {
         String input_email = request.getParameter("new_email");
         String input_fname = request.getParameter("new_fname");
         String input_lname = request.getParameter("new_lname");    
-        int input_pin = request.getParameter("new_pin");
+        String input_pin = request.getParameter("new_pin");
 
 
         try {
@@ -60,13 +60,13 @@ public class ContactServlet extends HttpServlet {
 
             // Insert latest test lamp change
             Statement stmt = connection.createStatement();
-            if(input_email != NULL)
+            if(input_email != "")
                 stmt.executeUpdate("UPDATE users SET email = '" + input_email + "' WHERE user_id = '" + user_id + "'");
-            if(input_fname != NULL)
+            if(input_fname != "")
                 stmt.executeUpdate("UPDATE users SET first_name = '" + input_fname + "' WHERE user_id = '" + user_id + "'");
-            if(input_lname != NULL)
+            if(input_lname != "")
                 stmt.executeUpdate("UPDATE users SET last_name = '" + input_lname + "' WHERE user_id = '" + user_id + "'");
-            if(input_pin != NULL)
+            if(input_pin != "")
                 stmt.executeUpdate("UPDATE users SET security_pin = '" + input_pin + "' WHERE user_id = '" + user_id + "'");
 
 
