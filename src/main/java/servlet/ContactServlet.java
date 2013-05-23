@@ -13,6 +13,10 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.*;
 
+@WebServlet(
+    name = "ContactServlet",
+    urlPatterns = {"/contact"}
+)
 public class ContactServlet extends HttpServlet {
 
     // Database Connection
@@ -24,10 +28,11 @@ public class ContactServlet extends HttpServlet {
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM users WHERE user_id = 'sehunchoi'");
             rs.next();
-            request.setAttribute("email", rs.getString(1));
-            request.setAttribute("first_name", rs.getString(2));
-            request.setAttribute("last_name", rs.getString(3));
-            request.setAttribute("security_pin", rs.getString(4));
+            request.setAttribute("user_id", rs.getString(1));
+            request.setAttribute("email", rs.getString(2));
+            request.setAttribute("first_name", rs.getString(3));
+            request.setAttribute("last_name", rs.getString(4));
+            request.setAttribute("security_pin", rs.getString(5));
             connection.close();
         }
         catch (SQLException e) {
