@@ -160,6 +160,7 @@
         }
 
 
+        document.write('<p>fbID: ' + fbID + '</p>');
 
     </script>
 
