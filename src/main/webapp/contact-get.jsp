@@ -23,7 +23,7 @@
 	            <dt>URISyntaxException:<dt>
 	            <dd><%= request.getAttribute("URI Syntax Exception") %></dd>
 	        </dl>
-
+	        <br><br><br>
 	        <p><a href="/">Index</a></p>
 
 	    </body>
