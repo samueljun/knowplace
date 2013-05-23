@@ -71,7 +71,7 @@ public class ContactServlet extends HttpServlet {
 
 
             // Return the latest status of the test lamp
-            ResultSet rs = stmt.executeQuery("SELECT * FROM users WHERE user_id = 'sehunchoi'");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM users WHERE user_id = '" + user_id + "'");
             rs.next();
             request.setAttribute("user_id", rs.getString(1));
             request.setAttribute("email", rs.getString(2));

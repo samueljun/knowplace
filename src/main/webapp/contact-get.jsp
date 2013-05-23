@@ -23,8 +23,8 @@
 	            <dt>URISyntaxException:<dt>
 	            <dd><%= request.getAttribute("URI Syntax Exception") %></dd>
 	        </dl>
-
-
+	        <br><br><br>
+	        <p><b>Update Profile</b></p> <br>
 	        <form method="post" action="/contact">
 	          <input type="hidden" name="user_id" value="sehunchoi">
               E-mail<input type="email" name="new_email"><br>
