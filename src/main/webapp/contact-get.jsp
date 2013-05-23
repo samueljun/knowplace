@@ -25,10 +25,12 @@
 	        </dl>
 
 
-	        <form method="post" action=".">
-              <input type="hidden" name="node_address" value="1">
-              <input type="radio" id="lampOn" name="data_value" value="on" checked> On<br>
-              <input type="radio" id="lampOff" name="data_value" value="off"> Off<br><br>
+	        <form method="post" action="/contact">
+	          <input type="hidden" name="user_id" value="sehunchoi">
+              E-mail<input type="email" name="new_email"><br>
+              First name: <input type="text" name="new_fname"><br>
+  			  Last name: <input type="text" name="new_lname"><br>
+  			  Security PIN: <input type="password" name="new_pin" maxlength="4"><br>
               <input type="submit" inline class="btn" value="Submit">
             </form>
 	        <br><br><br>
