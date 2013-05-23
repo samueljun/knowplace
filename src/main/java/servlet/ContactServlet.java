@@ -60,7 +60,6 @@ public class ContactServlet extends HttpServlet {
 
             // Insert latest test lamp change
             Statement stmt = connection.createStatement();
-            UPDATE public.users SET email=? WHERE user_id=?
             if(input_email != NULL)
                 stmt.executeUpdate("UPDATE users SET email = '" + input_email + "' WHERE user_id = '" + user_id + "'");
             if(input_fname != NULL)
