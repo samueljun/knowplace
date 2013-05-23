@@ -132,8 +132,6 @@
 
         function getID(response) {
           fbID = response.userID;
-
-          document.write('<p>fbID: ' + fbID + '</p>');
         }
 
         function login() {
