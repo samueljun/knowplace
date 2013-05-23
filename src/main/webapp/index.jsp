@@ -199,7 +199,6 @@
         <div id="info" class="collapse out">
           <p>
             Control you home devices without actually being there. <br>
-            <% System.out.println(fbID);%>
             Created by: <br>
             Ryan Mercer <br>
             Samuel Jun <br>
