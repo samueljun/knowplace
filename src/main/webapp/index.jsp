@@ -176,7 +176,7 @@
             <ul class="nav">
               <li class="active"><a href="index.jsp">Home</a></li>
               <li><a href="#data">My Data</a></li>
-              <li><a href="#contact">Contact</a></li>
+              <li><a href="/contact">Contact</a></li>
             </ul>
             <form class="navbar-form pull-right" method="post" action="#">
               <button type="submit" class="btn">Sign in</button>
