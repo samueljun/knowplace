@@ -1,6 +1,6 @@
 CREATE SCHEMA public;
 
-CREATE TABLE public.test_lamps ( 
+CREATE TABLE test_lamps ( 
 	node_address         int4 NOT NULL,
 	time                 timestamp NOT NULL,
 	data_value           int4,
