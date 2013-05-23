@@ -27,6 +27,7 @@ public class ContactServlet extends HttpServlet {
             request.setAttribute("email", rs.getString(1));
             request.setAttribute("first_name", rs.getString(2));
             request.setAttribute("last_name", rs.getString(3));
+            request.setAttribute("security_pin", rs.getString(4));
             connection.close();
         }
         catch (SQLException e) {
