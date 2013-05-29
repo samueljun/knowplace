@@ -137,6 +137,8 @@
 
                 setLamp1(lamp1);
                 setLamp2(lamp2);
+                document.getElementById("bulbPic1").style.display = "inline";
+                document.getElementById("bulbPic2").style.display = "inline";
               } else if (status === "FAILED") {
                 //NO ENTRY
               }
@@ -299,7 +301,7 @@
               <!-- Collapsable Button -->
               <a data-toggle="collapse" data-target="#light1" href="#">
                 Light 1
-                <img src="onBulb.png" id="bulbPic1" width="25" height="40" alt="">
+                <img src="onBulb.png" id="bulbPic1" width="25" height="40" alt="" style="display: none;">
               </a>
 
               <!-- LIGHT 1 Collapse Material -->
@@ -319,7 +321,7 @@
               <!-- Collapsable Button -->
               <a data-toggle="collapse" data-target="#light2" href="#">
                 Light 2
-                <img src="onBulb.png" id="bulbPic2" width="25" height="40" alt="">
+                <img src="onBulb.png" id="bulbPic2" width="25" height="40" alt="" style="display: none;">
               </a>
 
               <!-- LIGHT 2 Collapse Material -->
