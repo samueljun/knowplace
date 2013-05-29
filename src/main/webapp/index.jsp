@@ -21,16 +21,16 @@
         padding-bottom: 40px;
       }
     </style>
-    <link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    
     <script src="bootstrap/js/jquery.js"></script>
     <script src="bootstrap/js/bootstrap.js"></script>
-    <script src="bootstrap/js/bootstrap.min.js"></script>
+    
     <script src="bootstrap/js/slider.js"></script>
 
 
   </head>
 
-  <body>
+  <body onload="getCurrentStatus()">
 
     <div id="fb-root"></div>
 
@@ -42,19 +42,8 @@
     </style>
 
     <script>
-     $(function() {
-        $( "#slider" ).slider({
-          value:0,
-          min: 0,
-          max: 100,
-          step: 1,
-        slide: function( event, ui ) {
-          $( "#amount" ).val(ui.value );
-         }
-        });
-        $( "#amount" ).val($( "#slider" ).slider( "value" ) );
-      });
 
+      /*
       var fbID;
       var isConnected = false;
       var app_id;
@@ -94,42 +83,6 @@
            ref.parentNode.insertBefore(js, ref);
          }(document));
 
-        /*
-        function testAPI() {
-            console.log('Welcome!  Fetching your information.... ');
-            FB.api('/me', function(response) {
-                window.alert('Good to see you, ' + response.name + '.');
-            });
-        }
-        */
-
-
-        function getCurrentStatusonLogin() {
-          $.ajax({
-            type: "post",
-            url: "/hello",
-            data: JSON.stringify({
-                "fb_id" : fbID
-              }),
-            success: function (response) {
-              var status = response["status"];
-              console.log(status);
-              if (status === "READY") {
-                //ENTRY READ
-                if(response["lampStatus"] == "on") {
-                  document.getElementById("lampOn").checked = true;
-                  document.getElementById("bulbPic").src=imgs[0];
-                } else {
-                  document.getElementById("lampOff").checked = true;
-                  document.getElementById("bulbPic").src=imgs[1];
-                }
-              } else if (status === "FAILED") {
-                //NO ENTRY
-              }
-            }
-          });
-        }
-
         function getID(response) {
           fbID = response.userID;
         }
@@ -146,17 +99,95 @@
               }
         });
         }
+        */
 
-        imgs=Array("onBulb.jpg","offBulb.jpg");
-        function lampStatusChange() {
-          setTimeout(function() {
-            if(document.getElementById("lampOn").checked==true) {
-              document.getElementById("bulbPic").src=imgs[0];
+        imgs=Array("onBulb.png","offBulb.png");
+
+        function setLamp1(newVal) {
+          if(newVal == "ON") {
+            document.getElementById("lampOn1").checked = true;
+            document.getElementById("bulbPic1").src=imgs[0];
+          } else {
+            document.getElementById("lampOff1").checked = true;
+            document.getElementById("bulbPic1").src=imgs[1];
+          }
+        }
+
+        function setLamp2(newVal) {
+          if(newVal == "ON") {
+            document.getElementById("lampOn2").checked = true;
+            document.getElementById("bulbPic2").src=imgs[0];
+          } else {
+            document.getElementById("lampOff2").checked = true;
+            document.getElementById("bulbPic2").src=imgs[1];
+          }
+        }
+
+        function getCurrentStatus() {
+          $.ajax({
+            type: "post",
+            url: "/testlamp",
+            data: JSON.stringify({
+                "action" : "getStatus"
+              }),
+            success: function (response) {
+              var status = response["status"]
+              console.log(status);
+              if (status === "SUCCESS") {
+                var lamp1 = response["lamp1"];
+                var lamp2 = response["lamp2"];
+
+                setLamp1(lamp1);
+                setLamp2(lamp2);
+              } else if (status === "FAILED") {
+                //NO ENTRY
+              }
             }
-            else {
-              document.getElementById("bulbPic").src=imgs[1];
+          });
+        }
+
+
+        function lampStatusChange(val) {
+          var lamp;
+          var lampStatus;
+
+          if(val == "lampButton1") {
+            lamp = "lamp1";
+          } else {
+            lamp = "lamp2";
+          }
+
+          if(lamp == "lamp1" && document.getElementById("lampOn1").checked==true) {
+            lampStatus = "ON";
+          } else if (lamp == "lamp2" && document.getElementById("lampOn2").checked==true) {
+            lampStatus = "ON";
+          } else {
+            lampStatus = "OFF";
+          }
+  
+
+          $.ajax({
+            type: "post",
+            url: "/testlamp",
+            data: JSON.stringify({
+                "action" : lamp,
+                "newStatus" : lampStatus
+              }),
+            success: function (response) {
+              var status = response["status"]
+              console.log(status);
+              if (status === "SUCCESS") {
+                if(lamp=="lamp1") {
+                  setLamp1(response["lamp1"]);
+                }
+                else {
+                  setLamp2(response["lamp2"]);
+                }
+              } else if (status === "FAILED") {
+                //NO ENTRY
+              }
             }
-          },4000);
+          });
         }
 
 
@@ -167,19 +198,18 @@
       <div class="navbar-inner">
         <div class="container">
           <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
+            
           </button>
           <a class="brand" href="index.jsp">Know Place</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <li class="active"><a href="index.jsp">Home</a></li>
-              <li><a href="#data">My Data</a></li>
-              <li><a href="/contact">Contact</a></li>
+              <li class="active"><a href="#">
+                <div class="white-over">
+                  It's Like Home Automation</div></a></li>
+            
             </ul>
-            <form class="navbar-form pull-right" method="post" action="#">
-              <button type="submit" class="btn">Sign in</button>
+            <form class="navbar-form pull-right" action="#">
+              <button type="button" class="btn">Sign in</button>
             </form>
           </div><!--/.nav-collapse -->
         </div>
@@ -190,72 +220,149 @@
 
       <!-- Main hero unit for a primary marketing message or call to action -->
       <div class="hero-unit">
-        <h2>KnowPlace</h2>
-        <p>
-          It's like home automation!
-        </p>
-
-        <p><a href="#" class="btn btn-primary btn-large" data-toggle="collapse" data-target="#info">Learn more &raquo;</a></p>
-        <div id="info" class="collapse out">
-          <p>
-            Control you home devices without actually being there. <br>
-            Created by: <br>
-            Ryan Mercer <br>
-            Samuel Jun <br>
-            Roger Lam <br>
-            Ray Tong <br>
-            Samir Mody <br>
-            Se Hun Choi <br>
-            Yoshinori Osone
-          </p>
+        <h3>There's KnowPlace Like Home...</h3>
+        
+        <div class="spacer">
+          <a href="#" class="btn btn-primary btn-medium" data-toggle="collapse" data-target="#info">Info &raquo;</a>
+        
+          <div id="info" class="collapse out">
+            <p>
+              Control your home devices without actually being there. <br><br>
+              Created by:
+              <p>
+                Ryan Mercer, Samuel Jun, Roger Lam, Ray Tong, Samir Mody, Se Hun Choi, Yoshinori Osone
+              </p>
+            </p>
+          </div>
         </div>
+
+
 
 
       </div>
 
       <!-- Example row of columns -->
       <div class="row">
-        <div class="span6">
-          <h2>lamp light</h2>
-          <div class="row">
-            <div class="span2">
-            <img src="onBulb.jpg" id="bulbPic" width="100" height="160" alt="">
+        <div class="span4">
+          <div class="mainbox">
+            <div class="box-title">
+              PLACES
             </div>
-            <div class="span3">
-              <br><br>
-            <form method="post" action="/testlamp">
-              <input type="hidden" name="node_address" value="1">
-              <input type="radio" id="lampOn" name="data_value" value="on" checked> On<br>
-              <input type="radio" id="lampOff" name="data_value" value="off"> Off<br><br>
-              <input type="submit" inline class="btn" value="Submit">
-            </form>
+            <div class="add-sub-title">
+              + Place
+            </div>
+            <div class="large-event">
+              House
+            </div>
+            <div class="large-event">
+              Office
+            </div>
+            <div class="large-event">
+              Yacht
             </div>
           </div>
         </div>
-        <div class="span6">
-          <h2>Brightness Intensity</h2>
-          <p>Adjust the brightness of your lamp!</p>
-          <!--<p><a class="btn" href="#">View details &raquo;</a></p>-->
+        <div class="span4">
+          <div class="mainbox">
+            <div class="box-title">
+              SPACES
+            </div>
+            <div class="add-sub-title">
+              + Space
+            </div>
+            <div class="large-event" id="space-font">
+              Master Bedroom [House]
+            </div>
+            <div class="large-event" id="space-font">
+              Kid's Bedroom [House]
+            </div>
+            <div class="large-event" id="space-font">
+              Guest Bedroom [House]
+            </div>
+            <div class="large-event" id="space-font">
+              Study Room [House]
+            </div>
+          </div>
+        </div>
+        <div class="span4">
+          <div class="mainbox">
+            <div class="box-title">
+              THINGS
+            </div>
+            <div class="add-sub-title">
+              + Thing
+            </div>
+            <div class="large-event" id="space-font">
+              Temperature
+            </div>
+            <div class="large-event" id="space-font">
+              Fan Speed
+            </div>
 
+            
+            <div class="large-event" id="space-font">
+              <!-- Collapsable Button -->
+              <a data-toggle="collapse" data-target="#light1" href="#">
+                Light 1
+                <img src="onBulb.png" id="bulbPic1" width="25" height="40" alt="">
+              </a>
 
+              <!-- LIGHT 1 Collapse Material -->
+              <div id="light1" class="collapse out">
+                <div class="shift-right">
+                  <form method="post" style="display:inline" action="/testlamp">
+                    <input type="hidden" name="node_address" value="1">
+                    <input type="radio" id="lampOn1" name="data_value" value="on" checked> On
+                    <input type="radio" id="lampOff1" name="data_value" value="off"> Off
+                    <input type="button" id="lampButton1" inline class="btn" onclick="lampStatusChange(this.id)" value="Submit">
+                  </form>
+                </div>
+              </div>
+            </div>
+
+            <div class="large-event" id="space-font">
+              <!-- Collapsable Button -->
+              <a data-toggle="collapse" data-target="#light2" href="#">
+                Light 2 
+                <img src="onBulb.png" id="bulbPic2" width="25" height="40" alt="">
+              </a>
+              
+              <!-- LIGHT 2 Collapse Material -->
+              <div id="light2" class="collapse out">
+                <div class="shift-right">
+                  <form method="post" style="display:inline" action="/testlamp">
+                    <input type="hidden" name="node_address" value="2">
+                    <input type="radio" id="lampOn2" name="data_value" value="on" checked> On
+                    <input type="radio" id="lampOff2" name="data_value" value="off"> Off
+                    <input type="button" id="lampbutton2" inline class="btn" onclick="lampStatusChange(this.id)" value="Submit">
+                  </form>
+                </div>
+              </div>
+            </div>
+
+        </div>
+      </div>
+    </div>
+
+<!--
         <p>
           <input type="text" id="amount" style="border: 0; color: #f6931f; font-weight: bold;" />
         </p>
 
         <div id="slider"></div>
+-->
 
 
-
-       </div>
-
-
-      </div>
-
+       
       <hr>
-      <br><br><br><br><br>
+      <br><br><br>
       <footer>
         <p>&copy; Know Place - 2013</p>
       </footer>
+
+      </div>
+
+      
 
     </div> <!-- /container -->
 
