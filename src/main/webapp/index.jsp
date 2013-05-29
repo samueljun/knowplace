@@ -125,7 +125,7 @@
 
         function getCurrentStatus() {
           $.ajax({
-            type: "post",
+            type: "get",
             url: "/testlamp",
             data: { action: "getStatus" },
             success: function (response) {
@@ -156,23 +156,20 @@
           }
 
           if(lamp == "lamp1" && document.getElementById("lampOn1").checked==true) {
-            lampStatus = "ON";
+            lampStatus = "1";
           } else if (lamp == "lamp2" && document.getElementById("lampOn2").checked==true) {
-            lampStatus = "ON";
+            lampStatus = "1";
           } else {
-            lampStatus = "OFF";
+            lampStatus = "0";
           }
 
 
           $.ajax({
             type: "post",
             url: "/testlamp",
-            data: JSON.stringify({
-                "action" : lamp,
-                "newStatus" : lampStatus
-              }),
+            data: { "action" : lamp, "newStatus" : lampStatus },
             success: function (response) {
-              var status = response["status"]
+              var status = response["status"];
               console.log(status);
               if (status === "SUCCESS") {
                 if(lamp=="lamp1") {

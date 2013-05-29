@@ -19,10 +19,10 @@ import org.json.JSONObject;
 import org.json.JSONException;
 
 @WebServlet(
-	name = "TestLampServlet",
-	urlPatterns = {"/testlamp"}
+	name = "DeviceServlet",
+	urlPatterns = {"/devices"}
 )
-public class TestLampServlet extends HttpServlet {
+public class DeviceServlet extends HttpServlet {
 
 	private static Boolean checkRequiredParameters(Vector requiredParameterList, Map parameterMap) {
 		for (Object parameter : requiredParameterList) {
@@ -46,7 +46,7 @@ public class TestLampServlet extends HttpServlet {
 	throws ServletException, IOException {
 		String action = request.getParameter("action");
 
-		if (action.equals("getStatus")) {
+		if (action.equals("getUserDevicesStatus")) {
 			try {
 				JSONObject responseJson = new JSONObject();
 				Connection conn = DbManager.getConnection();
@@ -76,56 +76,6 @@ public class TestLampServlet extends HttpServlet {
 			catch (JSONException e) {
 				returnError(response, "JSONException:\n" + e.getMessage());
 			}
-		}
-		else {
-			// Check Required Parameters are Set
-			Vector requiredParameterList = new Vector();
-			requiredParameterList.addElement("node_address");
-
-			if (!checkRequiredParameters(requiredParameterList, request.getParameterMap()))
-			{
-				request.setAttribute("error", "node_address was not given");
-				request.getRequestDispatcher("/testlamp-get.jsp").forward(request, response);
-				return;
-				// response.sendError(400, "Client did not request a node_address");
-			}
-
-			// Get Parameters
-			String requested_node_address = request.getParameter("node_address");
-
-			// Check for SQL injections
-
-			String node_address = "";
-			String time = "";
-			String data_value = "";
-
-			try {
-				Connection conn = DbManager.getConnection();
-				Statement stmt = conn.createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT * FROM test_lamps WHERE node_address=" + requested_node_address + " ORDER BY time DESC LIMIT 1");
-				rs.next();
-
-				node_address = rs.getString("node_address");
-				time = rs.getString("time");
-				data_value = rs.getString("data_value");
-
-				conn.close();
-			}
-			catch (SQLException e) {
-				request.setAttribute("SQLException", e.getMessage());
-			}
-			catch (URISyntaxException e) {
-				request.setAttribute("URISyntaxException", e.getMessage());
-			}
-			catch (Exception e) {
-				throw new ServletException(e);
-			}
-
-			request.setAttribute("lampAddress", node_address);
-			request.setAttribute("lampStatusTime", time);
-			request.setAttribute("lampStatus", data_value);
-
-			request.getRequestDispatcher("/testlamp-get.jsp").forward(request, response);
 		}
 	}
 
@@ -150,6 +100,7 @@ public class TestLampServlet extends HttpServlet {
 				responseJson.put("status", "SUCCESS");
 
 				conn.close();
+
 				response.setContentType("application/json");
 				response.setCharacterEncoding("UTF-8");
 				response.getWriter().write(responseJson.toString());
@@ -164,49 +115,20 @@ public class TestLampServlet extends HttpServlet {
 				returnError(response, "JSONException:\n" + e.getMessage());
 			}
 		}
-		else if (action.equals("lamp1") || action.equals("lamp2")) {
-			try {
-				JSONObject responseJson = new JSONObject();
-				Connection conn = DbManager.getConnection();
-				Statement stmt = conn.createStatement();
-				if (action.equals("lamp1")) {
-					if (request.getParameter("newStatus").equals("0")) {
-						stmt.executeUpdate("INSERT INTO test_lamps VALUES (1, now(), 0)");
-					}
-					else if (request.getParameter("newStatus").equals("1")) {
-						stmt.executeUpdate("INSERT INTO test_lamps VALUES (1, now(), 1)");
-					}
-					ResultSet rs1 = stmt.executeQuery("SELECT * FROM test_lamps WHERE node_address=1 ORDER BY time DESC LIMIT 1");
-					rs1.next();
-					responseJson.put("lamp1", rs1.getString("data_value"));
-				}
-				else if (action.equals("lamp2")) {
-					if (request.getParameter("newStatus").equals("0")) {
-						stmt.executeUpdate("INSERT INTO test_lamps VALUES (2, now(), 0)");
-					}
-					else if (request.getParameter("newStatus").equals("1")) {
-						stmt.executeUpdate("INSERT INTO test_lamps VALUES (2, now(), 1)");
-					}
-					ResultSet rs2 = stmt.executeQuery("SELECT * FROM test_lamps WHERE node_address=2 ORDER BY time DESC LIMIT 1");
-					rs2.next();
-					responseJson.put("lamp2", rs2.getString("data_value"));
-				}
-				responseJson.put("status", "SUCCESS");
+		else if (action.equals("updateNode")) {
+			// try {
+			// 	JSONObject responseJson = new JSONObject();
 
-				conn.close();
-				response.setContentType("application/json");
-				response.setCharacterEncoding("UTF-8");
-				response.getWriter().write(responseJson.toString());
-			}
-			catch (SQLException e) {
-				returnError(response, "SQLException:\n" + e.getMessage());
-			}
-			catch (URISyntaxException e) {
-				returnError(response, "URISyntaxException:\n" + e.getMessage());
-			}
-			catch (JSONException e) {
-				returnError(response, "JSONException:\n" + e.getMessage());
-			}
+			// 	Vector requiredParameterList = new Vector();
+			// 	requiredParameterList.addElement("node_address");
+			// 	requiredParameterList.addElement("data_value");
+			// 	if (!checkRequiredParameters(requiredParameterList, request.getParameterMap()))
+			// 	{
+			// 		responseJson.put("status", "FAILED");
+			// 		// response.sendError(400, "Client did not request a node_address");
+			// 	}
+
+			// }
 		}
 		else {
 			Vector requiredParameterList = new Vector();
