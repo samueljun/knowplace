@@ -21,10 +21,10 @@
         padding-bottom: 40px;
       }
     </style>
-    
+
     <script src="bootstrap/js/jquery.js"></script>
     <script src="bootstrap/js/bootstrap.js"></script>
-    
+
     <script src="bootstrap/js/slider.js"></script>
 
 
@@ -104,7 +104,7 @@
         imgs=Array("onBulb.png","offBulb.png");
 
         function setLamp1(newVal) {
-          if(newVal == "ON") {
+          if(newVal == "1") {
             document.getElementById("lampOn1").checked = true;
             document.getElementById("bulbPic1").src=imgs[0];
           } else {
@@ -114,7 +114,7 @@
         }
 
         function setLamp2(newVal) {
-          if(newVal == "ON") {
+          if(newVal == "1") {
             document.getElementById("lampOn2").checked = true;
             document.getElementById("bulbPic2").src=imgs[0];
           } else {
@@ -127,17 +127,13 @@
           $.ajax({
             type: "post",
             url: "/testlamp",
-            data: JSON.stringify({
-                "action" : "getStatus"
-              }),
+            data: { action: "getStatus" },
             success: function (response) {
-              var status = response["status"]
-              alert(response["status"]);
-              console.log(status);
+              var status = response["status"];
+              console.log(response);
               if (status === "SUCCESS") {
                 var lamp1 = response["lamp1"];
                 var lamp2 = response["lamp2"];
-                alert(lamp1);
 
                 setLamp1(lamp1);
                 setLamp2(lamp2);
@@ -166,7 +162,7 @@
           } else {
             lampStatus = "OFF";
           }
-  
+
 
           $.ajax({
             type: "post",
@@ -200,7 +196,7 @@
       <div class="navbar-inner">
         <div class="container">
           <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            
+
           </button>
           <a class="brand" href="index.jsp">Know Place</a>
           <div class="nav-collapse collapse">
@@ -208,7 +204,7 @@
               <li class="active"><a href="#">
                 <div class="white-over">
                   It's Like Home Automation</div></a></li>
-            
+
             </ul>
             <form class="navbar-form pull-right" action="#">
               <button type="button" class="btn">Sign in</button>
@@ -223,10 +219,10 @@
       <!-- Main hero unit for a primary marketing message or call to action -->
       <div class="hero-unit">
         <h3>There's KnowPlace Like Home...</h3>
-        
+
         <div class="spacer">
           <a href="#" class="btn btn-primary btn-medium" data-toggle="collapse" data-target="#info">Info &raquo;</a>
-        
+
           <div id="info" class="collapse out">
             <p>
               Control your home devices without actually being there. <br><br>
@@ -301,7 +297,7 @@
               Fan Speed
             </div>
 
-            
+
             <div class="large-event" id="space-font">
               <!-- Collapsable Button -->
               <a data-toggle="collapse" data-target="#light1" href="#">
@@ -325,10 +321,10 @@
             <div class="large-event" id="space-font">
               <!-- Collapsable Button -->
               <a data-toggle="collapse" data-target="#light2" href="#">
-                Light 2 
+                Light 2
                 <img src="onBulb.png" id="bulbPic2" width="25" height="40" alt="">
               </a>
-              
+
               <!-- LIGHT 2 Collapse Material -->
               <div id="light2" class="collapse out">
                 <div class="shift-right">
@@ -355,7 +351,7 @@
 -->
 
 
-       
+
       <hr>
       <br><br><br>
       <footer>
@@ -364,7 +360,7 @@
 
       </div>
 
-      
+
 
     </div> <!-- /container -->
 
