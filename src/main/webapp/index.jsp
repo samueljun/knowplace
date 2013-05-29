@@ -132,10 +132,12 @@
               }),
             success: function (response) {
               var status = response["status"]
+              alert(response["status"]);
               console.log(status);
               if (status === "SUCCESS") {
                 var lamp1 = response["lamp1"];
                 var lamp2 = response["lamp2"];
+                alert(lamp1);
 
                 setLamp1(lamp1);
                 setLamp2(lamp2);
