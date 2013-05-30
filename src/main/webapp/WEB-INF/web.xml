@@ -25,7 +25,15 @@
         <servlet-name>ContactServlet</servlet-name>
         <url-pattern>/contact</url-pattern>
     </servlet-mapping>
-
+    
+    <servlet>
+        <servlet-name>MyDataServlet</servlet-name>
+        <servlet-class>main.java.servlet.MyDataServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MyDataServlet</servlet-name>
+        <url-pattern>/mydata</url-pattern>
+    </servlet-mapping>
 <!--
     <servlet>
         <servlet-name>ItemServlet</servlet-name>
