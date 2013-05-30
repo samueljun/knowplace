@@ -1,14 +1,5 @@
 <web-app id="simple" version="2.4">
     <servlet>
-        <servlet-name>HelloServlet</servlet-name>
-        <servlet-class>main.java.servlet.HelloServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>HelloServlet</servlet-name>
-        <url-pattern>/hello</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
         <servlet-name>TestLamp</servlet-name>
         <servlet-class>main.java.servlet.TestLampServlet</servlet-class>
     </servlet>
@@ -36,28 +27,22 @@
     </servlet-mapping>
 <!--
     <servlet>
-        <servlet-name>ItemServlet</servlet-name>
-        <servlet-class>edu.ucla.cs.cs144.ItemServlet</servlet-class>
+        <servlet-name>DeviceServlet</servlet-name>
+        <servlet-class>main.java.servlet.DeviceServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>ItemServlet</servlet-name>
-        <url-pattern>/item</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>ProxyServlet</servlet-name>
-        <servlet-class>edu.ucla.cs.cs144.ProxyServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>ProxyServlet</servlet-name>
-        <url-pattern>/suggest</url-pattern>
+        <servlet-name>DeviceServlet</servlet-name>
+        <url-pattern>/devices</url-pattern>
     </servlet-mapping>
 -->
+
 <!--
     <error-page>
         <exception-type>java.lang.Throwable</exception-type>
         <location>/error</location>
     </error-page>
  -->
+
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
