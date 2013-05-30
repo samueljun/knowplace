@@ -50,7 +50,6 @@
 			<artifactId>postgresql</artifactId>
 			<version>9.1-901.jdbc4</version>
 		</dependency>
-<<<<<<< HEAD
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
@@ -63,13 +62,11 @@
             <version>2.2.4</version>
             <scope>compile</scope>
         </dependency>
-=======
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
 			<version>20090211</version>
 		</dependency>
->>>>>>> 0d090023259dbb8d950c022f833dec51633f8ec3
 	</dependencies>
 
 	<build>
