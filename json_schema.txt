@@ -1,0 +1,51 @@
+{
+	"user_id": INT
+	"hubs": 
+    [
+	    {
+            "hub_id": INT,
+		    "name": STRING,
+		    "pan_id": INT,
+		    "api_key": STRING
+            "nodes" :   
+            [
+                {
+                    "node_id": INT,
+                    "address": STRING,
+                    "name": STRING,
+                    "type": STRING,
+                    "pins":
+                    [
+                        {
+                            "pin_data": INT,
+                            "data_type": STRING,
+                            "tags": [ { "tag": STRING}, {"tag": STRING}],
+                            "pin_data":
+                            [
+                                {   
+                                    "time": TIMESTAMP,
+                                    "pin_value": STRING,
+                                    "pin_type": STRING
+                                },
+                                {
+                                             ...
+                                }
+
+                            ]
+                        }
+
+
+                    ]
+                },
+                {
+                    ...
+                }
+
+            ]
+		
+	    },
+        {
+            ...
+        }
+	]
+}
