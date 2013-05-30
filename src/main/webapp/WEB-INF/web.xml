@@ -1,49 +1,50 @@
 <web-app id="simple" version="2.4">
-    <servlet>
-        <servlet-name>TestLamp</servlet-name>
-        <servlet-class>main.java.servlet.TestLampServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>TestLamp</servlet-name>
-        <url-pattern>/testlamp</url-pattern>
-    </servlet-mapping>
+	<servlet>
+		<servlet-name>TestLamp</servlet-name>
+		<servlet-class>main.java.servlet.TestLampServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TestLamp</servlet-name>
+		<url-pattern>/testlamp</url-pattern>
+	</servlet-mapping>
 
-    <servlet>
-        <servlet-name>ContactServlet</servlet-name>
-        <servlet-class>main.java.servlet.ContactServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>ContactServlet</servlet-name>
-        <url-pattern>/contact</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>MyDataServlet</servlet-name>
-        <servlet-class>main.java.servlet.MyDataServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>MyDataServlet</servlet-name>
-        <url-pattern>/mydata</url-pattern>
-    </servlet-mapping>
+	<servlet>
+		<servlet-name>ContactServlet</servlet-name>
+		<servlet-class>main.java.servlet.ContactServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ContactServlet</servlet-name>
+		<url-pattern>/contact</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>MyDataServlet</servlet-name>
+		<servlet-class>main.java.servlet.MyDataServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MyDataServlet</servlet-name>
+		<url-pattern>/mydata</url-pattern>
+	</servlet-mapping>
+
 <!--
-    <servlet>
-        <servlet-name>DeviceServlet</servlet-name>
-        <servlet-class>main.java.servlet.DeviceServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>DeviceServlet</servlet-name>
-        <url-pattern>/devices</url-pattern>
-    </servlet-mapping>
+	<servlet>
+		<servlet-name>DeviceServlet</servlet-name>
+		<servlet-class>main.java.servlet.DeviceServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DeviceServlet</servlet-name>
+		<url-pattern>/devices</url-pattern>
+	</servlet-mapping>
 -->
 
 <!--
-    <error-page>
-        <exception-type>java.lang.Throwable</exception-type>
-        <location>/error</location>
-    </error-page>
+	<error-page>
+		<exception-type>java.lang.Throwable</exception-type>
+		<location>/error</location>
+	</error-page>
  -->
 
-    <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
-    </welcome-file-list>
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
 </web-app>
