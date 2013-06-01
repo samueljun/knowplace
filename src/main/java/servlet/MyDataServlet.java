@@ -79,7 +79,8 @@ public class MyDataServlet extends HttpServlet {
                 while (rs.next()) {
                     Integer pin_id = rs.getInt("pin_id");
                     String data_type = rs.getString("data_type");
-                    Pin pin = new Pin(pin_id, data_type);
+                    String name = rs.getString("name");
+                    Pin pin = new Pin(pin_id, data_type, name);
                     node.pins.add(pin);
                     pins.add(pin);
                 }
@@ -158,11 +159,13 @@ public class MyDataServlet extends HttpServlet {
     class Pin {
         public Integer pin_id;
         public String data_type;
+        public String name;
         public List<Tag> tags = new ArrayList<Tag> ();
         public List<PinData> pin_data = new ArrayList<PinData> ();
-        public Pin(Integer pin_id, String data_type) {
+        public Pin(Integer pin_id, String data_type, String name) {
             this.pin_id = pin_id;            
             this.data_type = data_type;
+            this.name = name;
         }
     }
 
