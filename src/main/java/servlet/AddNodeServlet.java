@@ -51,7 +51,7 @@ public class AddNodeServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String hub_id = "0";
+        String hub_id = "1";
         //String input_node_id = request.getParameter("new_node_id");
         String input_address_low = request.getParameter("new_address_low");   
         String input_address_high = request.getParameter("new_address_high");  
