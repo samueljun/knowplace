@@ -66,19 +66,19 @@ public class AddNodeServlet extends HttpServlet {
             //INSERT INTO public.nodes ( node_id, address_low, address_high, hubs_hub_id, name, type ) VALUES ( ?, ?, ?, ?, ?, ? )
             ResultSet rs = stmt.executeQuery("SELECT id FROM public.max_node_id");
             rs.next();
-            int max_node_id = rs.getInt(1);
-            max_node_id++;
+            int prev_node_id = rs.getInt(1);
+            cur_node_id = prev_node_id + 1;
 
             stmt.executeQuery("INSERT INTO public.nodes ( node_id, address_low, address_high, hubs_hub_id, name, type ) VALUES (" 
-                + String.valueOf(max_node_id) + ", '" + input_address_low + "', '" + input_address_high +  "', " + 
+                + String.valueOf(cur_node_id) + ", '" + input_address_low + "', '" + input_address_high +  "', " + 
                 hub_id + ", '" + input_name + "', '"  + input_type +  "')");
 
-            stmt.executeUpdate("UPDATE public.max_node_id SET id = " + String.valueOf(max_node_id));
+            stmt.executeUpdate("UPDATE public.max_node_id SET id = " + String.valueOf(cur_node_id) + " WHERE id = " + String.valueOf(prev_node_id));
 
             // Return the latest status of the node
             //SELECT node_id, address_low, address_high, hubs_hub_id, name, type FROM public.nodes
 
-            rs = stmt.executeQuery("SELECT * FROM nodes WHERE hubs_hub_id = 0 && node_id = " + String.valueOf(max_node_id));
+            rs = stmt.executeQuery("SELECT * FROM nodes WHERE hubs_hub_id = 0 && node_id = " + String.valueOf(cur_node_id));
             rs.next();
 
             request.setAttribute("hubs_hub_id", rs.getString(1));
