@@ -7,3 +7,7 @@ INSERT INTO tags VALUES ('light', 0);
 INSERT INTO pin_data VALUES (TIMESTAMP '2013-5-29 10:23:53', 'binary', 'on', 0);
 INSERT INTO pin_data VALUES (TIMESTAMP '2013-5-29 10:52:07', 'binary', 'off', 0);
 INSERT INTO pin_data VALUES (TIMESTAMP '2013-5-29 12:32:38', 'binary', 'on', 0);
+
+-- test_lamps Test Data
+INSERT INTO test_lamps VALUES (1, now(), 0);
+INSERT INTO test_lamps VALUES (2, now(), 1);

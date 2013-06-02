@@ -52,7 +52,7 @@ public class MyDataServlet extends HttpServlet {
                 String name = rs.getString("name");
                 String api_key = rs.getString("api_key");
                 Integer pan_id = rs.getInt("pan_id");
-                hubs.add(new Hub(hub_id, name, api_key, pan_id));
+                hubs.add(new Hub(hub_id, api_key, name, pan_id));
             }
             rs.close();
             stmt.close();

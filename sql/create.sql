@@ -4,8 +4,7 @@ CREATE TABLE test_lamps (
 	node_address         int4 NOT NULL,
 	time                 timestamp NOT NULL,
 	data_value           int4,
-	CONSTRAINT test_lamps_pkey PRIMARY KEY ( node_address, time ),
-	CONSTRAINT test_lamps_pkey UNIQUE ( node_address )
+	CONSTRAINT pk_test_lamps PRIMARY KEY ( node_address, time )
  );
 
 CREATE TABLE public.users (
