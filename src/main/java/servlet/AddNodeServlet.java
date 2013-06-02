@@ -51,7 +51,7 @@ public class AddNodeServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String hub_id = 0;
+        String hub_id = '0';
         //String input_node_id = request.getParameter("new_node_id");
         String input_address_low = request.getParameter("new_address_low");   
         String input_address_high = request.getParameter("new_address_high");  
@@ -73,12 +73,12 @@ public class AddNodeServlet extends HttpServlet {
                 + max_node_id + ", '" + input_address_low + "', '" + input_address_high +  "', " + 
                 hub_id + ", '" + input_name + "', '"  + input_type +  "')");
 
-            stmt.excuteUpdate("UPDATE public.max_node_id SET id = " + max_node_id);
+            stmt.executeUpdate("UPDATE public.max_node_id SET id = " + max_node_id);
 
             // Return the latest status of the node
             //SELECT node_id, address_low, address_high, hubs_hub_id, name, type FROM public.nodes
 
-            ResultSet rs = stmt.executeQuery("SELECT * FROM nodes WHERE hubs_hub_id = '0' && node_id = " + max_node_id + "");
+            rs = stmt.executeQuery("SELECT * FROM nodes WHERE hubs_hub_id = '0' && node_id = " + max_node_id + "");
             rs.next();
 
             request.setAttribute("hubs_hub_id", rs.getString(1));
