@@ -40,7 +40,7 @@ public class ContactServlet extends HttpServlet {
             request.setAttribute("type", rs.getString(6));
             connection.close();
         }
-        catch (SQLExcept    ion e) {
+        catch (SQLException e) {
             request.setAttribute("SQLException", e.getMessage());
         }
         catch (URISyntaxException e) {
