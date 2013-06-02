@@ -67,7 +67,7 @@ public class AddNodeServlet extends HttpServlet {
             ResultSet rs = stmt.executeQuery("SELECT id FROM public.max_node_id");
             rs.next();
             int prev_node_id = rs.getInt(1);
-            cur_node_id = prev_node_id + 1;
+            int cur_node_id = prev_node_id + 1;
 
             stmt.executeQuery("INSERT INTO public.nodes ( node_id, address_low, address_high, hubs_hub_id, name, type ) VALUES (" 
                 + String.valueOf(cur_node_id) + ", '" + input_address_low + "', '" + input_address_high +  "', " + 
