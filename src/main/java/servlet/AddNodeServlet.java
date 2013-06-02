@@ -63,6 +63,7 @@ public class AddNodeServlet extends HttpServlet {
             Connection connection = DbManager.getConnection();
 
             Statement stmt = connection.createStatement();
+            Statement stmt2 = connection.createStatement();
             //INSERT INTO public.nodes ( node_id, address_low, address_high, hubs_hub_id, name, type ) VALUES ( ?, ?, ?, ?, ?, ? )
             ResultSet rs = stmt.executeQuery("SELECT id FROM public.max_node_id");
             rs.next();
