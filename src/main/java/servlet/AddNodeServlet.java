@@ -70,7 +70,8 @@ public class ContactServlet extends HttpServlet {
             max_node_id++;
 
             stmt.executeQuery("INSERT INTO public.nodes ( node_id, address_low, address_high, hubs_hub_id, name, type ) VALUE (" 
-                + max_node_id + ", '" + input_address_low + "', '" + input_address_high +  "', " + hub_id + ", '" + input_name + "', '"  + input_type  "')");
+                + max_node_id + ", \'" + input_address_low + "\', \'" + input_address_high +  "\', " + 
+                hub_id + ", \'" + input_name + "\', \'"  + input_type  "\')");
 
             stmt.excuteUpdate("UPDATE public.max_node_id SET id = " + max_node_id);
 
