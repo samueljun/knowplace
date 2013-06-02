@@ -26,6 +26,15 @@
 		<url-pattern>/mydata</url-pattern>
 	</servlet-mapping>
 
+	<servlet>
+		<servlet-name>AddNodeServlet</servlet-name>
+		<servlet-class>main.java.servlet.AddNodeServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AddNodeServlet</servlet-name>
+		<url-pattern>/addnode</url-pattern>
+	</servlet-mapping>
+
 <!--
 	<servlet>
 		<servlet-name>DeviceServlet</servlet-name>
