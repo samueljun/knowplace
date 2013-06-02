@@ -15,7 +15,6 @@ public class DbManager {
         String password = dbUri.getUserInfo().split(":")[1];
         // Make sure the $DATABASE_URL environment variable is set
         String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + dbUri.getPath();
-
         return DriverManager.getConnection(dbUrl, username, password);
     }
 
