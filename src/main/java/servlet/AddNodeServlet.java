@@ -29,7 +29,7 @@ public class AddNodeServlet extends HttpServlet {
             ResultSet rs0 = stmt.executeQuery("SELECT id FROM public.max_node_id");
             rs0.next();
             String max_node_id = rs0.getString(1);
-            ResultSet rs = stmt.executeQuery("SELECT * FROM nodes WHERE hubs_hub_id = 0 && node_id = " + String.valueOf(max_node_id);
+            ResultSet rs = stmt.executeQuery("SELECT * FROM nodes WHERE hubs_hub_id = 0 && node_id = " + String.valueOf(max_node_id));
             rs.next();
 
             request.setAttribute("hubs_hub_id", rs.getString(1));
