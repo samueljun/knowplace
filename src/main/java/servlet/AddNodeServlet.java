@@ -78,7 +78,7 @@ public class AddNodeServlet extends HttpServlet {
             // Return the latest status of the node
             //SELECT node_id, address_low, address_high, hubs_hub_id, name, type FROM public.nodes
 
-            rs = stmt.executeQuery("SELECT * FROM nodes WHERE hubs_hub_id = '0' && node_id = " + max_node_id + "");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM nodes WHERE hubs_hub_id = '0' && node_id = " + max_node_id + "");
             rs.next();
 
             request.setAttribute("hubs_hub_id", rs.getString(1));
