@@ -17,7 +17,7 @@ import java.sql.*;
     name = "AddNodeServlet",
     urlPatterns = {"/addnode"}
 )
-public class ContactServlet extends HttpServlet {
+public class AddNodeServlet extends HttpServlet {
 
     // Database Connection
 
