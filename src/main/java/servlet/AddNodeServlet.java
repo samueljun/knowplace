@@ -82,12 +82,12 @@ public class AddNodeServlet extends HttpServlet {
             rs = stmt.executeQuery("SELECT * FROM nodes WHERE hubs_hub_id = '" + hub_id + "' AND node_id = '"+ String.valueOf(cur_node_id) +"'");
             rs.next();
 
-            request.setAttribute("hubs_hub_id", rs.getString(0));
+            request.setAttribute("hubs_hub_id", rs.getString(2));
             request.setAttribute("node_id", rs.getString(1));
-            request.setAttribute("address_low", rs.getString(2));
-            request.setAttribute("address_high", rs.getString(3));
-            request.setAttribute("name", rs.getString(4));
-            request.setAttribute("type", rs.getString(5));
+            request.setAttribute("address_low", rs.getString(3));
+            request.setAttribute("address_high", rs.getString(4));
+            request.setAttribute("name", rs.getString(5));
+            request.setAttribute("type", rs.getString(6));
             connection.close();
         }
         catch (SQLException e) {
