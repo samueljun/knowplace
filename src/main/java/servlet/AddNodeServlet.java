@@ -21,7 +21,8 @@ public class AddNodeServlet extends HttpServlet {
 
     // Database Connection
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    throws ServletException, IOException {
         try {
             Connection connection = DbManager.getConnection();
             // Return the latest status of the test lamp
@@ -50,7 +51,8 @@ public class AddNodeServlet extends HttpServlet {
         request.getRequestDispatcher("/addNodeResult.jsp").forward(request, response);
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    throws ServletException, IOException {
         String hub_id = "0";
         //String input_node_id = request.getParameter("new_node_id");
         String input_address_low = request.getParameter("new_address_low");   
