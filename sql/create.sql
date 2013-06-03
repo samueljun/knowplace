@@ -48,6 +48,16 @@ CREATE TABLE public.pins (
 
 CREATE INDEX idx_pins ON public.pins ( nodes_node_id );
 
+CREATE TABLE public.pin_data (
+	time                 timestamp NOT NULL,
+	pin_type             varchar( 50 ),
+	pin_value            varchar( 50 ),
+	pins_pin_id          int4 NOT NULL,
+	CONSTRAINT pk_pin_data PRIMARY KEY ( time )
+ );
+
+
+
 CREATE TABLE public.tags (
 	tag                  varchar( 50 ) NOT NULL,
 	pins_pin_id          int4 NOT NULL,
@@ -66,13 +76,7 @@ CREATE TABLE public.permissions (
 
 CREATE INDEX idx_permissions ON public.permissions ( pins_pin_id );
 
-CREATE TABLE public.pin_data (
-	time                 timestamp NOT NULL,
-	pin_type             varchar( 50 ),
-	pin_value            varchar( 50 ),
-	pins_pin_id          int4 NOT NULL,
-	CONSTRAINT pk_pin_data PRIMARY KEY ( time )
- );
+
 
 ALTER TABLE public.hubs ADD CONSTRAINT fk_hubs_users FOREIGN KEY ( users_user_id ) REFERENCES public.users( user_id ) ON DELETE CASCADE ON UPDATE CASCADE;
 
