@@ -70,12 +70,12 @@ public class AddNodeServlet extends HttpServlet {
             int prev_node_id = rs.getInt(1);
             int cur_node_id = prev_node_id + 1;
 
-            stmt.executeQuery("INSERT INTO public.nodes ( node_id, address_low, address_high, hubs_hub_id, name, type ) VALUES (" 
+            stmt.execute("INSERT INTO public.nodes ( node_id, address_low, address_high, hubs_hub_id, name, type ) VALUES (" 
                 + String.valueOf(cur_node_id) + ", '" + input_address_low + "', '" + input_address_high +  "', " + 
                 hub_id + ", '" + input_name + "', '"  + input_type +  "')");
             //String test = "hello";//"UPDATE public.max_node_id SET id = " + String.valueOf(cur_node_id) + " WHERE id = " + String.valueOf(prev_node_id);
 
-            stmt.executeQuery("UPDATE max_node_id SET id = '" + String.valueOf(cur_node_id) + "' WHERE id = '" + String.valueOf(prev_node_id) + "'");
+            stmt.executeUpdate("UPDATE max_node_id SET id = '" + String.valueOf(cur_node_id) + "' WHERE id = '" + String.valueOf(prev_node_id) + "'");
 
             // Return the latest status of the node
             //SELECT node_id, address_low, address_high, hubs_hub_id, name, type FROM public.nodes
