@@ -1,9 +1,9 @@
 -- Test Data for MyDataServlet
 INSERT INTO users VALUES ('0', 'eggert@cs.ucla.edu', 'Paul', 'Eggert', 1234);
 INSERT INTO hubs VALUES (0, 'api_key_0', 'UCLA_Hub', 1234, '0');
-INSERT INTO nodes VALUES (0, 'node_address', 0, 'Room Lamp', 'light');
-INSERT INTO nodes VALUES (1, 'node_address', 0, 'Desk Lamp', 'light');
-INSERT INTO nodes VALUES (2, 'node_address', 0, 'Room Fan', 'fan');
+INSERT INTO nodes VALUES (0, 0, 99, 0, 'Room Lamp', 'light');
+INSERT INTO nodes VALUES (1, 100, 199, 0, 'Desk Lamp', 'light');
+INSERT INTO nodes VALUES (2, 200, 299, 0, 'Room Fan', 'fan');
 INSERT INTO pins VALUES (0, 'binary', 'Room Lamp Pin', 0);
 INSERT INTO pins VALUES (1, 'binary', 'Desk Lamp Pin', 1);
 INSERT INTO pins VALUES (2, 'binary', 'Room Fan Pin', 2);

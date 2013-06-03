@@ -11,8 +11,11 @@ CREATE TABLE public.test_lamps (
 	node_address         int4 NOT NULL,
 	time                 timestamp NOT NULL,
 	data_value           int4,
-	CONSTRAINT pk_test_lamps PRIMARY KEY ( node_address, time ),
-	CONSTRAINT pk_test_lamps UNIQUE ( node_address )
+	CONSTRAINT pk_test_lamps PRIMARY KEY ( node_address, time )
+	-- Getting an error for this line:
+	-- 		CONSTRAINT pk_test_lamps UNIQUE ( node_address )
+	-- The error says:
+	-- 		ERROR:  relation "pk_test_lamps" already exists
  );
 
 CREATE TABLE public.users ( 
@@ -57,21 +60,7 @@ CREATE TABLE public.pins (
 
 CREATE INDEX idx_pins ON public.pins ( nodes_node_id );
 
-<<<<<<< HEAD
-CREATE TABLE public.pin_data (
-	time                 timestamp NOT NULL,
-	pin_type             varchar( 50 ),
-	pin_value            varchar( 50 ),
-	pins_pin_id          int4 NOT NULL,
-	CONSTRAINT pk_pin_data PRIMARY KEY ( time )
- );
-
-
-
 CREATE TABLE public.tags (
-=======
-CREATE TABLE public.tags ( 
->>>>>>> 28b76b39858eb825502d183c88eeef1e2c655627
 	tag                  varchar( 50 ) NOT NULL,
 	pins_pin_id          int4 NOT NULL,
 	CONSTRAINT pk_tags PRIMARY KEY ( tag, pins_pin_id )
@@ -89,9 +78,6 @@ CREATE TABLE public.permissions (
 
 CREATE INDEX idx_permissions ON public.permissions ( pins_pin_id );
 
-<<<<<<< HEAD
-
-=======
 CREATE TABLE public.pin_data ( 
 	time                 timestamp NOT NULL,
 	pin_type             varchar( 50 ),
@@ -99,7 +85,6 @@ CREATE TABLE public.pin_data (
 	pins_pin_id          int4 NOT NULL,
 	CONSTRAINT pk_pin_data PRIMARY KEY ( time )
  );
->>>>>>> 28b76b39858eb825502d183c88eeef1e2c655627
 
 ALTER TABLE public.hubs ADD CONSTRAINT fk_hubs_users FOREIGN KEY ( users_user_id ) REFERENCES public.users( user_id ) ON DELETE CASCADE ON UPDATE CASCADE;
 
