@@ -1,24 +1,13 @@
 CREATE SCHEMA public;
 
-CREATE TABLE public.max_node_id ( 
-	id                   int4 DEFAULT 0 NOT NULL,
-	CONSTRAINT pk_max_node_id PRIMARY KEY ( id )
- );
-
-COMMENT ON TABLE public.max_node_id IS 'Keep track of node id';
-
-CREATE TABLE public.test_lamps ( 
+CREATE TABLE test_lamps (
 	node_address         int4 NOT NULL,
 	time                 timestamp NOT NULL,
 	data_value           int4,
 	CONSTRAINT pk_test_lamps PRIMARY KEY ( node_address, time )
-	-- Getting an error for this line:
-	-- 		CONSTRAINT pk_test_lamps UNIQUE ( node_address )
-	-- The error says:
-	-- 		ERROR:  relation "pk_test_lamps" already exists
  );
 
-CREATE TABLE public.users ( 
+CREATE TABLE public.users (
 	user_id              varchar( 20 ) NOT NULL,
 	email                varchar( 50 ),
 	first_name           varchar( 50 ),
@@ -27,7 +16,7 @@ CREATE TABLE public.users (
 	CONSTRAINT pk_users PRIMARY KEY ( user_id )
  );
 
-CREATE TABLE public.hubs ( 
+CREATE TABLE public.hubs (
 	hub_id               int4 NOT NULL,
 	api_key              varchar( 50 ),
 	name                 varchar( 50 ),
@@ -38,19 +27,18 @@ CREATE TABLE public.hubs (
 
 CREATE INDEX idx_hubs ON public.hubs ( users_user_id );
 
-CREATE TABLE public.nodes ( 
+CREATE TABLE public.nodes (
 	node_id              int4 NOT NULL,
-	address_high         int8 NOT NULL,
-	address_low          int8 NOT NULL,
+	address              varchar( 100 ),
 	hubs_hub_id          int4 NOT NULL,
-	name                 varchar( 50 ) NOT NULL,
-	type                 varchar( 10 ) NOT NULL,
+	name                 varchar( 50 ),
+	type                 varchar( 10 ),
 	CONSTRAINT pk_nodes PRIMARY KEY ( node_id )
  );
 
 CREATE INDEX idx_nodes ON public.nodes ( hubs_hub_id );
 
-CREATE TABLE public.pins ( 
+CREATE TABLE public.pins (
 	pin_id               int4 NOT NULL,
 	data_type            varchar( 50 ),
 	name                 varchar( 50 ),
@@ -68,7 +56,7 @@ CREATE TABLE public.tags (
 
 CREATE INDEX idx_tags ON public.tags ( pins_pin_id );
 
-CREATE TABLE public.permissions ( 
+CREATE TABLE public.permissions (
 	users_user_id        varchar( 20 ) NOT NULL,
 	pins_pin_id          int4,
 	read                 bool,
@@ -78,7 +66,7 @@ CREATE TABLE public.permissions (
 
 CREATE INDEX idx_permissions ON public.permissions ( pins_pin_id );
 
-CREATE TABLE public.pin_data ( 
+CREATE TABLE public.pin_data (
 	time                 timestamp NOT NULL,
 	pin_type             varchar( 50 ),
 	pin_value            varchar( 50 ),

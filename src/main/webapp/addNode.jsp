@@ -1,10 +1,10 @@
 <% if (request.getAttribute("error") == null) { %>
 	<html>
 	    <head>
-	        <title>Contact Servlet Page</title>
+	        <title>Add a New Node</title>
 	    </head>
 	    <body>
-	        <p>Get Request!! TEST</p>
+<!-- 	        <p>Get Request</p>
 	        <dl>
 	            <dt>User ID: </dt>
 	            <dd><%= request.getAttribute("user_id") %> </dd>
@@ -22,15 +22,14 @@
 	            <dd><%= request.getAttribute("SQLException") %></dd>
 	            <dt>URISyntaxException:<dt>
 	            <dd><%= request.getAttribute("URI Syntax Exception") %></dd>
-	        </dl>
-	        <br><br><br>
-	        <p><b>Update Profile</b></p> <br>
-	        <form method="post" action="/contact">
-	          <input type="hidden" name="user_id" value="sehunchoi">
-              E-mail<input type="email" name="new_email"><br>
-              First name: <input type="text" name="new_fname"><br>
-  			  Last name: <input type="text" name="new_lname"><br>
-  			  Security PIN: <input type="password" name="new_pin" maxlength="4"><br>
+	        </dl> -->
+	        <br>
+	        <p><b>Add a New Node</b></p> <br>
+	        <form method="post" action="/addnode_result">
+              Address Low: <input type="text" name="new_address_low"><br>
+              Address High: <input type="text" name="new_address_high"><br>
+  			  Name: <input type="text" name="new_name"><br>
+  			  Type: <input type="text" name="new_type"><br>
               <input type="submit" inline class="btn" value="Submit">
             </form>
 	        <br><br><br>
