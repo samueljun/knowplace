@@ -32,7 +32,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>AddNodeServlet</servlet-name>
-		<url-pattern>/addnode_result</url-pattern>
+		<url-pattern>/addnode</url-pattern>
 	</servlet-mapping>
 
 
