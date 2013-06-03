@@ -4,7 +4,7 @@
 	        <title>Contact Servlet Page</title>
 	    </head>
 	    <body>
-	        <p>Get Request</p>
+	        <p>Get Request!! TEST</p>
 	        <dl>
 	            <dt>User ID: </dt>
 	            <dd><%= request.getAttribute("user_id") %> </dd>

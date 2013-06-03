@@ -4,7 +4,7 @@
 	        <title>AddNodeResult Servlet Page</title>
 	    </head>
 	    <body>
- 	        <p>Get Request</p>
+ 	        <p>Get Request!! TEST</p>
 	        <dl>
 	            <dt>Hub ID: </dt>
 	            <dd><%= request.getAttribute("hubs_hub_id") %> </dd>
