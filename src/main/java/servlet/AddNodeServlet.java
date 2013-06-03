@@ -63,7 +63,6 @@ public class AddNodeServlet extends HttpServlet {
             Connection connection = DbManager.getConnection();
 
             Statement stmt = connection.createStatement();
-            Statement stmt2 = connection.createStatement();
             //INSERT INTO public.nodes ( node_id, address_low, address_high, hubs_hub_id, name, type ) VALUES ( ?, ?, ?, ?, ?, ? )
             ResultSet rs = stmt.executeQuery("SELECT id FROM public.max_node_id");
             rs.next();
@@ -80,15 +79,15 @@ public class AddNodeServlet extends HttpServlet {
             // Return the latest status of the node
             //SELECT node_id, address_low, address_high, hubs_hub_id, name, type FROM public.nodes
 
-            rs = stmt2.executeQuery("SELECT * FROM nodes WHERE hubs_hub_id = '0' AND node_id = '"+ String.valueOf(cur_node_id) +"'");
+            rs = stmt.executeQuery("SELECT * FROM nodes WHERE hubs_hub_id = '" + hub_id + "' AND node_id = '"+ String.valueOf(cur_node_id) +"'");
             rs.next();
 
-            request.setAttribute("hubs_hub_id", rs.getString(1));
-            request.setAttribute("node_id", rs.getString(2));
-            request.setAttribute("address_low", rs.getString(3));
-            request.setAttribute("address_high", rs.getString(4));
-            request.setAttribute("name", rs.getString(5));
-            request.setAttribute("type", rs.getString(6));
+            request.setAttribute("hubs_hub_id", rs.getString(0));
+            request.setAttribute("node_id", rs.getString(1));
+            request.setAttribute("address_low", rs.getString(2));
+            request.setAttribute("address_high", rs.getString(3));
+            request.setAttribute("name", rs.getString(4));
+            request.setAttribute("type", rs.getString(5));
             connection.close();
         }
         catch (SQLException e) {

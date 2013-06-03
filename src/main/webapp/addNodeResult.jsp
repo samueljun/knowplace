@@ -1,10 +1,10 @@
-<% if (request.getAttribute("error") == null) { %>
+<% if (request.getAttribute("SQLException") == null && request.getAttribute("URISyntaxException") == null) { %>
 	<html>
 	    <head>
-	        <title>AddNodeResult Servlet Page</title>
+	        <title>New Node Submission Result</title>
 	    </head>
 	    <body>
- 	        <p>Get Request!! TEST</p>
+ 	        <p>Successfully added a new node</p>
 	        <dl>
 	            <dt>Hub ID: </dt>
 	            <dd><%= request.getAttribute("hubs_hub_id") %> </dd>
@@ -19,16 +19,15 @@
 	            <dt>Node Type:</dt>
 	            <dd><%= request.getAttribute("type") %></dd>
 
-	            <dt>SQLException:</dt>
-	            <dd><%= request.getAttribute("SQLException") %></dd>
-	            <dt>URISyntaxException:<dt>
-	            <dd><%= request.getAttribute("URI Syntax Exception") %></dd>
-	        </dl> -
+	        </dl> -------
 
 	        <p><a href="/">Index</a></p>
 
 	    </body>
 	</html>
 <% } else { %>
-	<%= request.getAttribute("error") %>
+    <dt>SQLException:</dt>
+    <dd><%= request.getAttribute("SQLException") %></dd>
+    <dt>URISyntaxException:<dt>
+    <dd><%= request.getAttribute("URISyntaxException") %></dd>
 <% } %>

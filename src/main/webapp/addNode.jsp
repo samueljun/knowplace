@@ -1,7 +1,7 @@
 <% if (request.getAttribute("error") == null) { %>
 	<html>
 	    <head>
-	        <title>Contact Servlet Page</title>
+	        <title>Add a New Node</title>
 	    </head>
 	    <body>
 <!-- 	        <p>Get Request</p>
@@ -23,8 +23,8 @@
 	            <dt>URISyntaxException:<dt>
 	            <dd><%= request.getAttribute("URI Syntax Exception") %></dd>
 	        </dl> -->
-	        <br><br><br>
-	        <p><b>Add a new node</b></p> <br>
+	        <br>
+	        <p><b>Add a New Node</b></p> <br>
 	        <form method="post" action="/addnode_result">
               Address Low: <input type="text" name="new_address_low"><br>
               Address High: <input type="text" name="new_address_high"><br>
