@@ -127,7 +127,7 @@
           $.ajax({
             type: "get",
             url: "/testlamp",
-            data: { action: "getStatus" },
+            data: { "action": "getStatus" },
             success: function (response) {
               var status = response["status"];
               console.log(response);
@@ -145,6 +145,116 @@
             }
           });
         }
+
+        function addNode() {
+
+          alert(document.getElementById("new_name").value);
+
+          address_low = document.getElementById("new_address_low").value;
+          address_high = document.getElementById("new_address_high").value;
+          name = document.getElementById("new_name").value;
+          type = document.getElementById("new_type").value;
+
+
+          $.ajax({
+            type: "post",
+            url: "/addnode",
+            data: { "action": "addNode", "address_low": address_low, "address_high": address_high, "name": name, "type": type },
+            success: function (response) {
+              var status = response["status"];
+              console.log(response);
+              if (status === "SUCCESS") {
+                //CALL JAVA TO PRINT HTML FOR NEW NODE
+                addToList(name);
+
+              } else if (status === "FAILED") {
+                //DID NOT ADD
+                alert("AHHHH it Failed");
+              }
+            }
+          });
+
+        }
+
+        function addToList(name) {
+
+
+          var iDiv = document.createElement('div');
+          iDiv.setAttribute("class","large-event");
+          iDiv.id = "space-font";
+          var aElement = document.createElement('a');
+          aElement.setAttribute('data-toggle','collapse');
+          aElement.setAttribute('data-target','#'+name);
+          aElement.setAttribute('href','#');
+          aElement.innerHTML = name;
+          iDiv.appendChild(aElement);
+
+          var typeDiv = document.createElement('div');
+          typeDiv.id = name;
+          typeDiv.setAttribute('class','collapse out');
+          iDiv.appendChild(typeDiv);
+
+          var formDiv = document.createElement('div');
+          formDiv.setAttribute('class','shift-right');
+          typeDiv.appendChild(formDiv);
+
+          var formElement = document.createElement('form');
+          formElement.setAttribute('method','post');
+          formElement.setAttribute('style','display:inline');
+          formElement.setAttribute('action','/testlamp');
+          formDiv.appendChild(formElement);
+
+          var inputElement1 = document.createElement('input');
+          inputElement1.setAttribute('type','hidden');
+          inputElement1.setAttribute('name','node_address');
+          inputElement1.setAttribute('value','1');
+
+          var inputElement2 = document.createElement('input');
+          inputElement2.setAttribute('type','radio');
+          inputElement2.setAttribute('id',name+'On');
+          inputElement2.setAttribute('name','data_value');
+          inputElement2.setAttribute('value','on');
+
+          var inputElement3 = document.createElement('input');
+          inputElement3.setAttribute('type','radio');
+          inputElement3.setAttribute('id',name+'Off');
+          inputElement3.setAttribute('name','data_value');
+          inputElement3.setAttribute('value','off');
+          inputElement3.setAttribute('checked','');
+
+          var inputElement4 = document.createElement('input');
+          inputElement4.setAttribute('type','button');
+          inputElement4.setAttribute('id',name+'Button');
+          inputElement4.setAttribute('class','btn');
+          inputElement4.setAttribute('inline','');
+          inputElement4.setAttribute('value','Submit');
+          inputElement4.setAttribute('onclick','nodeStatusChange(this.id)');
+
+          var onText = document.createTextNode(' On ');
+          var offText = document.createTextNode(' Off ');
+
+
+
+          formElement.appendChild(inputElement1);
+          formElement.appendChild(inputElement2);
+          formElement.appendChild(onText);
+          formElement.appendChild(inputElement3);
+          formElement.appendChild(offText);
+          formElement.appendChild(inputElement4);
+
+
+
+          (document.getElementById('thingsMainbox')).appendChild(iDiv);
+
+
+
+        }
+
+        function nodeStatusChange() {
+
+        }
+
+
 
 
         function lampStatusChange(val) {
@@ -186,8 +296,6 @@
             }
           });
         }
-
-
 
     </script>
 
@@ -233,10 +341,31 @@
           </div>
         </div>
 
-
-
-
       </div>
+
+      <!-- Modal -->
+      <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h3 id="myModalLabel">Add a New Node</h3>
+        </div>
+        <div class="modal-body">
+          
+          <br>
+          <form method="post" action="/addnode_result">
+              Address Low: <input type="text" id="new_address_low" name="new_address_low"><br>
+              Address High: <input type="text" id="new_address_high" name="new_address_high"><br>
+              Name: <input type="text" id="new_name" name="new_name"><br>
+              Type: <input type="text" id="new_type" name="new_type"><br>
+              <input type="button" inline class="btn" data-dismiss="modal" aria-hidden="true" onclick="addNode()" value="Submit">
+            </form>
+          <br><br><br>
+
+        </div>
+  
+      </div>
+
+
 
       <!-- Example row of columns -->
       <div class="row">
@@ -282,12 +411,14 @@
           </div>
         </div>
         <div class="span4">
-          <div class="mainbox">
+          <div id="thingsMainbox" class="mainbox">
             <div class="box-title">
               THINGS
             </div>
+            <!-- Button to trigger modal -->
+
             <div class="add-sub-title">
-              + Thing
+              <a href="#myModal" role="button" data-toggle="modal">+ Thing</a>              
             </div>
             <div class="large-event" id="space-font">
               Temperature
