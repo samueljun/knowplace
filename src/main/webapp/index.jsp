@@ -297,7 +297,7 @@
 
             <div class="large-event" id="space-font">
               <!-- Collapsable Button -->
-              <a data-toggle="collapse" data-target="#light1" href="#">
+              <a data-toggle="collapse" data-target="#light1">
                 Light 1
                 <img src="onBulb.png" id="bulbPic1" width="25" height="40" alt="">
               </a>
@@ -317,7 +317,7 @@
 
             <div class="large-event" id="space-font">
               <!-- Collapsable Button -->
-              <a data-toggle="collapse" data-target="#light2" href="#">
+              <a data-toggle="collapse" data-target="#light2">
                 Light 2
                 <img src="onBulb.png" id="bulbPic2" width="25" height="40" alt="">
               </a>
