@@ -13,6 +13,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.*;
 
+import com.google.gson.Gson;
+
 @WebServlet(
 	name = "AddNodeServlet",
 	urlPatterns = {"/addnode"}
@@ -56,15 +58,17 @@ public class AddNodeServlet extends HttpServlet {
 
 		if (action.equals("addNode")) {
 			String hub_id = "0";
-			//String input_node_id = request.getParameter("new_node_id");
-			String input_address_low = request.getParameter("new_address_low");   
-			String input_address_high = request.getParameter("new_address_high");  
-			String input_name = request.getParameter("new_name");
-			String input_type = request.getParameter("new_type");
+			//String input_node_id = request.getParameter("node_id");
+			String input_address_low = request.getParameter("address_low");   
+			String input_address_high = request.getParameter("address_high");  
+			String input_name = request.getParameter("name");
+			String input_type = request.getParameter("type");
 
-			//For Pin Data
-			String input_pin_data_type = request.getParameter("new_pin_data_type");
-			String input_pin_name = request.getParameter("new_pin_name");
+			// For Pin Data
+			// String input_pin_data_type = request.getParameter("pin_data_type");
+			// String input_pin_name = request.getParameter("pin_name");
+			String input_pin_data_type = "binary";
+			String input_pin_name = input_name + " Pin";
 
 			try {
 				Connection connection = DbManager.getConnection();
@@ -74,47 +78,52 @@ public class AddNodeServlet extends HttpServlet {
 				ResultSet rs = stmt.executeQuery("SELECT id FROM public.max_node_id");
 				rs.next();
 				int prev_node_id = rs.getInt(1);
-				int cur_node_id = prev_node_id + 1;
-				int pin_id = cur_node_id;
+				int curr_node_id = prev_node_id + 1;
+				int pin_id = curr_node_id;
 
 				stmt.execute("INSERT INTO public.nodes ( node_id, address_low, address_high, hubs_hub_id, name, type ) VALUES (" 
-					+ String.valueOf(cur_node_id) + ", '" + input_address_low + "', '" + input_address_high +  "', " + 
+					+ String.valueOf(curr_node_id) + ", '" + input_address_low + "', '" + input_address_high +  "', " + 
 					hub_id + ", '" + input_name + "', '"  + input_type +  "')");
-				//String test = "hello";//"UPDATE public.max_node_id SET id = " + String.valueOf(cur_node_id) + " WHERE id = " + String.valueOf(prev_node_id);
+				//String test = "hello";//"UPDATE public.max_node_id SET id = " + String.valueOf(curr_node_id) + " WHERE id = " + String.valueOf(prev_node_id);
 				
-				stmt.execute("INSERT INTO public.pins ( pid_id, data_type, name, nodes_node_id) VALUES (" 
+				stmt.execute("INSERT INTO public.pins ( pin_id, data_type, name, nodes_node_id) VALUES (" 
 					+ String.valueOf(pin_id) + ", '" + input_pin_data_type + "', '" + input_pin_name +  "', " + 
-					String.valueOf(cur_node_id)  +  "')");
+					String.valueOf(curr_node_id)  +  ")");
 				
-				stmt.executeUpdate("UPDATE max_node_id SET id = '" + String.valueOf(cur_node_id) + "' WHERE id = '" + String.valueOf(prev_node_id) + "'");
+				stmt.executeUpdate("UPDATE max_node_id SET id = '" + String.valueOf(curr_node_id) + "' WHERE id = '" + String.valueOf(prev_node_id) + "'");
 
 				// Return the latest status of the node
 				//SELECT node_id, address_low, address_high, hubs_hub_id, name, type FROM public.nodes
 
-				rs = stmt.executeQuery("SELECT * FROM nodes WHERE hubs_hub_id = '" + hub_id + "' AND node_id = '"+ String.valueOf(cur_node_id) +"'");
-				rs.next();
+				// rs = stmt.executeQuery("SELECT * FROM nodes WHERE hubs_hub_id = '" + hub_id + "' AND node_id = '"+ String.valueOf(curr_node_id) +"'");
+				// rs.next();
 
-				request.setAttribute("hubs_hub_id", rs.getString(2));
-				request.setAttribute("node_id", rs.getString(1));
-				request.setAttribute("address_low", rs.getString(5));
-				request.setAttribute("address_high", rs.getString(6));
-				request.setAttribute("name", rs.getString(3));
-				request.setAttribute("type", rs.getString(4));
+				// request.setAttribute("hubs_hub_id", rs.getString(2));
+				// request.setAttribute("node_id", rs.getString(1));
+				// request.setAttribute("address_low", rs.getString(5));
+				// request.setAttribute("address_high", rs.getString(6));
+				// request.setAttribute("name", rs.getString(3));
+				// request.setAttribute("type", rs.getString(4));
 				connection.close();
 			}
 			catch (SQLException e) {
-				request.setAttribute("SQLException", e.getMessage());
+				System.out.println("SQLException: " + e.getMessage());
+				// request.setAttribute("SQLException", e.getMessage());
 			}
 			catch (URISyntaxException e) {
-				request.setAttribute("URISyntaxException", e.getMessage());
+				System.out.println("URISyntaxException: " + e.getMessage());
+				// request.setAttribute("URISyntaxException", e.getMessage());
 			}
 
 			MyDataServlet MyDataObject = new MyDataServlet();
-			String userdataJsonString = MyDataObject.getJsonStringUserData("0");
+			UserData userData = MyDataObject.getData("0");
+			Gson gson = new Gson();
+			String json = gson.toJson(userData);
+
 			// request.getRequestDispatcher("/addNodeResult.jsp").forward(request, response);
 			response.setContentType("application/json");
 			response.setCharacterEncoding("UTF-8");
-			response.getWriter().write(userdataJsonString);
+			response.getWriter().write(json);
 		}
 	}
 

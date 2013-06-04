@@ -25,11 +25,12 @@
 	        </dl> -->
 	        <br>
 	        <p><b>Add a New Node</b></p> <br>
-	        <form method="post" action="/addnode_result">
-              Address Low: <input type="text" name="new_address_low"><br>
-              Address High: <input type="text" name="new_address_high"><br>
-  			  Name: <input type="text" name="new_name"><br>
-  			  Type: <input type="text" name="new_type"><br>
+	        <form method="post" action="/addnode">
+	        	<input type="hidden" name="action" value="addNode">
+              Address Low: <input type="text" name="address_low"><br>
+              Address High: <input type="text" name="address_high"><br>
+  			  Name: <input type="text" name="name"><br>
+  			  Type: <input type="text" name="type"><br>
               <input type="submit" inline class="btn" value="Submit">
             </form>
 	        <br><br><br>
