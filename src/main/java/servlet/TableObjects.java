@@ -32,13 +32,15 @@ class Hub {
 
 class Node {
 	public Integer node_id;
-	public String address;
+	public String address_high;
+	public String address_low;
 	public String name;
 	public String type;
 	public List<Pin> pins = new ArrayList<Pin> ();
-	public Node(Integer node_id, String address, String name, String type) {
+	public Node(Integer node_id, String address_high, String address_low, String name, String type) {
 		this.node_id = node_id; 
-		this.address = address;
+		this.address_low = address_low;
+		this.address_high = address_high;
 		this.name = name;
 		this.type = type;
 	}

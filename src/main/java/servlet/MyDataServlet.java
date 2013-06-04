@@ -26,6 +26,8 @@ import com.google.gson.GsonBuilder;
 )
 public class MyDataServlet extends HttpServlet {
 
+	public MyDataServlet () {}
+
 	private static Boolean checkRequiredParameters(Vector requiredParameterList, Map parameterMap) {
 		for (Object parameter : requiredParameterList) {
 			if (!parameterMap.containsKey((String)parameter)) {
@@ -50,14 +52,17 @@ public class MyDataServlet extends HttpServlet {
 		if (action.equals("getUserData")) {
 			String user_id = request.getParameter("user_id");
 
-			UserData userData = getData(user_id);
-			//Gson gson = new GsonBuilder().setDateFormat(DateFormat.FULL, DateFormat.FULL).create();
-			Gson gson = new Gson();
-			String json =  gson.toJson(userData);
-			//System.out.println(json);
+			// UserData userData = getData(user_id);
+			// Gson gson = new GsonBuilder().setDateFormat(DateFormat.FULL, DateFormat.FULL).create();
+			// Gson gson = new Gson();
+			// String json =  gson.toJson(userData);
+			// System.out.println(json);
+
+			String userdataJsonString = getJsonStringUserData("0");
+
 			response.setContentType("application/json");
 			response.setCharacterEncoding("UTF-8");
-			response.getWriter().write(json);
+			response.getWriter().write(userdataJsonString);
 		}
 
 	}
@@ -84,10 +89,11 @@ public class MyDataServlet extends HttpServlet {
 				rs = stmt.executeQuery("SELECT * FROM nodes WHERE hubs_hub_id = '" + hub.hub_id + "'");
 				while (rs.next()) {
 					Integer node_id = rs.getInt("node_id");
-					String address = rs.getString("address");
+					String address_high = rs.getString("address_high");
+					String address_low = rs.getString("address_low");
 					String name = rs.getString("name");
 					String type = rs.getString("type");
-					Node node = new Node(node_id, address, name, type);
+					Node node = new Node(node_id, address_high, address_low, name, type);
 					hub.nodes.add(node);
 					nodes.add(node);
 				}
@@ -143,5 +149,12 @@ public class MyDataServlet extends HttpServlet {
 		return data;
 	}
 
-};
+	public String getJsonStringUserData(String user_id) {
+		UserData userData = getData(user_id);
+		Gson gson = new Gson();
+		String json = gson.toJson(userData);
 
+		return json;
+	}
+
+};
