@@ -39,9 +39,9 @@ CREATE TABLE public.hubs (
 CREATE INDEX idx_hubs ON public.hubs ( users_user_id );
 
 CREATE TABLE public.nodes ( 
-	node_id              int4 NOT NULL,
-	address_high         int8 NOT NULL,
+	node_id              int4 NOT NULL,	
 	address_low          int8 NOT NULL,
+	address_high         int8 NOT NULL,
 	hubs_hub_id          int4 NOT NULL,
 	name                 varchar( 50 ) NOT NULL,
 	type                 varchar( 10 ) NOT NULL,
