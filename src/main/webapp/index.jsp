@@ -148,8 +148,6 @@
 
         function addNode() {
 
-          alert(document.getElementById("new_name").value);
-
           address_low = document.getElementById("new_address_low").value;
           address_high = document.getElementById("new_address_high").value;
           name = document.getElementById("new_name").value;
