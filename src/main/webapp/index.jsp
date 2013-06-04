@@ -328,7 +328,7 @@
         <h3>There's KnowPlace Like Home...</h3>
 
         <div class="spacer">
-          <a href="#" class="btn btn-primary btn-medium" data-toggle="collapse" data-target="#info">Info &raquo;</a>
+          <a class="btn btn-primary btn-medium" data-toggle="collapse" data-target="#info">Info &raquo;</a>
 
           <div id="info" class="collapse out">
             <p>
@@ -430,7 +430,7 @@
 
             <div class="large-event" id="space-font">
               <!-- Collapsable Button -->
-              <a data-toggle="collapse" data-target="#light1" href="#">
+              <a data-toggle="collapse" data-target="#light1">
                 Light 1
                 <img src="onBulb.png" id="bulbPic1" width="25" height="40" alt="" style="display: none;">
               </a>
@@ -450,7 +450,7 @@
 
             <div class="large-event" id="space-font">
               <!-- Collapsable Button -->
-              <a data-toggle="collapse" data-target="#light2" href="#">
+              <a data-toggle="collapse" data-target="#light2">
                 Light 2
                 <img src="onBulb.png" id="bulbPic2" width="25" height="40" alt="" style="display: none;">
               </a>

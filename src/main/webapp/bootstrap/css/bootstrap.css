@@ -9,6 +9,9 @@
  */
 @import url(http://fonts.googleapis.com/css?family=PT+Sans:400,700);
 
+a:hover{
+  cursor: pointer;
+}
 .mainbox, .box-title{
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
