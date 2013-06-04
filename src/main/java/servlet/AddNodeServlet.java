@@ -62,6 +62,10 @@ public class AddNodeServlet extends HttpServlet {
 			String input_name = request.getParameter("new_name");
 			String input_type = request.getParameter("new_type");
 
+			//For Pin Data
+			String input_pin_data_type = request.getParameter("new_pin_data_type");
+			String input_pin_name = request.getParameter("new_pin_name");
+
 			try {
 				Connection connection = DbManager.getConnection();
 
@@ -71,12 +75,17 @@ public class AddNodeServlet extends HttpServlet {
 				rs.next();
 				int prev_node_id = rs.getInt(1);
 				int cur_node_id = prev_node_id + 1;
+				int pin_id = cur_node_id;
 
 				stmt.execute("INSERT INTO public.nodes ( node_id, address_low, address_high, hubs_hub_id, name, type ) VALUES (" 
 					+ String.valueOf(cur_node_id) + ", '" + input_address_low + "', '" + input_address_high +  "', " + 
 					hub_id + ", '" + input_name + "', '"  + input_type +  "')");
 				//String test = "hello";//"UPDATE public.max_node_id SET id = " + String.valueOf(cur_node_id) + " WHERE id = " + String.valueOf(prev_node_id);
-
+				
+				stmt.execute("INSERT INTO public.pins ( pid_id, data_type, name, nodes_node_id) VALUES (" 
+					+ String.valueOf(pin_id) + ", '" + input_pin_data_type + "', '" + input_pin_name +  "', " + 
+					String.valueOf(cur_node_id)  +  "')");
+				
 				stmt.executeUpdate("UPDATE max_node_id SET id = '" + String.valueOf(cur_node_id) + "' WHERE id = '" + String.valueOf(prev_node_id) + "'");
 
 				// Return the latest status of the node
