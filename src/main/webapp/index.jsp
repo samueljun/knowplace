@@ -218,7 +218,7 @@
         <h3>There's KnowPlace Like Home...</h3>
 
         <div class="spacer">
-          <a href="#" class="btn btn-primary btn-medium" data-toggle="collapse" data-target="#info">Info &raquo;</a>
+          <a class="btn btn-primary btn-medium" data-toggle="collapse" data-target="#info">Info &raquo;</a>
 
           <div id="info" class="collapse out">
             <p>
