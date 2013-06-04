@@ -45,29 +45,27 @@ public class MyDataServlet extends HttpServlet {
 		response.getWriter().write("{\"status\":\"FAILED\"}");
 	}
 
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 	throws ServletException, IOException {
 		String action = request.getParameter("action");
 
 		if (action.equals("getUserData")) {
-			String user_id = request.getParameter("user_id");
+			// String user_id = request.getParameter("user_id");
+			String user_id = "0";
 
-			// UserData userData = getData(user_id);
-			// Gson gson = new GsonBuilder().setDateFormat(DateFormat.FULL, DateFormat.FULL).create();
-			// Gson gson = new Gson();
-			// String json =  gson.toJson(userData);
-			// System.out.println(json);
-
-			String userdataJsonString = getJsonStringUserData("0");
+			UserData userData = getData(user_id);
+			Gson gson = new Gson();
+			String json = gson.toJson(userData);
 
 			response.setContentType("application/json");
 			response.setCharacterEncoding("UTF-8");
-			response.getWriter().write(userdataJsonString);
+			response.getWriter().write(json);
 		}
-
 	}
 
-	private UserData getData(String user_id) {
+	// public status_code getData(String user_id, UserData data) {
+	public UserData getData(String user_id) {
 		UserData data = new UserData(user_id);
 		List<Hub> hubs = data.hubs;
 		try {
@@ -139,22 +137,17 @@ public class MyDataServlet extends HttpServlet {
 					pin.pin_data.add(pinData);
 				}       
 			}
+			data.status = "SUCCESS";
 		}
 		catch (SQLException e) {
+			data.status = "FAILED";
 			// returnError(response, "SQLException:\n" + e.getMessage());
 		}
 		catch (URISyntaxException e) {
+			data.status = "FAILED";
 			// returnError(response, "URISyntaxException:\n" + e.getMessage());
 		}
 		return data;
-	}
-
-	public String getJsonStringUserData(String user_id) {
-		UserData userData = getData(user_id);
-		Gson gson = new Gson();
-		String json = gson.toJson(userData);
-
-		return json;
 	}
 
 };

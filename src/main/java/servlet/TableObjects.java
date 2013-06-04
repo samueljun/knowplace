@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 class UserData {
+	public String status;
 	public String user_id;
 	public List<Hub> hubs = new ArrayList<Hub>();
 	public UserData(String user_id) {
