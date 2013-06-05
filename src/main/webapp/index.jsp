@@ -131,15 +131,16 @@
           $.ajax({
             type: "get",
             url: "/mydata",
-            data: { "action": "getUserData", "user_id": '0' },
+            data: { "action": "getUserData", "user_id": "0" },
             success: function (response) {
               var hub = (response["hubs"])[0];
-              var nodes = hub['nodes'];
+              var nodes = hub["nodes"];
 
+              alert(hub["hub_id"]);
               alert(nodes.length);
 
               for (var nodeItem in nodes) {
-                alert(nodeItem['name']);
+                alert(nodeItem["name"]);
               }
 
 
