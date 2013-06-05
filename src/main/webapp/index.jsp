@@ -143,6 +143,8 @@
                 alert(nodeItem["name"]);
               }
 
+              alert(JSON.stringify(response));
+
 
               /*
               var status = response["status"];
