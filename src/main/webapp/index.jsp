@@ -130,9 +130,13 @@
         function getCurrentStatus() {
           $.ajax({
             type: "get",
-            url: "/testlamp",
-            data: { "action": "getStatus" },
+            url: "/myData",
+            data: { "action": "getUserData", "user_id": '0' },
             success: function (response) {
+
+              alert(response);
+
+              /*
               var status = response["status"];
               console.log(response);
               if (status === "SUCCESS") {
@@ -146,6 +150,9 @@
               } else if (status === "FAILED") {
                 //NO ENTRY
               }
+              
+              */
+
             }
           });
         }
@@ -321,6 +328,19 @@
               }
             }
           });
+        }
+
+        function testFunction() {
+
+
+
+          var hub = (response["hubs"])[0];
+          var nodes = hub['nodes'];
+
+          for (var nodeItem in nodes) {
+            alert(nodeItem['name']);
+          }
+
         }
 
     </script>
