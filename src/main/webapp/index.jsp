@@ -26,7 +26,11 @@
     <script src="bootstrap/js/bootstrap.js"></script>
 
     <script src="bootstrap/js/slider.js"></script>
-
+    <style>
+    .large-event a{
+      display: block;
+    }
+    </style>
 
   </head>
 
