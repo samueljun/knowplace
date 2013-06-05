@@ -133,16 +133,14 @@
             url: "/mydata",
             data: { "action": "getUserData", "user_id": '0' },
             success: function (response) {
-              alert("hello");
-
               var hub = (response["hubs"])[0];
               var nodes = hub['nodes'];
+
+              alert(nodes.length);
 
               for (var nodeItem in nodes) {
                 alert(nodeItem['name']);
               }
-
-              alert(response);
 
 
               /*
