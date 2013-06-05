@@ -344,7 +344,7 @@
       <!-- Modal -->
       <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
           <h3 id="myModalLabel">Add a New Node</h3>
         </div>
         <div class="modal-body">
@@ -373,11 +373,12 @@
               PLACES
             </div>
             <div class="add-sub-title">
-              + Place
+              <a id="addEntry" href="#" role="button" data-toggle="modal">+ Place</a>
             </div>
-            <div class="large-event">
+            <div class="large-event" id="selectedEntry">
               House
             </div>
+
             <div class="large-event">
               Office
             </div>
@@ -392,7 +393,7 @@
               SPACES
             </div>
             <div class="add-sub-title">
-              + Space
+              <a id="addEntry" href="#" role="button" data-toggle="modal">+ Space</a>
             </div>
             <div class="large-event" id="space-font">
               Master Bedroom [House]
@@ -403,7 +404,7 @@
             <div class="large-event" id="space-font">
               Guest Bedroom [House]
             </div>
-            <div class="large-event" id="space-font">
+            <div class="large-event" id="space-font-2">
               Study Room [House]
             </div>
           </div>
@@ -415,16 +416,9 @@
             </div>
             <!-- Button to trigger modal -->
 
-            <div class="add-sub-title">
-              <a href="#myModal" role="button" data-toggle="modal">+ Thing</a>              
+            <div class="add-sub-title" >
+              <a id="addEntry" href="#myModal" role="button" data-toggle="modal">+ Thing</a>              
             </div>
-            <div class="large-event" id="space-font">
-              Temperature
-            </div>
-            <div class="large-event" id="space-font">
-              Fan Speed
-            </div>
-
 
             <div class="large-event" id="space-font">
               <!-- Collapsable Button -->
