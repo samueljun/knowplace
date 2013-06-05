@@ -52,9 +52,11 @@
   background: linear-gradient(to bottom,  rgba(214,214,214,1) 0%,rgba(214,214,214,1) 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d6d6d6', endColorstr='#d6d6d6',GradientType=0 ); /* IE6-9 */
 
-
   border-bottom: 1px solid #292929;
-
+}
+.large-event:hover{
+  color: white;
+  cursor: pointer;
 }
 
 #selectedEntry,#space-font-2{
