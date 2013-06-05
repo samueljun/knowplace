@@ -130,7 +130,7 @@
         function getCurrentStatus() {
           $.ajax({
             type: "get",
-            url: "/myData",
+            url: "/mydata",
             data: { "action": "getUserData", "user_id": '0' },
             success: function (response) {
               alert("hello");
@@ -141,7 +141,7 @@
               for (var nodeItem in nodes) {
                 alert(nodeItem['name']);
               }
-              
+
               alert(response);
 
 
