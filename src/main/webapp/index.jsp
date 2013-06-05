@@ -226,7 +226,7 @@
 
           var inputElement4 = document.createElement('input');
           inputElement4.setAttribute('type','button');
-          inputElement4.setAttribute('id',name+'Button');
+          inputElement4.setAttribute('id',name+'-Button');
           inputElement4.setAttribute('class','btn');
           inputElement4.setAttribute('inline','');
           inputElement4.setAttribute('value','Submit');
@@ -252,7 +252,31 @@
 
         }
 
-        function nodeStatusChange() {
+        function nodeStatusChange(buttonName) {
+          var name = (buttonName.split('-'))[0];
+          var status;
+
+          if ((document.getElementById(name+"On")).checked == true) {
+            status = 1;
+          } else {
+            status = 0;
+          }
+
+          $.ajax({
+            type: "post",
+            url: "/NOIDEA",
+            data: { "action" : "statusChange", "name" : name, "newStatus" : status },
+            success: function (response) {
+              var status = response["status"];
+              console.log(status);
+              if (status === "SUCCESS") {
+                //Change status was a success
+              } else if (status === "FAILED") {
+                //Change status was a failure
+                alert("Unable to Change status of " + name + ".");
+              }
+            }
+          });
 
         }
 
@@ -281,7 +305,7 @@
           $.ajax({
             type: "post",
             url: "/testlamp",
-            data: { "action" : lamp, "newStatus" : lampStatus },
+            data: { "action" : "changeStatus", "name" : lamp, "newStatus" : lampStatus },
             success: function (response) {
               var status = response["status"];
               console.log(status);
