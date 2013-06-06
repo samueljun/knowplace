@@ -114,19 +114,13 @@
               var hub = (response["hubs"])[0];
               var nodes = hub["nodes"];
 
-              alert(nodes.length);
-
               for (var i=0;i < nodes.length;i++) {
                 var currNode = nodes[i];
                 var currName = currNode["name"];
                 var currID = currNode["node_id"];
                 var currValue = currNode["current_value"];
 
-                alert(currName + " " + currID);
-
                 addToList(currName,currID, currValue);
-
-                alert("returned " + currName );
               }
 
             }
@@ -239,7 +233,7 @@
 
         function nodeStatusChange(buttonName) {
           var id = (buttonName.split('---'))[0];
-          var status;
+          var status = 0;
 
           if ((document.getElementById(node_id+"On")).checked == true) {
             status = 1;
