@@ -137,8 +137,9 @@
               var nodes = hub["nodes"];
 
 
-              for (var nodeItem in nodes) {
-                alert(JSON.stringify(nodeItem));
+              for (var i=0;i < nodes.length;i++) {
+                alert(JSON.stringify(nodes[i]));
+
               }
 
               alert(JSON.stringify(nodes));
