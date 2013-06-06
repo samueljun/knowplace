@@ -26,7 +26,11 @@
     <script src="bootstrap/js/bootstrap.js"></script>
 
     <script src="bootstrap/js/slider.js"></script>
-
+    <style>
+    .large-event a{
+      display: block;
+    }
+    </style>
 
   </head>
 
@@ -126,9 +130,26 @@
         function getCurrentStatus() {
           $.ajax({
             type: "get",
-            url: "/testlamp",
-            data: { "action": "getStatus" },
+            url: "/mydata",
+            data: { "action": "getUserData", "user_id": "0" },
             success: function (response) {
+              var hub = (response["hubs"])[0];
+              var nodes = hub["nodes"];
+
+
+              for (var i=0;i < nodes.length;i++) {
+                var currNode = nodes[i];
+                alert(currNode["name"]);
+
+                alert(currNode[0]);
+
+              }
+
+              alert(JSON.stringify(nodes));
+
+
+
+              /*
               var status = response["status"];
               console.log(response);
               if (status === "SUCCESS") {
@@ -142,6 +163,9 @@
               } else if (status === "FAILED") {
                 //NO ENTRY
               }
+              
+              */
+
             }
           });
         }
@@ -222,7 +246,7 @@
 
           var inputElement4 = document.createElement('input');
           inputElement4.setAttribute('type','button');
-          inputElement4.setAttribute('id',name+'Button');
+          inputElement4.setAttribute('id',name+'---Button');
           inputElement4.setAttribute('class','btn');
           inputElement4.setAttribute('inline','');
           inputElement4.setAttribute('value','Submit');
@@ -248,7 +272,31 @@
 
         }
 
-        function nodeStatusChange() {
+        function nodeStatusChange(buttonName) {
+          var name = (buttonName.split('---'))[0];
+          var status;
+
+          if ((document.getElementById(name+"On")).checked == true) {
+            status = 1;
+          } else {
+            status = 0;
+          }
+
+          $.ajax({
+            type: "post",
+            url: "/NOIDEA",
+            data: { "action" : "statusChange", "name" : name, "newStatus" : status },
+            success: function (response) {
+              var status = response["status"];
+              console.log(status);
+              if (status === "SUCCESS") {
+                //Change status was a success
+              } else if (status === "FAILED") {
+                //Change status was a failure
+                alert("Unable to Change status of " + name + ".");
+              }
+            }
+          });
 
         }
 
@@ -277,7 +325,7 @@
           $.ajax({
             type: "post",
             url: "/testlamp",
-            data: { "action" : lamp, "newStatus" : lampStatus },
+            data: { "action" : "changeStatus", "name" : lamp, "newStatus" : lampStatus },
             success: function (response) {
               var status = response["status"];
               console.log(status);
@@ -294,6 +342,7 @@
             }
           });
         }
+
 
     </script>
 
@@ -344,7 +393,7 @@
       <!-- Modal -->
       <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
           <h3 id="myModalLabel">Add a New Node</h3>
         </div>
         <div class="modal-body">
@@ -373,11 +422,12 @@
               PLACES
             </div>
             <div class="add-sub-title">
-              + Place
+              <a id="addEntry" href="#" role="button" data-toggle="modal">+ Place</a>
             </div>
-            <div class="large-event">
+            <div class="large-event" id="selectedEntry">
               House
             </div>
+
             <div class="large-event">
               Office
             </div>
@@ -392,7 +442,7 @@
               SPACES
             </div>
             <div class="add-sub-title">
-              + Space
+              <a id="addEntry" href="#" role="button" data-toggle="modal">+ Space</a>
             </div>
             <div class="large-event" id="space-font">
               Master Bedroom [House]
@@ -403,7 +453,7 @@
             <div class="large-event" id="space-font">
               Guest Bedroom [House]
             </div>
-            <div class="large-event" id="space-font">
+            <div class="large-event" id="space-font-2">
               Study Room [House]
             </div>
           </div>
@@ -415,16 +465,9 @@
             </div>
             <!-- Button to trigger modal -->
 
-            <div class="add-sub-title">
-              <a href="#myModal" role="button" data-toggle="modal">+ Thing</a>              
+            <div class="add-sub-title" >
+              <a id="addEntry" href="#myModal" role="button" data-toggle="modal">+ Thing</a>              
             </div>
-            <div class="large-event" id="space-font">
-              Temperature
-            </div>
-            <div class="large-event" id="space-font">
-              Fan Speed
-            </div>
-
 
             <div class="large-event" id="space-font">
               <!-- Collapsable Button -->
