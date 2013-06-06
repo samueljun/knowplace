@@ -105,28 +105,6 @@
         }
         */
 
-        imgs=Array("onBulb.png","offBulb.png");
-
-        function setLamp1(newVal) {
-          if(newVal == "1") {
-            document.getElementById("lampOn1").checked = true;
-            document.getElementById("bulbPic1").src=imgs[0];
-          } else {
-            document.getElementById("lampOff1").checked = true;
-            document.getElementById("bulbPic1").src=imgs[1];
-          }
-        }
-
-        function setLamp2(newVal) {
-          if(newVal == "1") {
-            document.getElementById("lampOn2").checked = true;
-            document.getElementById("bulbPic2").src=imgs[0];
-          } else {
-            document.getElementById("lampOff2").checked = true;
-            document.getElementById("bulbPic2").src=imgs[1];
-          }
-        }
-
         function getCurrentStatus() {
           $.ajax({
             type: "get",
@@ -141,28 +119,10 @@
                 var currNode = nodes[i];
                 var currName = currNode["name"];
                 var currID = currNode["pin_id"];
+                var currValue = currNode["current_value"];
 
-                addToList(currName,currID);
+                addToList(currName,currID, currValue);
               }
-
-
-
-              /*
-              var status = response["status"];
-              console.log(response);
-              if (status === "SUCCESS") {
-                var lamp1 = response["lamp1"];
-                var lamp2 = response["lamp2"];
-
-                setLamp1(lamp1);
-                setLamp2(lamp2);
-                document.getElementById("bulbPic1").style.display = "inline";
-                document.getElementById("bulbPic2").style.display = "inline";
-              } else if (status === "FAILED") {
-                //NO ENTRY
-              }
-
-              */
 
             }
           });
@@ -184,7 +144,7 @@
               console.log(response);
               if (status === "SUCCESS") {
                 //CALL JAVA TO PRINT HTML FOR NEW NODE
-                addToList(name, response["node_id"]);
+                addToList(name, response["node_id"], current_value); 
 
               } else if (status === "FAILED") {
                 //DID NOT ADD
@@ -195,7 +155,7 @@
 
         }
 
-        function addToList(name, node_id) {
+        function addToList(name, node_id, currValue) {
 
 
           var iDiv = document.createElement('div');
@@ -261,11 +221,13 @@
           formElement.appendChild(offText);
           formElement.appendChild(inputElement4);
 
-
-
           (document.getElementById('thingsMainbox')).appendChild(iDiv);
 
-
+          if(currValue == "1") {
+            document.getElementById(node_id+"On") = true;
+          } else {
+            document.getElementById(node_id+"Off") = true;
+          }
 
         }
 
@@ -298,7 +260,29 @@
         }
 
 
+        /*
 
+        imgs=Array("onBulb.png","offBulb.png");
+
+        function setLamp1(newVal) {
+          if(newVal == "1") {
+            document.getElementById("lampOn1").checked = true;
+            document.getElementById("bulbPic1").src=imgs[0];
+          } else {
+            document.getElementById("lampOff1").checked = true;
+            document.getElementById("bulbPic1").src=imgs[1];
+          }
+        }
+
+        function setLamp2(newVal) {
+          if(newVal == "1") {
+            document.getElementById("lampOn2").checked = true;
+            document.getElementById("bulbPic2").src=imgs[0];
+          } else {
+            document.getElementById("lampOff2").checked = true;
+            document.getElementById("bulbPic2").src=imgs[1];
+          }
+        }
 
         function lampStatusChange(val) {
           var lamp;
@@ -339,6 +323,8 @@
             }
           });
         }
+
+        */
 
 
     </script>
@@ -463,49 +449,14 @@
             </div>
             <!-- Button to trigger modal -->
 
+
             <div class="add-sub-title" >
               <a id="addEntry" href="#myModal" role="button" data-toggle="modal">+ Thing</a>
             </div>
 
-            <div class="large-event" id="space-font">
-              <!-- Collapsable Button -->
-              <a data-toggle="collapse" data-target="#light1">
-                Light 1
-                <img src="onBulb.png" id="bulbPic1" width="25" height="40" alt="" style="display: none;">
-              </a>
 
-              <!-- LIGHT 1 Collapse Material -->
-              <div id="light1" class="collapse out">
-                <div class="shift-right">
-                  <form method="post" style="display:inline" action="/testlamp">
-                    <input type="hidden" name="node_address" value="1">
-                    <input type="radio" id="lampOn1" name="data_value" value="on" checked> On
-                    <input type="radio" id="lampOff1" name="data_value" value="off"> Off
-                    <input type="button" id="lampButton1" inline class="btn" onclick="lampStatusChange(this.id)" value="Submit">
-                  </form>
-                </div>
-              </div>
-            </div>
 
-            <div class="large-event" id="space-font">
-              <!-- Collapsable Button -->
-              <a data-toggle="collapse" data-target="#light2">
-                Light 2
-                <img src="onBulb.png" id="bulbPic2" width="25" height="40" alt="" style="display: none;">
-              </a>
 
-              <!-- LIGHT 2 Collapse Material -->
-              <div id="light2" class="collapse out">
-                <div class="shift-right">
-                  <form method="post" style="display:inline" action="/testlamp">
-                    <input type="hidden" name="node_address" value="2">
-                    <input type="radio" id="lampOn2" name="data_value" value="on" checked> On
-                    <input type="radio" id="lampOff2" name="data_value" value="off"> Off
-                    <input type="button" id="lampbutton2" inline class="btn" onclick="lampStatusChange(this.id)" value="Submit">
-                  </form>
-                </div>
-              </div>
-            </div>
 
         </div>
       </div>
