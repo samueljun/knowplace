@@ -13,6 +13,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.*;
 
+import java.util.Map;
 import com.google.gson.Gson;
 
 @WebServlet(
@@ -96,10 +97,12 @@ public class AddNodeServlet extends HttpServlet {
 				System.out.println("URISyntaxException:\n" + e.getMessage());
 			}
 
-			MyDataServlet MyDataObject = new MyDataServlet();
-			UserData userData = MyDataObject.getData(user_id);
+			Map responseJson = new Map();
+			responseJson.put("status", "SUCCESS");
+			responseJson.put("current_value", input_current_value);
+
 			Gson gson = new Gson();
-			String json = gson.toJson(userData);
+			String json = gson.toJson(responseJson);
 
 			response.setContentType("application/json");
 			response.setCharacterEncoding("UTF-8");
