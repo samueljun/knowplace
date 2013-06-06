@@ -235,7 +235,7 @@
           var id = (buttonName.split('---'))[0];
           var status = 0;
 
-          if ((document.getElementById(node_id+"On")).checked == true) {
+          if ((document.getElementById(id+"On")).checked == true) {
             status = 1;
           } else {
             status = 0;
