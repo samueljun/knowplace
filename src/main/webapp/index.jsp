@@ -203,13 +203,13 @@
           iDiv.id = "space-font";
           var aElement = document.createElement('a');
           aElement.setAttribute('data-toggle','collapse');
-          aElement.setAttribute('data-target','#'+name);
+          aElement.setAttribute('data-target','#'+node_id);
           aElement.setAttribute('href','#');
           aElement.innerHTML = name;
           iDiv.appendChild(aElement);
 
           var typeDiv = document.createElement('div');
-          typeDiv.id = name;
+          typeDiv.id = node_id;
           typeDiv.setAttribute('class','collapse out');
           iDiv.appendChild(typeDiv);
 
@@ -230,20 +230,20 @@
 
           var inputElement2 = document.createElement('input');
           inputElement2.setAttribute('type','radio');
-          inputElement2.setAttribute('id',name+'On');
+          inputElement2.setAttribute('id',node_id+'On');
           inputElement2.setAttribute('name','data_value');
           inputElement2.setAttribute('value','on');
 
           var inputElement3 = document.createElement('input');
           inputElement3.setAttribute('type','radio');
-          inputElement3.setAttribute('id',name+'Off');
+          inputElement3.setAttribute('id',node_id+'Off');
           inputElement3.setAttribute('name','data_value');
           inputElement3.setAttribute('value','off');
           inputElement3.setAttribute('checked','');
 
           var inputElement4 = document.createElement('input');
           inputElement4.setAttribute('type','button');
-          inputElement4.setAttribute('id',name+'---'+node_id);
+          inputElement4.setAttribute('id',node_id+'---'+'button');
           inputElement4.setAttribute('class','btn');
           inputElement4.setAttribute('inline','');
           inputElement4.setAttribute('value','Submit');
@@ -270,11 +270,10 @@
         }
 
         function nodeStatusChange(buttonName) {
-          var name = (buttonName.split('---'))[0];
-          var id = (buttonName.split('---'))[1];
+          var id = (buttonName.split('---'))[0];
           var status;
 
-          if ((document.getElementById(name+"On")).checked == true) {
+          if ((document.getElementById(node_id+"On")).checked == true) {
             status = 1;
           } else {
             status = 0;
@@ -291,7 +290,7 @@
                 //Change status was a success
               } else if (status === "FAILED") {
                 //Change status was a failure
-                alert("Unable to Change status of " + name + ".");
+                alert("Unable to Change status of Node ID " + id + ".");
               }
             }
           });
