@@ -28,31 +28,13 @@ public class MyDataServlet extends HttpServlet {
 
 	public MyDataServlet () {}
 
-	private static Boolean checkRequiredParameters(Vector requiredParameterList, Map parameterMap) {
-		for (Object parameter : requiredParameterList) {
-			if (!parameterMap.containsKey((String)parameter)) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	private static void returnError(HttpServletResponse response, String exceptionErrorMsg)
-	throws IOException {
-		System.out.println(exceptionErrorMsg);
-		response.setContentType("application/json");
-		response.setCharacterEncoding("UTF-8");
-		response.getWriter().write("{\"status\":\"FAILED\"}");
-	}
-
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-	throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action");
 
 		if (action.equals("getUserData")) {
 			// String user_id = request.getParameter("user_id");
-			String user_id = "0";
+			String user_id = "0"; // TEMPORARY
 
 			UserData userData = getData(user_id);
 			Gson gson = new Gson();
@@ -62,6 +44,55 @@ public class MyDataServlet extends HttpServlet {
 			response.setCharacterEncoding("UTF-8");
 			response.getWriter().write(json);
 		}
+	}
+
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String action = request.getParameter("action");
+
+		if (action.equals("changeStatus")) {
+			String user_id = "0";
+			UserData userData = new UserData(user_id);
+
+			Vector requiredParameterList = new Vector();
+			// requiredParameterList.addElement("user_id");
+			// requiredParameterList.addElement("pin_id");
+			requiredParameterList.addElement("pin_id");
+			requiredParameterList.addElement("new_pin_value");
+			if (!checkParameters(requiredParameterList, request.getParameterMap())) {
+				userData.status = "FAILED";
+				Gson gson = new Gson();
+				String json = gson.toJson(userData);
+
+				response.setContentType("application/json");
+				response.setCharacterEncoding("UTF-8");
+				response.getWriter().write(json);
+				// Proper error??:
+				// response.sendError(400, "Client did not request a node_address");
+			}
+			else {
+				String input_pin_id = "";
+				String input_pin_value = request.getParameter("new_pin_value");
+			}
+		}
+	}
+
+	private static Boolean checkParameters(Vector requiredParameterList, Map parameterMap) {
+		// Check for SQL Injection here
+
+		for (Object parameter : requiredParameterList) {
+			if (!parameterMap.containsKey((String)parameter)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private static void returnError(HttpServletResponse response, String exceptionErrorMsg) throws IOException {
+		System.out.println(exceptionErrorMsg);
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		response.getWriter().write("{\"status\":\"FAILED\"}");
 	}
 
 	// public status_code getData(String user_id, UserData data) {
@@ -77,7 +108,7 @@ public class MyDataServlet extends HttpServlet {
 				String name = rs.getString("name");
 				String api_key = rs.getString("api_key");
 				Integer pan_id = rs.getInt("pan_id");
-				hubs.add(new Hub(hub_id, api_key, name, pan_id));
+				hubs.add(new Hub(hub_id, name, api_key, pan_id));
 			}
 			rs.close();
 			stmt.close();
@@ -87,11 +118,11 @@ public class MyDataServlet extends HttpServlet {
 				rs = stmt.executeQuery("SELECT * FROM nodes WHERE hubs_hub_id = '" + hub.hub_id + "'");
 				while (rs.next()) {
 					Integer node_id = rs.getInt("node_id");
-					String address_high = rs.getString("address_high");
-					String address_low = rs.getString("address_low");
 					String name = rs.getString("name");
-					String type = rs.getString("type");
-					Node node = new Node(node_id, address_high, address_low, name, type);
+					String address_low = rs.getString("address_low");
+					String address_high = rs.getString("address_high");
+					String current_value = rs.getString("current_value");
+					Node node = new Node(node_id, name, address_low, address_high, current_value);
 					hub.nodes.add(node);
 					nodes.add(node);
 				}
@@ -104,9 +135,9 @@ public class MyDataServlet extends HttpServlet {
 				rs = stmt.executeQuery("SELECT * FROM pins WHERE nodes_node_id = '" + node.node_id + "'");
 				while (rs.next()) {
 					Integer pin_id = rs.getInt("pin_id");
-					String data_type = rs.getString("data_type");
 					String name = rs.getString("name");
-					Pin pin = new Pin(pin_id, data_type, name);
+					String type = rs.getString("type");
+					Pin pin = new Pin(pin_id, name, type);
 					node.pins.add(pin);
 					pins.add(pin);
 				}
@@ -116,7 +147,20 @@ public class MyDataServlet extends HttpServlet {
 
 			for (Pin pin:pins) {
 				stmt = connection.createStatement();
-				rs = stmt.executeQuery("SELECT * FROM tags WHERE pins_pin_id = '" + pin.pin_id + "'");            
+				rs = stmt.executeQuery("SELECT * FROM pin_data WHERE pins_pin_id = '" + pin.pin_id + "' ORDER BY time");
+				while (rs.next()) {
+					Timestamp time = rs.getTimestamp("time");
+					String pin_value = rs.getString("pin_value");
+					PinData pinData = new PinData(time, pin_value);
+					pin.pin_data.add(pinData);
+				}
+				rs.close();
+				stmt.close();
+			}
+
+			for (Pin pin:pins) {
+				stmt = connection.createStatement();
+				rs = stmt.executeQuery("SELECT * FROM tags WHERE pins_pin_id = '" + pin.pin_id + "'");
 				while (rs.next()) {
 					String tag = rs.getString("tag");
 					Tag t = new Tag(tag);
@@ -125,18 +169,9 @@ public class MyDataServlet extends HttpServlet {
 				rs.close();
 				stmt.close();
 			}
-			
-			for (Pin pin:pins) {
-				stmt = connection.createStatement();
-				rs = stmt.executeQuery("SELECT * FROM pin_data WHERE pins_pin_id = '" + pin.pin_id + "' ORDER BY time");
-				while (rs.next()) {
-					Timestamp time = rs.getTimestamp("time");
-					String pin_type = rs.getString("pin_type");
-					String pin_value = rs.getString("pin_value");
-					PinData pinData = new PinData(time, pin_type, pin_value);
-					pin.pin_data.add(pinData);
-				}       
-			}
+
+			connection.close();
+
 			data.status = "SUCCESS";
 		}
 		catch (SQLException e) {
@@ -148,6 +183,34 @@ public class MyDataServlet extends HttpServlet {
 			// returnError(response, "URISyntaxException:\n" + e.getMessage());
 		}
 		return data;
+	}
+
+	public int newPinData(String input_pin_id, String input_pin_value) {
+		try {
+			Connection connection = DbManager.getConnection();
+			Statement stmt = connection.createStatement();
+			// ResultSet rs = stmt.executeQuery("SELECT pin_type FROM public.pin_data WHERE pins_pin_id = " + input_pin_id);
+			// rs.next();
+			// String pin_type = rs.getString("pin_type");
+
+			stmt.executeUpdate("INSERT INTO public.pin_data (time, pin_value, pins_pin_id) VALUES (now(), '" + input_pin_value + "', " + input_pin_id + ")");
+			ResultSet rs = stmt.executeQuery("SELECT nodes_node_id FROM pins WHERE pin_id = " + input_pin_id);
+			rs.next();
+			String node_id = rs.getString("nodes_node_id");
+			stmt.executeUpdate("UPDATE nodes SET current_value = '" + input_pin_value + "' WHERE node_id = " + node_id);
+			rs.close();
+			stmt.close();
+			connection.close();
+			return 0;
+		}
+		catch (SQLException e) {
+			System.out.println("SQLException:\n" + e.getMessage());
+			return -1;
+		}
+		catch (URISyntaxException e) {
+			System.out.println("URISyntaxException:\n" + e.getMessage());
+			return -1;
+		}
 	}
 
 };

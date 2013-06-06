@@ -163,7 +163,7 @@
               } else if (status === "FAILED") {
                 //NO ENTRY
               }
-              
+
               */
 
             }
@@ -171,17 +171,16 @@
         }
 
         function addNode() {
-
+          name = document.getElementById("new_name").value;
           address_low = document.getElementById("new_address_low").value;
           address_high = document.getElementById("new_address_high").value;
-          name = document.getElementById("new_name").value;
-          type = document.getElementById("new_type").value;
-
+          current_value = document.getElementById("new_current_value").value;
+          pin_type = document.getElementById("new_pin_type").value;
 
           $.ajax({
             type: "post",
             url: "/addnode",
-            data: { "action": "addNode", "address_low": address_low, "address_high": address_high, "name": name, "type": type },
+            data: { "action": "addNode", "name": name, "address_low": address_low, "address_high": address_high, "current_value": current_value, "pin_type": pin_type },
             success: function (response) {
               var status = response["status"];
               console.log(response);
@@ -397,19 +396,20 @@
           <h3 id="myModalLabel">Add a New Node</h3>
         </div>
         <div class="modal-body">
-          
+
           <br>
-          <form method="post" action="/addnode_result">
+          <form method="post" action="/addnode">
+              Name: <input type="text" id="new_name" name="new_name"><br>
               Address Low: <input type="text" id="new_address_low" name="new_address_low"><br>
               Address High: <input type="text" id="new_address_high" name="new_address_high"><br>
-              Name: <input type="text" id="new_name" name="new_name"><br>
-              Type: <input type="text" id="new_type" name="new_type"><br>
+              Current Value: <input type="text" id="new_current_value" name="new_current_value"><br>
+              Pin Type: <input type="text" id="new_pin_type" name="new_pin_type"><br>
               <input type="button" inline class="btn" data-dismiss="modal" aria-hidden="true" onclick="addNode()" value="Submit">
             </form>
           <br><br><br>
 
         </div>
-  
+
       </div>
 
 
@@ -466,7 +466,7 @@
             <!-- Button to trigger modal -->
 
             <div class="add-sub-title" >
-              <a id="addEntry" href="#myModal" role="button" data-toggle="modal">+ Thing</a>              
+              <a id="addEntry" href="#myModal" role="button" data-toggle="modal">+ Thing</a>
             </div>
 
             <div class="large-event" id="space-font">

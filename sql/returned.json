@@ -3,17 +3,13 @@
 //
 // Got to: /mydata?action=getUserData&user_id=0
 
-{"user_id":"0","hubs":[
-	{"hub_id":0,"api_key":"api_key_0","name":"UCLA_Hub","pan_id":1234,"nodes":[
-		{"node_id":0,"address_high":"0","address_low":"99","name":"Room Lamp","type":"light","pins":[
-			{"pin_id":0,"data_type":"binary","name":"Room Lamp Pin","tags":[{"tag":"lamp"},{"tag":"light"}],"pin_data":[
-				{"time":"May 29, 2013 10:23:53 AM","pin_value":"binary","pin_type":"1"},
-				{"time":"May 29, 2013 10:52:07 AM","pin_value":"binary","pin_type":"0"},
-				{"time":"May 29, 2013 12:32:38 PM","pin_value":"binary","pin_type":"1"}]}]},
-		{"node_id":1,"address_high":"100","address_low":"199","name":"Desk Lamp","type":"light","pins":[
-			{"pin_id":1,"data_type":"binary","name":"Desk Lamp Pin","tags":[],"pin_data":[
-				{"time":"May 30, 2013 12:32:38 PM","pin_value":"binary","pin_type":"1"}]}]},
-		{"node_id":2,"address_high":"200","address_low":"299","name":"Room Fan","type":"fan","pins":[
-			{"pin_id":2,"data_type":"binary","name":"Room Fan Pin","tags":[],"pin_data":[
-				{"time":"May 31, 2013 12:32:38 PM","pin_value":"binary","pin_type":"0"},
-				{"time":"May 31, 2013 12:35:38 PM","pin_value":"binary","pin_type":"1"}]}]}]}]}
+{"status":"SUCCESS","user_id":"0","hubs":[
+	{"hub_id":0,"name":"UCLA Hub","api_key":"api_key_0","pan_id":1234,"nodes":[
+		{"node_id":1,"name":"Desk Lamp","address_low":"100","address_high":"199","current_value":"1","pins":[
+			{"pin_id":1,"name":"Desk Lamp Pin","type":"control_B","pin_data":[
+			{"time":"May 30, 2013 12:32:38 PM","pin_value":"1"}],"tags":[]}]},
+		{"node_id":0,"name":"Room Lamp","address_low":"0","address_high":"99","current_value":"0","pins":[
+			{"pin_id":0,"name":"Room Lamp Pin","type":"control_B","pin_data":[
+			{"time":"May 29, 2013 10:23:53 AM","pin_value":"0"},
+			{"time":"May 29, 2013 10:52:07 AM","pin_value":"1"},
+			{"time":"May 29, 2013 12:32:38 PM","pin_value":"0"}],"tags":[{"tag":"lamp"},{"tag":"light"}]}]}]}]}
