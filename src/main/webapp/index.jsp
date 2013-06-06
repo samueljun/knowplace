@@ -119,7 +119,7 @@
               for (var i=0;i < nodes.length;i++) {
                 var currNode = nodes[i];
                 var currName = currNode["name"];
-                var currID = currNode["pin_id"];
+                var currID = currNode["node_id"];
                 var currValue = currNode["current_value"];
 
                 alert(currName + " " + currID);
