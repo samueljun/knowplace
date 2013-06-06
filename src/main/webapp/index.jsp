@@ -136,16 +136,13 @@
               var hub = (response["hubs"])[0];
               var nodes = hub["nodes"];
 
-              alert(hub["hub_id"]);
-              alert(nodes.length);
 
               for (var nodeItem in nodes) {
-                alert(nodeItem["name"]);
+                alert(JSON.stringify(nodeItem));
               }
 
               alert(JSON.stringify(nodes));
 
-              alert(JSON.stringify(response));
 
 
               /*
@@ -245,7 +242,7 @@
 
           var inputElement4 = document.createElement('input');
           inputElement4.setAttribute('type','button');
-          inputElement4.setAttribute('id',name+'-Button');
+          inputElement4.setAttribute('id',name+'---Button');
           inputElement4.setAttribute('class','btn');
           inputElement4.setAttribute('inline','');
           inputElement4.setAttribute('value','Submit');
@@ -272,7 +269,7 @@
         }
 
         function nodeStatusChange(buttonName) {
-          var name = (buttonName.split('-'))[0];
+          var name = (buttonName.split('---'))[0];
           var status;
 
           if ((document.getElementById(name+"On")).checked == true) {
@@ -342,13 +339,6 @@
           });
         }
 
-        function testFunction() {
-
-
-
-
-
-        }
 
     </script>
 
