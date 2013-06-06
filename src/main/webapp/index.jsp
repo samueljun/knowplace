@@ -41,11 +41,27 @@
 
     <style>
     #slider{
-      width: 60%;
+      width: 65%;
+      margin-left: 15px;
+      margin-bottom: 10px;
     }
     </style>
 
     <script>
+
+      // code for jquery slider
+    $(function() {
+    $( "#slider" ).slider({
+      value:100,
+      min: 0,
+      max: 255,
+      step: 1,
+      slide: function( event, ui ) {
+        $( "#amount" ).val(ui.value );
+      }
+    });
+    $( "#amount" ).val($( "#slider" ).slider( "value" ) );
+    });
 
       /*
       var fbID;
@@ -459,22 +475,52 @@
             <div class="add-sub-title" >
               <a id="addEntry" href="#myModal" role="button" data-toggle="modal">+ Thing</a>
             </div>
+<!--
+          <div class="large-event" id="space-font">
+            <a data-toggle="collapse" data-target="#5" href="#" class="">helloWorld</a>
+            <div id="5" class="out in collapse" style="height: auto;">
+              <div class="shift-right">
+                <form method="post" style="display:inline" action="/mydata">
+                <input type="hidden" name="node_address" value="1">
+                <input type="button" id="5---button" class="btn" inline="" value="Submit" onclick="nodeStatusChange(this.id)">
+              </form>
+            </div>
+          </div>
+-->
+          <div class="large-event" id="space-font">
+              <!-- Collapsable Button -->
+              <a data-toggle="collapse" data-target="#light1" href="#" class="collapsed">
+                Computer Fan
+              </a>
+
+              <!-- Fan Collapse Material -->
+              <div id="light1" class="out collapse" style="height: 0px;"><br>
+                  <form method="post" style="display:inline" action="/mydata">
+                    <input type="hidden" name="action" value="changeStatus">
+                    <input type="hidden" name="node_id" value="0">
+                    <input type="text" name="new_current_value" id="amount" style="float: right; margin-right: 50px; width: 25px; border: 0; color: #f6931f; font-weight: bold;"/>
+                    <div id="slider"></div><br>
+
+                    <input inline style="float:right; margin-right: 18px"type="button" id="lampButton1" inline="" class="btn" onclick="lampStatusChange(this.id)" value="Submit">
+                    
+
+                  </form>
+                </div>
+          </div>
+      </div>
 
 
-
-
+        
+        
 
         </div>
       </div>
     </div>
 
-<!--
-        <p>
-          <input type="text" id="amount" style="border: 0; color: #f6931f; font-weight: bold;" />
-        </p>
+        
 
-        <div id="slider"></div>
--->
+
+
 
 
 
