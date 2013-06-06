@@ -244,7 +244,7 @@
           $.ajax({
             type: "post",
             url: "/mydata",
-            data: { "action" : "changeStatus", "node_id" : id, "newStatus" : status },
+            data: { "action" : "changeStatus", "node_id" : id, "new_current_value" : status },
             success: function (response) {
               var status = response["status"];
               console.log(status);
