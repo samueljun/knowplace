@@ -35,8 +35,8 @@ CREATE INDEX idx_hubs ON public.hubs (users_user_id);
 CREATE TABLE public.nodes (
 	node_id				int4 NOT NULL,
 	name				varchar(50) NOT NULL,
-	address_low			int8 NOT NULL,
-	address_high		int8 NOT NULL,
+	address_low			varchar(8) NOT NULL,
+	address_high		varchar(8) NOT NULL,
 	current_value		varchar(50),
 	hubs_hub_id			int4 NOT NULL,
 	CONSTRAINT pk_nodes PRIMARY KEY (node_id)

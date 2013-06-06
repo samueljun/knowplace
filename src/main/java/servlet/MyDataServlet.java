@@ -45,6 +45,9 @@ public class MyDataServlet extends HttpServlet {
 			response.setCharacterEncoding("UTF-8");
 			response.getWriter().write(json);
 		}
+		else if (action.equals("getHubData")) {
+
+		}
 	}
 
 	@Override
@@ -56,23 +59,17 @@ public class MyDataServlet extends HttpServlet {
 			UserData userData = new UserData(user_id);
 
 			Vector requiredParameterList = new Vector();
-			// requiredParameterList.addElement("user_id");
-			// requiredParameterList.addElement("pin_id");
-			requiredParameterList.addElement("pin_id");
-			requiredParameterList.addElement("new_pin_value");
+			requiredParameterList.addElement("node_id");
+			requiredParameterList.addElement("new_current_value");
 			if (!checkParameters(requiredParameterList, request.getParameterMap())) {
-				Map<String, String> responseJson = new HashMap<String, String>();
-				responseJson.put("status", "FAILED");
-				Gson gson = new Gson();
-				String json = gson.toJson(responseJson);
-
-				response.setContentType("application/json");
-				response.setCharacterEncoding("UTF-8");
-				response.getWriter().write(json);
+				returnJsonStatusFailed(response, "Missing Parameter");
 			}
 			else {
-				String input_pin_id = "";
-				String input_pin_value = request.getParameter("new_pin_value");
+				String input_node_id = request.getParameter("node_id");
+				String input_current_value = request.getParameter("new_current_value");
+
+				Map<String, String> responseJson = new HashMap<String, String>();
+
 			}
 		}
 	}
@@ -86,6 +83,18 @@ public class MyDataServlet extends HttpServlet {
 			}
 		}
 		return true;
+	}
+
+	private void returnJsonStatusFailed (HttpServletResponse response, String message) throws IOException {
+		Map<String, String> responseJson = new HashMap<String, String>();
+		responseJson.put("status", "FAILED");
+		responseJson.put("message", message);
+		Gson gson = new Gson();
+		String json = gson.toJson(responseJson);
+
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		response.getWriter().write(json);
 	}
 
 	private static void returnError(HttpServletResponse response, String exceptionErrorMsg) throws IOException {
