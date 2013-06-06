@@ -138,7 +138,10 @@
 
 
               for (var i=0;i < nodes.length;i++) {
-                alert((JSON.stringify(nodes[i]))["name"]);
+                var currNode = JSON.stringify(nodes[i]);
+                alert(currNode);
+
+                alert(currNode[0]);
 
               }
 
