@@ -24,7 +24,7 @@ import org.json.JSONException;
 )
 public class TestLampServlet extends HttpServlet {
 
-	private static Boolean checkRequiredParameters(Vector requiredParameterList, Map parameterMap) {
+	private static Boolean checkParameters(Vector requiredParameterList, Map parameterMap) {
 		for (Object parameter : requiredParameterList) {
 			if (!parameterMap.containsKey((String)parameter)) {
 				return false;
@@ -82,8 +82,7 @@ public class TestLampServlet extends HttpServlet {
 			Vector requiredParameterList = new Vector();
 			requiredParameterList.addElement("node_address");
 
-			if (!checkRequiredParameters(requiredParameterList, request.getParameterMap()))
-			{
+			if (!checkParameters(requiredParameterList, request.getParameterMap())) {
 				request.setAttribute("error", "node_address was not given");
 				request.getRequestDispatcher("/testlamp-get.jsp").forward(request, response);
 				return;
@@ -213,7 +212,7 @@ public class TestLampServlet extends HttpServlet {
 			requiredParameterList.addElement("node_address");
 			requiredParameterList.addElement("data_value");
 
-			if (!checkRequiredParameters(requiredParameterList, request.getParameterMap()))
+			if (!checkParameters(requiredParameterList, request.getParameterMap()))
 			{
 				request.setAttribute("error", "Client is missing parameters was not given");
 				request.getRequestDispatcher("/testlamp-post.jsp").forward(request, response);
