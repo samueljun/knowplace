@@ -68,8 +68,19 @@ public class MyDataServlet extends HttpServlet {
 				String input_node_id = request.getParameter("node_id");
 				String input_current_value = request.getParameter("new_current_value");
 
-				Map<String, String> responseJson = new HashMap<String, String>();
+				if (newPinData(input_node_id, input_current_value) < 0) {
+					returnJsonStatusFailed(response, "Error");
+				}
+				else {
+					Map<String, String> responseJson = new HashMap<String, String>();
+					responseJson.put("status", "SUCCESS");
+					Gson gson = new Gson();
+					String json = gson.toJson(responseJson);
 
+					response.setContentType("application/json");
+					response.setCharacterEncoding("UTF-8");
+					response.getWriter().write(json);
+				}
 			}
 		}
 	}
