@@ -125,6 +125,8 @@
                 alert(currName + " " + currID);
 
                 addToList(currName,currID, currValue);
+
+                alert("returned " + currName );
               }
 
             }
@@ -226,10 +228,11 @@
 
           (document.getElementById('thingsMainbox')).appendChild(iDiv);
 
+
           if(currValue == "1") {
-            document.getElementById(node_id+"On") = true;
+            (document.getElementById(node_id+"On")).checked = true;
           } else {
-            document.getElementById(node_id+"Off") = true;
+            (document.getElementById(node_id+"Off")).checked = true;
           }
 
         }
