@@ -114,12 +114,15 @@
               var hub = (response["hubs"])[0];
               var nodes = hub["nodes"];
 
+              alert(nodes.length);
 
               for (var i=0;i < nodes.length;i++) {
                 var currNode = nodes[i];
                 var currName = currNode["name"];
                 var currID = currNode["pin_id"];
                 var currValue = currNode["current_value"];
+
+                alert(currName + " " + currID);
 
                 addToList(currName,currID, currValue);
               }
