@@ -240,13 +240,15 @@
           } else {
             status = 0;
           }
-
+          alert("About to change status");
           $.ajax({
             type: "post",
             url: "/mydata",
             data: { "action" : "changeStatus", "node_id" : id, "new_current_value" : status },
             success: function (response) {
+              alert("Returned");
               var status = response["status"];
+              alert(status);
               console.log(status);
               if (status === "SUCCESS") {
                 //Change status was a success
