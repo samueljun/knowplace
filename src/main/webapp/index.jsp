@@ -143,6 +143,8 @@
                 alert(nodeItem["name"]);
               }
 
+              alert(JSON.stringify(nodes));
+
               alert(JSON.stringify(response));
 
 
