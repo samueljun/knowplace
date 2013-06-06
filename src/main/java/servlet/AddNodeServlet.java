@@ -53,6 +53,19 @@ public class AddNodeServlet extends HttpServlet {
 		request.getRequestDispatcher("/addNodeResult.jsp").forward(request, response);
 	}
 */
+
+	private void returnJsonStatusFailed (HttpServletResponse response, String message) throws IOException {
+		Map<String, String> responseJson = new HashMap<String, String>();
+		responseJson.put("status", "FAILED");
+		responseJson.put("message", message);
+		Gson gson = new Gson();
+		String json = gson.toJson(responseJson);
+
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		response.getWriter().write(json);
+	}
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action");
 
@@ -90,24 +103,27 @@ public class AddNodeServlet extends HttpServlet {
 				rs.close();
 				stmt.close();
 				connection.close();
+
+				Map<String, String> responseJson = new HashMap<String, String>();
+				responseJson.put("status", "SUCCESS");
+				responseJson.put("node_id", String.valueOf(curr_node_id));
+				responseJson.put("current_value", input_current_value);
+
+				Gson gson = new Gson();
+				String json = gson.toJson(responseJson);
+
+				response.setContentType("application/json");
+				response.setCharacterEncoding("UTF-8");
+				response.getWriter().write(json);
 			}
 			catch (SQLException e) {
-				System.out.println("SQLException:\n" + e.getMessage());
+				String errorMessage = "SQLException:\n" + e.getMessage();
+				returnJsonStatusFailed(response, errorMessage);
 			}
 			catch (URISyntaxException e) {
-				System.out.println("URISyntaxException:\n" + e.getMessage());
+				String errorMessage = "URISyntaxException:\n" + e.getMessage();
+				returnJsonStatusFailed(response, errorMessage);
 			}
-
-			Map<String, String> responseJson = new HashMap<String, String>();
-			responseJson.put("status", "SUCCESS");
-			responseJson.put("current_value", input_current_value);
-
-			Gson gson = new Gson();
-			String json = gson.toJson(responseJson);
-
-			response.setContentType("application/json");
-			response.setCharacterEncoding("UTF-8");
-			response.getWriter().write(json);
 		}
 	}
 
