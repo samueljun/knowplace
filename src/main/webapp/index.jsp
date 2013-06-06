@@ -52,7 +52,7 @@
       // code for jquery slider
     $(function() {
     $( "#slider" ).slider({
-      value:100,
+      value:0,
       min: 0,
       max: 255,
       step: 1,
@@ -495,7 +495,7 @@
                     <input type="text" name="new_current_value" id="amount" style="float: right; margin-right: 50px; width: 25px; border: 0; color: #f6931f; font-weight: bold;"/>
                     <div id="slider"></div><br>
 
-                    <input inline style="float:right; margin-right: 18px"type="button" id="lampButton1" inline="" class="btn" onclick="lampStatusChange(this.id)" value="Submit">
+                    <input inline style="float:right; margin-right: 18px" type="submit" class="btn" value="Submit">
                     
 
                   </form>
