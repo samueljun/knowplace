@@ -14,6 +14,7 @@ import java.net.URISyntaxException;
 import java.sql.*;
 
 import java.util.Map;
+import java.util.HashMap;
 import java.util.Vector;
 import java.util.List;
 import java.util.ArrayList;
@@ -60,15 +61,14 @@ public class MyDataServlet extends HttpServlet {
 			requiredParameterList.addElement("pin_id");
 			requiredParameterList.addElement("new_pin_value");
 			if (!checkParameters(requiredParameterList, request.getParameterMap())) {
-				userData.status = "FAILED";
+				Map<String, String> responseJson = new HashMap<String, String>();
+				responseJson.put("status", "FAILED");
 				Gson gson = new Gson();
-				String json = gson.toJson(userData);
+				String json = gson.toJson(responseJson);
 
 				response.setContentType("application/json");
 				response.setCharacterEncoding("UTF-8");
 				response.getWriter().write(json);
-				// Proper error??:
-				// response.sendError(400, "Client did not request a node_address");
 			}
 			else {
 				String input_pin_id = "";

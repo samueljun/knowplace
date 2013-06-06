@@ -14,6 +14,7 @@ import java.net.URISyntaxException;
 import java.sql.*;
 
 import java.util.Map;
+import java.util.HashMap;
 import com.google.gson.Gson;
 
 @WebServlet(
@@ -97,7 +98,7 @@ public class AddNodeServlet extends HttpServlet {
 				System.out.println("URISyntaxException:\n" + e.getMessage());
 			}
 
-			Map responseJson = new Map();
+			Map<String, String> responseJson = new HashMap<String, String>();
 			responseJson.put("status", "SUCCESS");
 			responseJson.put("current_value", input_current_value);
 
