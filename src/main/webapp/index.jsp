@@ -139,13 +139,11 @@
 
               for (var i=0;i < nodes.length;i++) {
                 var currNode = nodes[i];
-                alert(currNode["name"]);
+                var currName = currNode["name"];
+                var currID = currNode["pin_id"];
 
-                alert(currNode[0]);
-
+                addToList(currName,currID);
               }
-
-              alert(JSON.stringify(nodes));
 
 
 
@@ -186,7 +184,7 @@
               console.log(response);
               if (status === "SUCCESS") {
                 //CALL JAVA TO PRINT HTML FOR NEW NODE
-                addToList(name);
+                addToList(name, response["node_id"]);
 
               } else if (status === "FAILED") {
                 //DID NOT ADD
@@ -197,7 +195,7 @@
 
         }
 
-        function addToList(name) {
+        function addToList(name, node_id) {
 
 
           var iDiv = document.createElement('div');
@@ -245,7 +243,7 @@
 
           var inputElement4 = document.createElement('input');
           inputElement4.setAttribute('type','button');
-          inputElement4.setAttribute('id',name+'---Button');
+          inputElement4.setAttribute('id',name+'---'+node_id);
           inputElement4.setAttribute('class','btn');
           inputElement4.setAttribute('inline','');
           inputElement4.setAttribute('value','Submit');
@@ -273,6 +271,7 @@
 
         function nodeStatusChange(buttonName) {
           var name = (buttonName.split('---'))[0];
+          var id = (buttonName.split('---'))[1];
           var status;
 
           if ((document.getElementById(name+"On")).checked == true) {
@@ -283,8 +282,8 @@
 
           $.ajax({
             type: "post",
-            url: "/NOIDEA",
-            data: { "action" : "statusChange", "name" : name, "newStatus" : status },
+            url: "/mydata",
+            data: { "action" : "changeStatus", "node_id" : id, "newStatus" : status },
             success: function (response) {
               var status = response["status"];
               console.log(status);
