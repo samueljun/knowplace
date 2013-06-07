@@ -2,10 +2,10 @@
 INSERT INTO users VALUES ('0', 'eggert@cs.ucla.edu', 'Paul', 'Eggert', 1234);
 INSERT INTO hubs VALUES (0, 'UCLA Hub', 'api_key_0', 1234, '0');
 INSERT INTO max_node_id VALUES (0);
--- INSERT INTO nodes VALUES (0, 'Room Lamp', '0013a200', '40315565', '0', 0);
--- INSERT INTO nodes VALUES (1, 'Desk Lamp', '0013a200', '40315568', '1', 0);
+INSERT INTO nodes VALUES (0, 'Air Conditioner', '0013a200', '40315568', '0', 0);
+-- INSERT INTO nodes VALUES (1, 'Desk Lamp', '0013a200', '40315565', '1', 0);
 -- INSERT INTO max_node_id VALUES (1);
--- INSERT INTO pins VALUES (0, 'Room Lamp Pin', 'control_B', 0);
+INSERT INTO pins VALUES (0, 'Air Conditioner Pin', 'control_V', 0);
 -- INSERT INTO pins VALUES (1, 'Desk Lamp Pin', 'control_B', 1);
 -- INSERT INTO tags VALUES ('lamp', 0);
 -- INSERT INTO tags VALUES ('light', 0);
