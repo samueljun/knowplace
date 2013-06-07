@@ -481,15 +481,18 @@
             </div>
           </div>
 -->
+          
+          <iframe style="display:none;" name="hiddenframe"></iframe>
+
           <div class="large-event" id="space-font">
               <!-- Collapsable Button -->
-              <a data-toggle="collapse" data-target="#light1" href="#" class="collapsed">
+              <a data-toggle="collapse" data-target="#fan1" href="#" class="collapsed">
                 Computer Fan
               </a>
 
               <!-- Fan Collapse Material -->
-              <div id="light1" class="out collapse" style="height: 0px;"><br>
-                  <form method="post" style="display:inline" action="/mydata">
+              <div id="fan1" class="out collapse" style="height: 0px;"><br>
+                  <form method="post" style="display:inline" action="/mydata" target="hiddenframe">
                     <input type="hidden" name="action" value="changeStatus">
                     <input type="hidden" name="node_id" value="0">
                     <input type="text" name="new_current_value" id="amount" style="float: right; margin-right: 50px; width: 25px; border: 0; color: #f6931f; font-weight: bold;"/>
