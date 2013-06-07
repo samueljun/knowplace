@@ -45,8 +45,16 @@ public class MyDataServlet extends HttpServlet {
 			response.setCharacterEncoding("UTF-8");
 			response.getWriter().write(json);
 		}
-		else if (action.equals("getHubData")) {
+		else if (action.equals("getDataEmbedded")) {
+			String user_id = "0"; // TEMPORARY
+			UserData userData = getData(user_id);
+			String address_low = userData.hubs.get(0).address_low;
+			String address_high = userData.hubs.get(0).address_high;
+			String current_value = userData.hubs.get(0).current_value;
+			String type = userData.hubs.get(0).pins.get(0).type;
 
+			EmbeddedResponse embeddedResponse = new EmbeddedResponse();
+			embeddedResponse.EmbeddedResponseNode(address_low, address_high, current_value, type);
 		}
 	}
 
@@ -209,9 +217,9 @@ public class MyDataServlet extends HttpServlet {
 		try {
 			Connection connection = DbManager.getConnection();
 			Statement stmt = connection.createStatement();
-			// ResultSet rs = stmt.executeQuery("SELECT pin_type FROM public.pin_data WHERE pins_pin_id = " + input_pin_id);
+			// ResultSet rs = stmt.executeQuery("SELECT type FROM public.pin_data WHERE pins_pin_id = " + input_pin_id);
 			// rs.next();
-			// String pin_type = rs.getString("pin_type");
+			// String type = rs.getString("type");
 
 			stmt.executeUpdate("INSERT INTO public.pin_data (time, pin_value, pins_pin_id) VALUES (now(), '" + input_pin_value + "', " + input_pin_id + ")");
 			ResultSet rs = stmt.executeQuery("SELECT nodes_node_id FROM pins WHERE pin_id = " + input_pin_id);

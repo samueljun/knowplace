@@ -148,18 +148,18 @@
           address_low = document.getElementById("new_address_low").value;
           address_high = document.getElementById("new_address_high").value;
           current_value = document.getElementById("new_current_value").value;
-          pin_type = document.getElementById("new_pin_type").value;
+          type = document.getElementById("new_type").value;
 
           $.ajax({
             type: "post",
             url: "/addnode",
-            data: { "action": "addNode", "name": name, "address_low": address_low, "address_high": address_high, "current_value": current_value, "pin_type": pin_type },
+            data: { "action": "addNode", "name": name, "address_low": address_low, "address_high": address_high, "current_value": current_value, "type": type },
             success: function (response) {
               var status = response["status"];
               console.log(response);
               if (status === "SUCCESS") {
                 //CALL JAVA TO PRINT HTML FOR NEW NODE
-                addToList(name, response["node_id"], current_value); 
+                addToList(name, response["node_id"], current_value);
 
               } else if (status === "FAILED") {
                 //DID NOT ADD
@@ -403,7 +403,7 @@
               Address Low: <input type="text" id="new_address_low" name="new_address_low"><br>
               Address High: <input type="text" id="new_address_high" name="new_address_high"><br>
               Current Value: <input type="text" id="new_current_value" name="new_current_value"><br>
-              Pin Type: <input type="text" id="new_pin_type" name="new_pin_type"><br>
+              Type: <input type="text" id="new_type" name="new_type"><br>
               <input type="button" inline class="btn" data-dismiss="modal" aria-hidden="true" onclick="addNode()" value="Submit">
             </form>
           <br><br><br>
@@ -496,7 +496,7 @@
                     <div id="slider"></div><br>
 
                     <input inline style="float:right; margin-right: 18px" type="submit" class="btn" value="Submit">
-                    
+
 
                   </form>
                 </div>
@@ -504,14 +504,14 @@
       </div>
 
 
-        
-        
+
+
 
         </div>
       </div>
     </div>
 
-        
+
 
 
 
