@@ -81,14 +81,14 @@ class EmbeddedResponse {
 }
 
 class EmbeddedNodes {
-	public String address_high;
-	public String address_low;
-	public String current_value;
-	public String type;
+	public String H;
+	public String L;
+	public String C;
+	public String T;
 	public EmbeddedNodes(String address_high, String address_low, String current_value, String type) {
-		this.address_high = address_high;
-		this.address_low = address_low;
-		this.current_value = current_value;
-		this.type = type;
+		this.H = address_high;
+		this.L = address_low;
+		this.C = current_value;
+		this.T = type;
 	}
 }
