@@ -54,18 +54,6 @@ public class AddNodeServlet extends HttpServlet {
 	}
 */
 
-	private void returnJsonStatusFailed (HttpServletResponse response, String message) throws IOException {
-		Map<String, String> responseJson = new HashMap<String, String>();
-		responseJson.put("status", "FAILED");
-		responseJson.put("message", message);
-		Gson gson = new Gson();
-		String json = gson.toJson(responseJson);
-
-		response.setContentType("application/json");
-		response.setCharacterEncoding("UTF-8");
-		response.getWriter().write(json);
-	}
-
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action");
 
@@ -125,6 +113,18 @@ public class AddNodeServlet extends HttpServlet {
 				returnJsonStatusFailed(response, errorMessage);
 			}
 		}
+	}
+
+	private void returnJsonStatusFailed (HttpServletResponse response, String message) throws IOException {
+		Map<String, String> responseJson = new HashMap<String, String>();
+		responseJson.put("status", "FAILED");
+		responseJson.put("message", message);
+		Gson gson = new Gson();
+		String json = gson.toJson(responseJson);
+
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		response.getWriter().write(json);
 	}
 
 };
