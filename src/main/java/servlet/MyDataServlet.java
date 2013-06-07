@@ -48,13 +48,31 @@ public class MyDataServlet extends HttpServlet {
 		else if (action.equals("getDataEmbedded")) {
 			String user_id = "0"; // TEMPORARY
 			UserData userData = getData(user_id);
-			String address_low = userData.hubs.get(0).address_low;
-			String address_high = userData.hubs.get(0).address_high;
-			String current_value = userData.hubs.get(0).current_value;
-			String type = userData.hubs.get(0).pins.get(0).type;
 
 			EmbeddedResponse embeddedResponse = new EmbeddedResponse();
-			embeddedResponse.EmbeddedResponseNode(address_low, address_high, current_value, type);
+
+			Hub curr_hub = userData.hubs.get(0);
+			for (Node node:curr_hub.nodes) {
+				String address_low = node.address_low;
+				String address_high = node.address_high;
+				String current_value = node.current_value;
+				String type = node.pins.get(0).type;
+
+				EmbeddedNodes responseNode = new EmbeddedNodes(address_low, address_high, current_value, type);
+				embeddedResponse.nodes.add(responseNode);
+			}
+
+			// String address_low = userData.hubs.get(0).nodes.get(0).address_low;
+			// String address_high = userData.hubs.get(0).nodes.get(0).address_high;
+			// String current_value = userData.hubs.get(0).nodes.get(0).current_value;
+			// String type = userData.hubs.get(0).nodes.get(0).pins.get(0).type;
+
+			Gson gson = new Gson();
+			String json = gson.toJson(embeddedResponse);
+
+			response.setContentType("application/json");
+			response.setCharacterEncoding("UTF-8");
+			response.getWriter().write(json);
 		}
 	}
 

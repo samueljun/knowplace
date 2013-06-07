@@ -76,19 +76,19 @@ class Tag {
 }
 
 class EmbeddedResponse {
-	public List<Pin> EmbeddedResponseNode = new ArrayList<EmbeddedResponseNode> ();
+	public List<EmbeddedNodes> nodes = new ArrayList<EmbeddedNodes> ();
 	public EmbeddedResponse() {}
 }
 
-class EmbeddedResponseNode {
+class EmbeddedNodes {
 	public String address_low;
 	public String address_high;
 	public String current_value;
-	public String pin_type;
-	public EmbeddedResponseNode(String address_low, String address_high, String current_value, String pin_type) {
-		this address_low = address_low;
-		this address_high = address_high;
-		this current_value = current_value;
-		this pin_type = pin_type;
+	public String type;
+	public EmbeddedNodes(String address_low, String address_high, String current_value, String type) {
+		this.address_low = address_low;
+		this.address_high = address_high;
+		this.current_value = current_value;
+		this.type = type;
 	}
 }

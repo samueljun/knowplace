@@ -78,8 +78,8 @@ public class AddNodeServlet extends HttpServlet {
 			String input_current_value = request.getParameter("current_value");
 
 			// For Pin
-			// String input_name = request.getParameter("pin_name");
-			String input_name = input_name + " Pin"; // TEMPORARY
+			// String input_pin_name = request.getParameter("pin_name");
+			String input_pin_name = input_name + " Pin"; // TEMPORARY
 			String input_type = request.getParameter("type"); // Change front end
 
 			// For Pin Data
@@ -95,7 +95,7 @@ public class AddNodeServlet extends HttpServlet {
 				int pin_id = curr_node_id;
 
 				stmt.execute("INSERT INTO public.nodes (node_id, name, address_low, address_high, current_value, hubs_hub_id) VALUES (" + String.valueOf(curr_node_id) + ", '" + input_name + "', '" + input_address_low + "', '" + input_address_high +  "', '" + input_current_value + "', '" + hub_id + "')");
-				stmt.execute("INSERT INTO public.pins (pin_id, name, type, nodes_node_id) VALUES (" + String.valueOf(pin_id) + ", '" + input_name + "', '" + input_type +  "', " + String.valueOf(curr_node_id)  +  ")");
+				stmt.execute("INSERT INTO public.pins (pin_id, name, type, nodes_node_id) VALUES (" + String.valueOf(pin_id) + ", '" + input_pin_name + "', '" + input_type +  "', " + String.valueOf(curr_node_id)  +  ")");
 				stmt.execute("INSERT INTO public.pin_data (time, pin_value, pins_pin_id) VALUES (now(), '" + input_pin_value + "', '" + String.valueOf(pin_id) + "')");
 
 				stmt.executeUpdate("UPDATE max_node_id SET id = '" + String.valueOf(curr_node_id) + "' WHERE id = '" + String.valueOf(prev_node_id) + "'");
