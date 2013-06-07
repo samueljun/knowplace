@@ -33,15 +33,15 @@ class Hub {
 class Node {
 	public Integer node_id;
 	public String name;
-	public String address_low;
 	public String address_high;
+	public String address_low;
 	public String current_value;
 	public List<Pin> pins = new ArrayList<Pin> ();
-	public Node(Integer node_id, String name, String address_low, String address_high, String current_value) {
+	public Node(Integer node_id, String name, String address_high, String address_low, String current_value) {
 		this.node_id = node_id;
 		this.name = name;
-		this.address_low = address_low;
 		this.address_high = address_high;
+		this.address_low = address_low;
 		this.current_value = current_value;
 	}
 }
@@ -81,13 +81,13 @@ class EmbeddedResponse {
 }
 
 class EmbeddedNodes {
-	public String address_low;
 	public String address_high;
+	public String address_low;
 	public String current_value;
 	public String type;
-	public EmbeddedNodes(String address_low, String address_high, String current_value, String type) {
-		this.address_low = address_low;
+	public EmbeddedNodes(String address_high, String address_low, String current_value, String type) {
 		this.address_high = address_high;
+		this.address_low = address_low;
 		this.current_value = current_value;
 		this.type = type;
 	}

@@ -53,19 +53,14 @@ public class MyDataServlet extends HttpServlet {
 
 			Hub curr_hub = userData.hubs.get(0);
 			for (Node node:curr_hub.nodes) {
-				String address_low = node.address_low;
 				String address_high = node.address_high;
+				String address_low = node.address_low;
 				String current_value = node.current_value;
 				String type = node.pins.get(0).type;
 
-				EmbeddedNodes responseNode = new EmbeddedNodes(address_low, address_high, current_value, type);
+				EmbeddedNodes responseNode = new EmbeddedNodes(address_high, address_low, current_value, type);
 				embeddedResponse.nodes.add(responseNode);
 			}
-
-			// String address_low = userData.hubs.get(0).nodes.get(0).address_low;
-			// String address_high = userData.hubs.get(0).nodes.get(0).address_high;
-			// String current_value = userData.hubs.get(0).nodes.get(0).current_value;
-			// String type = userData.hubs.get(0).nodes.get(0).pins.get(0).type;
 
 			Gson gson = new Gson();
 			String json = gson.toJson(embeddedResponse);
@@ -165,10 +160,10 @@ public class MyDataServlet extends HttpServlet {
 				while (rs.next()) {
 					Integer node_id = rs.getInt("node_id");
 					String name = rs.getString("name");
-					String address_low = rs.getString("address_low");
 					String address_high = rs.getString("address_high");
+					String address_low = rs.getString("address_low");
 					String current_value = rs.getString("current_value");
-					Node node = new Node(node_id, name, address_low, address_high, current_value);
+					Node node = new Node(node_id, name, address_high, address_low, current_value);
 					hub.nodes.add(node);
 					nodes.add(node);
 				}

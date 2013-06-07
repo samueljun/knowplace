@@ -145,15 +145,15 @@
 
         function addNode() {
           name = document.getElementById("new_name").value;
-          address_low = document.getElementById("new_address_low").value;
           address_high = document.getElementById("new_address_high").value;
+          address_low = document.getElementById("new_address_low").value;
           current_value = document.getElementById("new_current_value").value;
           type = document.getElementById("new_type").value;
 
           $.ajax({
             type: "post",
             url: "/addnode",
-            data: { "action": "addNode", "name": name, "address_low": address_low, "address_high": address_high, "current_value": current_value, "type": type },
+            data: { "action": "addNode", "name": name, "address_high": address_high, "address_low": address_low, "current_value": current_value, "type": type },
             success: function (response) {
               var status = response["status"];
               console.log(response);
@@ -400,8 +400,8 @@
           <br>
           <form method="post" action="/addnode">
               Name: <input type="text" id="new_name" name="new_name"><br>
-              Address Low: <input type="text" id="new_address_low" name="new_address_low"><br>
               Address High: <input type="text" id="new_address_high" name="new_address_high"><br>
+              Address Low: <input type="text" id="new_address_low" name="new_address_low"><br>
               Current Value: <input type="text" id="new_current_value" name="new_current_value"><br>
               Type: <input type="text" id="new_type" name="new_type"><br>
               <input type="button" inline class="btn" data-dismiss="modal" aria-hidden="true" onclick="addNode()" value="Submit">
@@ -481,7 +481,7 @@
             </div>
           </div>
 -->
-          
+
           <iframe style="display:none;" name="hiddenframe"></iframe>
 
           <div class="large-event" id="space-font">
