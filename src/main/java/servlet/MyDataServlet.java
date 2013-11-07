@@ -69,6 +69,35 @@ public class MyDataServlet extends HttpServlet {
 			response.setCharacterEncoding("UTF-8");
 			response.getWriter().write(json);
 		}
+		else if (action.equals("changeStatus")) {
+			String user_id = "0";
+			UserData userData = new UserData(user_id);
+
+			Vector requiredParameterList = new Vector();
+			requiredParameterList.addElement("node_id");
+			requiredParameterList.addElement("new_current_value");
+			if (!checkParameters(requiredParameterList, request.getParameterMap())) {
+				returnJsonStatusFailed(response, "Missing Parameter");
+			}
+			else {
+				String input_node_id = request.getParameter("node_id");
+				String input_current_value = request.getParameter("new_current_value");
+
+				if (newPinData(input_node_id, input_current_value) < 0) {
+					returnJsonStatusFailed(response, "Error");
+				}
+				else {
+					Map<String, String> responseJson = new HashMap<String, String>();
+					responseJson.put("status", "SUCCESS");
+					Gson gson = new Gson();
+					String json = gson.toJson(responseJson);
+
+					response.setContentType("application/json");
+					response.setCharacterEncoding("UTF-8");
+					response.getWriter().write(json);
+				}
+			}
+		}
 	}
 
 	@Override
