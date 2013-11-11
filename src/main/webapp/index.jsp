@@ -3,7 +3,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Know Place quick edit</title>
+    <title>Know Place</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Know Place helps you control all your devices from one place.">
     <meta name="author" content="">
@@ -34,9 +34,10 @@
 
   </head>
 
-  <body onload="getCurrentStatus()">
+  <!-- <body onload="getCurrentStatus()"> -->
+  <body>
 
-    <div id="fb-root"></div>
+    <d iv id="fb-root"></div>
 
 
     <style>
@@ -120,12 +121,19 @@
         });
         }
         */
+        function userLogin() {
+          user_id = document.getElementById("user_id").value;
 
-        function getCurrentStatus() {
+          $.ajax({
+            getCurrentStatus(user_id);
+          });
+        }
+
+        function getCurrentStatus(user_id) {
           $.ajax({
             type: "get",
             url: "/mydata",
-            data: { "action": "getUserData", "user_id": "0" },
+            data: { "action": "getUserData", "user_id": user_id },
             success: function (response) {
               var hub = (response["hubs"])[0];
               var nodes = hub["nodes"];
@@ -359,9 +367,9 @@
                   It's Like Home Automation</div></a></li>
 
             </ul>
-            <form class="navbar-form pull-right" action="#">
-              <button type="button" class="btn">Sign in</button>
-            </form>
+            <!-- <form class="navbar-form pull-right" action="#"> -->
+              <button type="button" class="btn" data-toggle="modal" data-target="#loginModal">Sign in</button>
+            <!-- </form> -->
           </div><!--/.nav-collapse -->
         </div>
       </div>
@@ -405,6 +413,25 @@
               Current Value: <input type="text" id="new_current_value" name="new_current_value"><br>
               Type: <input type="text" id="new_type" name="new_type"><br>
               <input type="button" inline class="btn" data-dismiss="modal" aria-hidden="true" onclick="addNode()" value="Submit">
+            </form>
+          <br><br><br>
+
+        </div>
+
+      </div>
+
+            <!-- Modal Login-->
+      <div id="loginModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h3 id="myModalLabel">User Login</h3>
+        </div>
+        <div class="modal-body">
+
+          <br>
+          <form method="get" action="/userlogin">
+              User ID: <input type="text" id="user_id" name="user_id"><br>
+              <input type="button" inline class="btn" data-dismiss="modal" aria-hidden="true" onclick="userLogin()" value="Submit">
             </form>
           <br><br><br>
 
