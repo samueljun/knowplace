@@ -56,11 +56,10 @@ public class AddNodeServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action");
-		
 
 		if (action.equals("addNode")) {
-			// String user_id = requst.getParameter("user_id"); //make sure it's implemented on front end
-			String hub_id = request.getParameter("hub_id"); //make sure it's implemented on front end
+			String user_id = "0"; // TEMPORARY
+			String hub_id = "0"; // TEMPORARY
 			String input_name = request.getParameter("name");
 			String input_address_high = request.getParameter("address_high");
 			String input_address_low = request.getParameter("address_low");

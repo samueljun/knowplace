@@ -34,10 +34,9 @@
 
   </head>
 
-  <body onload="getCurrentStatus()"> 
-  <!-- <body> -->
+  <body onload="getCurrentStatus()">
 
-    <d iv id="fb-root"></div>
+    <div id="fb-root"></div>
 
 
     <style>
@@ -121,52 +120,30 @@
         });
         }
         */
-        function userLogin() {
-          user_id = document.getElementById("user_id").value;
 
-          $.ajax({
-            getCurrentStatus(user_id);
-          });
-        }
-
-        function getCurrentStatus(user_id) {
+        function getCurrentStatus() {
           $.ajax({
             type: "get",
             url: "/mydata",
-            data: { "action": "getUserData", "user_id": user_id },
+            data: { "action": "getUserData", "user_id": "0" },
             success: function (response) {
-              var hubs = response["hubs"];
-              for(var i=0;i < hubs.length;i++) {
-                var currHub = hubs[i];
-                var currHubID = currHub["hub_id"];
-                
-                var nodes = currHub["nodes"];
+              var hub = (response["hubs"])[0];
+              var nodes = hub["nodes"];
 
-                for (var j=0;j < nodes.length;j++) {
-                  
-                  var currNode = nodes[j];
-                  var currNodeID = currNode["node_id"];
-                  var currNodeName = currNode["name"];
+              for (var i=0;i < nodes.length;i++) {
+                var currNode = nodes[i];
+                var currName = currNode["name"];
+                var currID = currNode["node_id"];
+                var currValue = currNode["current_value"];
 
-                  var pins = nodes["pins"];
-
-                  for(var k=0;k < pins.length;k++) {
-                    var currPin = pins[k];
-                    
-                    //should be changed to current pin value
-                    var currNodeValue = currNode["current_value"]; 
-                    var currPinType = currPin["type"];
-                    addToList(currNodeName, currNodeID, currNodeValue, currPinType);
-                  }
-                }
+                addToList(currName,currID, currValue);
               }
+
             }
           });
         }
 
         function addNode() {
-          user_id = document.getElementById("user_id").value;
-          hub_id = document.getElementById("hub_id").value;
           name = document.getElementById("new_name").value;
           address_high = document.getElementById("new_address_high").value;
           address_low = document.getElementById("new_address_low").value;
@@ -176,7 +153,7 @@
           $.ajax({
             type: "post",
             url: "/addnode",
-            data: { "action": "addNode", "user_id": user_id, "hub_id": hub_id, "name": name, "address_high": address_high, "address_low": address_low, "current_value": current_value, "type": type },
+            data: { "action": "addNode", "name": name, "address_high": address_high, "address_low": address_low, "current_value": current_value, "type": type },
             success: function (response) {
               var status = response["status"];
               console.log(response);
@@ -193,7 +170,7 @@
 
         }
 
-        function addToList(node_name, pin_id, currValue, currPinType) {
+        function addToList(name, node_id, currValue) {
 
 
           var iDiv = document.createElement('div');
@@ -203,11 +180,11 @@
           aElement.setAttribute('data-toggle','collapse');
           aElement.setAttribute('data-target','#'+node_id);
           aElement.setAttribute('href','#');
-          aElement.innerHTML = node_name;
+          aElement.innerHTML = name;
           iDiv.appendChild(aElement);
 
           var typeDiv = document.createElement('div');
-          typeDiv.id = pin_id;
+          typeDiv.id = node_id;
           typeDiv.setAttribute('class','collapse out');
           iDiv.appendChild(typeDiv);
 
@@ -215,85 +192,66 @@
           formDiv.setAttribute('class','shift-right');
           typeDiv.appendChild(formDiv);
 
-          if(currPinType === "sensor_M"){
-            var sensorText = document.createTextNode(currValue);
-            formDiv.appendChild(sensorText);
-          }
-          else{
-            var formElement = document.createElement('form');
-            formElement.setAttribute('method','post');
-            formElement.setAttribute('style','display:inline');
-            formElement.setAttribute('action','/testlamp'); //check, is this right?
-            formDiv.appendChild(formElement);
+          var formElement = document.createElement('form');
+          formElement.setAttribute('method','post');
+          formElement.setAttribute('style','display:inline');
+          formElement.setAttribute('action','/testlamp');
+          formDiv.appendChild(formElement);
 
-            
-            var inputElementA = document.createElement('input');
-            inputElement1.setAttribute('type','hidden');
-            inputElement1.setAttribute('name','type');
-            inputElement1.setAttribute('value',currPinType);
-            formElement.appendChild(inputElementA);
+          var inputElement1 = document.createElement('input');
+          inputElement1.setAttribute('type','hidden');
+          inputElement1.setAttribute('name','node_address');
+          inputElement1.setAttribute('value','1');
 
-            if(currPinType === "output_R"){
-              var inputElementText = document.createElement('input');
-              inputElementText.setAttribute('type','text');
-              inputElementText.setAttribute('id',pin_id+'Text');
-              inputElementText.setAttribute('name','data_value');
-              inputElementText.setAttribute('value',currValue);
-              formElement.appendChild(inputElementText);
-            }
-            else{
-              var inputElementOn = document.createElement('input');
-              inputElementOn.setAttribute('type','radio');
-              inputElementOn.setAttribute('id',pin_id+'On');
-              inputElementOn.setAttribute('name','data_value');
-              inputElementOn.setAttribute('value','on');
-              formElement.appendChild(inputElementOn);
+          var inputElement2 = document.createElement('input');
+          inputElement2.setAttribute('type','radio');
+          inputElement2.setAttribute('id',node_id+'On');
+          inputElement2.setAttribute('name','data_value');
+          inputElement2.setAttribute('value','on');
 
-              var onText = document.createTextNode(' On ');
-              formElement.appendChild(onText);
+          var inputElement3 = document.createElement('input');
+          inputElement3.setAttribute('type','radio');
+          inputElement3.setAttribute('id',node_id+'Off');
+          inputElement3.setAttribute('name','data_value');
+          inputElement3.setAttribute('value','off');
+          inputElement3.setAttribute('checked','');
 
-              var inputElement3 = document.createElement('input');
-              inputElementOff.setAttribute('type','radio');
-              inputElementOff.setAttribute('id',pin_id+'Off');
-              inputElementOff.setAttribute('name','data_value');
-              inputElementOff.setAttribute('value','off');
-              inputElementOff.setAttribute('checked','');
-              formElement.appendChild(inputElementOff);
+          var inputElement4 = document.createElement('input');
+          inputElement4.setAttribute('type','button');
+          inputElement4.setAttribute('id',node_id+'---'+'button');
+          inputElement4.setAttribute('class','btn');
+          inputElement4.setAttribute('inline','');
+          inputElement4.setAttribute('value','Submit');
+          inputElement4.setAttribute('onclick','nodeStatusChange(this.id)');
 
-              var offText = document.createTextNode(' Off ');
-              formElement.appendChild(offText);
+          var onText = document.createTextNode(' On ');
+          var offText = document.createTextNode(' Off ');
 
-              
-            }
 
-            var inputElement4 = document.createElement('input');
-            inputElement4.setAttribute('type','button');
-            inputElement4.setAttribute('id',pin_id+'---'+'button');
-            inputElement4.setAttribute('class','btn');
-            inputElement4.setAttribute('inline','');
-            inputElement4.setAttribute('value','Submit');
-            inputElement4.setAttribute('onclick','nodeStatusChange(this.id)');
-            formElement.appendChild(inputElement4);
 
-          }
+          formElement.appendChild(inputElement1);
+          formElement.appendChild(inputElement2);
+          formElement.appendChild(onText);
+          formElement.appendChild(inputElement3);
+          formElement.appendChild(offText);
+          formElement.appendChild(inputElement4);
+
           (document.getElementById('thingsMainbox')).appendChild(iDiv);
-          if(currPinType === "output_B"){
-            if(currValue == "1") {
-                  (document.getElementById(node_id+"On")).checked = true;
-            } else {
-              (document.getElementById(node_id+"Off")).checked = true;
-            }
+
+
+          if(currValue == "1") {
+            (document.getElementById(node_id+"On")).checked = true;
+          } else {
+            (document.getElementById(node_id+"Off")).checked = true;
           }
+
         }
 
-        function nodeStatusChange(buttonName) { //why not just use the id
+        function nodeStatusChange(buttonName) {
           var id = (buttonName.split('---'))[0];
           var status = 0;
 
-          if((document.getElementById(id+"Text") != null)){
-            status = document.getElementById(id+"Text").value;
-          }
-          else if ((document.getElementById(id+"On")).checked == true) {
+          if ((document.getElementById(id+"On")).checked == true) {
             status = 1;
           } else {
             status = 0;
@@ -301,7 +259,7 @@
           $.ajax({
             type: "post",
             url: "/mydata",
-            data: { "action" : "changeStatus", "user_id" : "0", "pin_id" : id, "new_current_value" : status },
+            data: { "action" : "changeStatus", "node_id" : id, "new_current_value" : status },
             success: function (response) {
               var status = response["status"];
               alert(status);
@@ -402,9 +360,8 @@
 
             </ul>
             <form class="navbar-form pull-right" action="#">
-              <button type="button" class="btn" data-toggle="modal" data-target="#loginModal">Sign in</button>
+              <button type="button" class="btn">Sign in</button>
             </form>
-
           </div><!--/.nav-collapse -->
         </div>
       </div>
@@ -441,45 +398,13 @@
         <div class="modal-body">
 
           <br>
-          <form method="post" action="/addnode" >
+          <form method="post" action="/addnode">
               Name: <input type="text" id="new_name" name="new_name"><br>
               Address High: <input type="text" id="new_address_high" name="new_address_high"><br>
               Address Low: <input type="text" id="new_address_low" name="new_address_low"><br>
               Current Value: <input type="text" id="new_current_value" name="new_current_value"><br>
               Type: <input type="text" id="new_type" name="new_type"><br>
-              
-              Hub: <!-- Temporary, needs a query -->
-                <select id = "hub_id" name="hub_id" selectedvalue="0">
-                  <option value="0">Hub 0</option>
-                  <option value="1">Hub 1</option>
-                  <option value="2">Hub 2</option>
-                  <option value="3">Hub 3</option>
-                </select><br>
-
-                <!-- Temporary, need to learn cookies -->
-                <input type="hidden" id="user_id" name="user_id" value="0">
-
-                </hidden>
               <input type="button" inline class="btn" data-dismiss="modal" aria-hidden="true" onclick="addNode()" value="Submit">
-            </form>
-          <br><br><br>
-
-        </div>
-
-      </div>
-
-            <!-- loginModal -->
-      <div id="loginModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h3 id="myModalLabel">User Login</h3>
-        </div>
-        <div class="modal-body">
-
-          <br>
-          <form method="post" action="/userlogin">
-              User ID: <input type="text" id="user_id" name="user_id"><br>
-              <input type="button" inline class="btn" data-dismiss="modal" aria-hidden="true" onclick="userLogin()" value="Submit">
             </form>
           <br><br><br>
 
@@ -560,28 +485,24 @@
           <iframe style="display:none;" name="hiddenframe"></iframe>
 
           <div class="large-event" id="space-font">
-
               <!-- Collapsable Button -->
-              <!--
               <a data-toggle="collapse" data-target="#fan1" href="#" class="collapsed">
                 Computer Fan
               </a>
-              -->
+
               <!-- Fan Collapse Material -->
-              <!--
               <div id="fan1" class="out collapse" style="height: 0px;"><br>
-                <form method="post" style="display:inline" action="/mydata" target="hiddenframe">
-                  <input type="hidden" name="action" value="changeStatus">
-                  <input type="hidden" name="node_id" value="0">
-                  <input type="text" name="new_current_value" id="amount" style="float: right; margin-right: 50px; width: 25px; border: 0; color: #f6931f; font-weight: bold;"/>
-                  <div id="slider"></div><br>
+                  <form method="post" style="display:inline" action="/mydata" target="hiddenframe">
+                    <input type="hidden" name="action" value="changeStatus">
+                    <input type="hidden" name="node_id" value="0">
+                    <input type="text" name="new_current_value" id="amount" style="float: right; margin-right: 50px; width: 25px; border: 0; color: #f6931f; font-weight: bold;"/>
+                    <div id="slider"></div><br>
 
-                  <input inline style="float:right; margin-right: 18px" type="submit" class="btn" value="Submit">
+                    <input inline style="float:right; margin-right: 18px" type="submit" class="btn" value="Submit">
 
 
-                </form>
-              </div>
-              -->
+                  </form>
+                </div>
           </div>
       </div>
 
