@@ -367,9 +367,10 @@
                   It's Like Home Automation</div></a></li>
 
             </ul>
-            <!-- <form class="navbar-form pull-right" action="#"> -->
+            <form class="navbar-form pull-right" action="#">
               <button type="button" class="btn" data-toggle="modal" data-target="#loginModal">Sign in</button>
-            <!-- </form> -->
+            </form>
+
           </div><!--/.nav-collapse -->
         </div>
       </div>
@@ -420,7 +421,7 @@
 
       </div>
 
-            <!-- Modal Login-->
+            <!-- loginModal -->
       <div id="loginModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -429,7 +430,7 @@
         <div class="modal-body">
 
           <br>
-          <form method="get" action="/userlogin">
+          <form method="post" action="/userlogin">
               User ID: <input type="text" id="user_id" name="user_id"><br>
               <input type="button" inline class="btn" data-dismiss="modal" aria-hidden="true" onclick="userLogin()" value="Submit">
             </form>
