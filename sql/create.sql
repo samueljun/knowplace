@@ -1,10 +1,22 @@
 CREATE SCHEMA public;
 
+CREATE TABLE public.max_hub_id (
+	id					int4 DEFAULT 0 NOT NULL,
+	CONSTRAINT pk_max_hub_id PRIMARY KEY (id)
+);
+COMMENT ON TABLE public.max_node_id IS 'Keep track of hub id';
+
 CREATE TABLE public.max_node_id (
 	id					int4 DEFAULT 0 NOT NULL,
 	CONSTRAINT pk_max_node_id PRIMARY KEY (id)
 );
 COMMENT ON TABLE public.max_node_id IS 'Keep track of node id';
+
+CREATE TABLE public.max_pin_id (
+	id                  int4 DEFAULT 0 NOT NULL,
+	CONSTRAINT pk_max_pin_id PRIMARY KEY (id)
+);
+COMMENT ON TABLE public.max_pin_id IS 'Keep track of pin id';
 
 CREATE TABLE public.test_lamps (
 	node_address		int4 NOT NULL,

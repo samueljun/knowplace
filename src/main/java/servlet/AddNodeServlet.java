@@ -80,21 +80,34 @@ public class AddNodeServlet extends HttpServlet {
 				rs.next();
 				int prev_node_id = rs.getInt(1);
 				int curr_node_id = prev_node_id + 1;
-				int pin_id = curr_node_id;
+				// int curr_pin_id = curr_node_id;
 
 				stmt.execute("INSERT INTO public.nodes (node_id, name, address_high, address_low, current_value, hubs_hub_id) VALUES (" + String.valueOf(curr_node_id) + ", '" + input_name + "', '" + input_address_high + "', '" + input_address_low + "', '" + input_current_value + "', '" + hub_id + "')");
-				stmt.execute("INSERT INTO public.pins (pin_id, name, type, nodes_node_id) VALUES (" + String.valueOf(pin_id) + ", '" + input_pin_name + "', '" + input_type +  "', " + String.valueOf(curr_node_id)  +  ")");
-				stmt.execute("INSERT INTO public.pin_data (time, pin_value, pins_pin_id) VALUES (now(), '" + input_pin_value + "', '" + String.valueOf(pin_id) + "')");
-
+				
 				stmt.executeUpdate("UPDATE max_node_id SET id = '" + String.valueOf(curr_node_id) + "' WHERE id = '" + String.valueOf(prev_node_id) + "'");
 
 				rs.close();
 				stmt.close();
+				
+				stmt = connection.createStatement();
+				rs = stmt.executeQuery("SELECT id FROM public.max_pin_id");
+				rs.next();
+				int prev_pin_id = rs.getInt(1);
+				int curr_pin_id = prev_pin_id + 1;
+
+				stmt.execute("INSERT INTO public.pins (pin_id, name, type, nodes_node_id) VALUES (" + String.valueOf(curr_pin_id) + ", '" + input_pin_name + "', '" + input_type +  "', " + String.valueOf(curr_node_id)  +  ")");
+				stmt.execute("INSERT INTO public.pin_data (time, pin_value, pins_pin_id) VALUES (now(), '" + input_pin_value + "', '" + String.valueOf(curr_pin_id) + "')");
+
+				stmt.executeUpdate("UPDATE max_pin_id SET id = '" + String.valueOf(curr_pin_id) + "' WHERE id = '" + String.valueOf(prev_pin_id) + "'");
+				
+				rs.close();
+				stmt.close();
+
 				connection.close();
 
 				Map<String, String> responseJson = new HashMap<String, String>();
 				responseJson.put("status", "SUCCESS");
-				responseJson.put("node_id", String.valueOf(curr_node_id));
+				responseJson.put("pin_id", String.valueOf(curr_pin_id));
 				responseJson.put("current_value", input_current_value);
 
 				Gson gson = new Gson();

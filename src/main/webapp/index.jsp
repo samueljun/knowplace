@@ -127,18 +127,29 @@
             url: "/mydata",
             data: { "action": "getUserData", "user_id": "0" },
             success: function (response) {
-              var hub = (response["hubs"])[0];
-              var nodes = hub["nodes"];
+              var hubs = response["hubs"];
 
-              for (var i=0;i < nodes.length;i++) {
-                var currNode = nodes[i];
-                var currName = currNode["name"];
-                var currID = currNode["node_id"];
-                var currValue = currNode["current_value"];
+              for(var i=0; i < hubs.length;i++){
+                var currHub = hubs[i];
+                var nodes = currHub["nodes"];
 
-                addToList(currName,currID, currValue);
+                for (var j=0;j < nodes.length;j++) {
+                  var currNode = nodes[j];
+                  var currValue = currNode["current_value"];//Temporary
+
+                  var pins = currNode["pins"];
+                  for(var k=0;k < pins.length;k++){
+                     
+                     var currPin = pins[k];
+                     var currName = currPin["name"];
+                     var currID = currPin["pin_id"];
+                     var currType = currPin["type"];
+                    addToList(currName,currID, currValue, currType);
+
+                  }
+                }
               }
-
+              // addToList("what!","0","1","control_B");
             }
           });
         }
@@ -159,7 +170,7 @@
               console.log(response);
               if (status === "SUCCESS") {
                 //CALL JAVA TO PRINT HTML FOR NEW NODE
-                addToList(name, response["node_id"], current_value);
+                addToList(name, response["pin_id"], current_value, type);
 
               } else if (status === "FAILED") {
                 //DID NOT ADD
@@ -170,7 +181,7 @@
 
         }
 
-        function addToList(name, node_id, currValue) {
+        function addToList(name, pin_id, currValue, currType) {
 
 
           var iDiv = document.createElement('div');
@@ -178,71 +189,98 @@
           iDiv.id = "space-font";
           var aElement = document.createElement('a');
           aElement.setAttribute('data-toggle','collapse');
-          aElement.setAttribute('data-target','#'+node_id);
+          aElement.setAttribute('data-target','#'+pin_id);
           aElement.setAttribute('href','#');
           aElement.innerHTML = name;
           iDiv.appendChild(aElement);
 
           var typeDiv = document.createElement('div');
-          typeDiv.id = node_id;
+          typeDiv.id = pin_id;
           typeDiv.setAttribute('class','collapse out');
           iDiv.appendChild(typeDiv);
 
           var formDiv = document.createElement('div');
           formDiv.setAttribute('class','shift-right');
           typeDiv.appendChild(formDiv);
+          if(currType === "sensor_M")
+          {
+            var sensorText = document.createTextNode(currValue);
+            formDiv.appendChild(sensorText);
+          }
+          else{
+            var formElement = document.createElement('form');
+            formElement.setAttribute('method','post');
+            formElement.setAttribute('style','display:inline');
+            formElement.setAttribute('action','/testlamp');
+            formDiv.appendChild(formElement);
 
-          var formElement = document.createElement('form');
-          formElement.setAttribute('method','post');
-          formElement.setAttribute('style','display:inline');
-          formElement.setAttribute('action','/testlamp');
-          formDiv.appendChild(formElement);
+            var inputElementType = document.createElement('input');
+            inputElementType.setAttribute('type','hidden');
+            inputElementType.setAttribute('name','type');
+            inputElementType.setAttribute('value',currType);
+            formElement.appendChild(inputElementType);
+            // var inputElementUser = document.createElement('input');
+            // inputLement
+            if(currType === "control_R"){
 
-          var inputElement1 = document.createElement('input');
-          inputElement1.setAttribute('type','hidden');
-          inputElement1.setAttribute('name','node_address');
-          inputElement1.setAttribute('value','1');
+              
+              // var htmlBreak = document.createElement('br');
+              // formElement.appendChild(htmlBeak);
 
-          var inputElement2 = document.createElement('input');
-          inputElement2.setAttribute('type','radio');
-          inputElement2.setAttribute('id',node_id+'On');
-          inputElement2.setAttribute('name','data_value');
-          inputElement2.setAttribute('value','on');
+              var inputElementText = document.createElement('input');
+              inputElementText.setAttribute('type','text');
+              inputElementText.setAttribute('id',pin_id+'Text');
+              inputElementText.setAttribute('name','data_value');
+              inputElementText.setAttribute('value',currValue);
+              inputElementText.setAttribute('size','15');
+              inputElementText.setAttribute('maxlength','50');//todo, change to 160
+              formElement.appendChild(inputElementText);
 
-          var inputElement3 = document.createElement('input');
-          inputElement3.setAttribute('type','radio');
-          inputElement3.setAttribute('id',node_id+'Off');
-          inputElement3.setAttribute('name','data_value');
-          inputElement3.setAttribute('value','off');
-          inputElement3.setAttribute('checked','');
+              
+              // formElement.appendChild(htmlBreak);
+            }
+            else{
+              var inputElement2 = document.createElement('input');
+              inputElement2.setAttribute('type','radio');
+              inputElement2.setAttribute('id',pin_id+'On');
+              inputElement2.setAttribute('name','data_value');
+              inputElement2.setAttribute('value','on');
+              formElement.appendChild(inputElement2);
 
-          var inputElement4 = document.createElement('input');
-          inputElement4.setAttribute('type','button');
-          inputElement4.setAttribute('id',node_id+'---'+'button');
-          inputElement4.setAttribute('class','btn');
-          inputElement4.setAttribute('inline','');
-          inputElement4.setAttribute('value','Submit');
-          inputElement4.setAttribute('onclick','nodeStatusChange(this.id)');
+              var onText = document.createTextNode(' On ');
+              formElement.appendChild(onText);
 
-          var onText = document.createTextNode(' On ');
-          var offText = document.createTextNode(' Off ');
+              var inputElement3 = document.createElement('input');
+              inputElement3.setAttribute('type','radio');
+              inputElement3.setAttribute('id',pin_id+'Off');
+              inputElement3.setAttribute('name','data_value');
+              inputElement3.setAttribute('value','off');
+              inputElement3.setAttribute('checked','');
+              formElement.appendChild(inputElement3);
 
+              var offText = document.createTextNode(' Off ');
+              formElement.appendChild(offText);
+            }
 
-
-          formElement.appendChild(inputElement1);
-          formElement.appendChild(inputElement2);
-          formElement.appendChild(onText);
-          formElement.appendChild(inputElement3);
-          formElement.appendChild(offText);
-          formElement.appendChild(inputElement4);
+            var inputElement4 = document.createElement('input');
+            inputElement4.setAttribute('type','button');
+            inputElement4.setAttribute('id',pin_id+'---'+'button');
+            inputElement4.setAttribute('class','btn');
+            inputElement4.setAttribute('inline','');
+            inputElement4.setAttribute('value','Submit');
+            inputElement4.setAttribute('onclick','nodeStatusChange(this.id)');
+            formElement.appendChild(inputElement4);
+          }
 
           (document.getElementById('thingsMainbox')).appendChild(iDiv);
 
-
-          if(currValue == "1") {
-            (document.getElementById(node_id+"On")).checked = true;
-          } else {
-            (document.getElementById(node_id+"Off")).checked = true;
+          if(currType === "control_B")
+          {
+            if(currValue === "1") {
+              (document.getElementById(pin_id+"On")).checked = true;
+            } else {
+              (document.getElementById(pin_id+"Off")).checked = true;
+            }
           }
 
         }
