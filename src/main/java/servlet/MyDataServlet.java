@@ -31,11 +31,17 @@ public class MyDataServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Vector requiredParameterList = new Vector();
+		requiredParameterList.addElement("user_id");
+		if (!checkParameters(requiredParameterList, request.getParameterMap())) {
+			returnJsonStatusFailed(response, "Missing Parameter");
+		}
+
 		String action = request.getParameter("action");
+		String user_id = request.getParameter("user_id");
 
 		if (action.equals("getUserData")) {
-			// String user_id = request.getParameter("user_id");
-			String user_id = "0"; // TEMPORARY
+			//String user_id = "0"; // TEMPORARY
 
 			UserData userData = getData(user_id);
 			Gson gson = new Gson();
@@ -44,9 +50,10 @@ public class MyDataServlet extends HttpServlet {
 			response.setContentType("application/json");
 			response.setCharacterEncoding("UTF-8");
 			response.getWriter().write(json);
+			
 		}
 		else if (action.equals("getDataEmbedded")) {
-			String user_id = "0"; // TEMPORARY
+			// String user_id = "0"; // TEMPORARY
 			UserData userData = getData(user_id);
 
 			EmbeddedResponse embeddedResponse = new EmbeddedResponse();
@@ -70,7 +77,7 @@ public class MyDataServlet extends HttpServlet {
 			response.getWriter().write(json);
 		}
 		else if (action.equals("changeStatus")) {
-			String user_id = "0";
+			// String user_id = "0";
 			UserData userData = new UserData(user_id);
 
 			Vector requiredParameterList = new Vector();
@@ -105,18 +112,21 @@ public class MyDataServlet extends HttpServlet {
 		String action = request.getParameter("action");
 
 		if (action.equals("changeStatus")) {
-			String user_id = "0";
-			UserData userData = new UserData(user_id);
+			
 
 			Vector requiredParameterList = new Vector();
-			requiredParameterList.addElement("node_id");
+			requiredParameterList.addElement("user_id");
+			requiredParameterList.addElement("pin_id");
 			requiredParameterList.addElement("new_current_value");
 			if (!checkParameters(requiredParameterList, request.getParameterMap())) {
 				returnJsonStatusFailed(response, "Missing Parameter");
 			}
 			else {
-				String input_node_id = request.getParameter("node_id");
+				String user_id = request.getParameter("user_id");
+				String input_node_id = request.getParameter("pin_id");
 				String input_current_value = request.getParameter("new_current_value");
+
+				UserData userData = new UserData(user_id);
 
 				if (newPinData(input_node_id, input_current_value) < 0) {
 					returnJsonStatusFailed(response, "Error");
