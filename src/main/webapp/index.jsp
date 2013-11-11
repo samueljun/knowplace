@@ -34,8 +34,8 @@
 
   </head>
 
-  <!-- <body onload="getCurrentStatus()"> -->
-  <body>
+  <body onload="getCurrentStatus()"> 
+  <!-- <body> -->
 
     <d iv id="fb-root"></div>
 
@@ -447,15 +447,14 @@
               Address Low: <input type="text" id="new_address_low" name="new_address_low"><br>
               Current Value: <input type="text" id="new_current_value" name="new_current_value"><br>
               Type: <input type="text" id="new_type" name="new_type"><br>
-              <br>
-
+              
               Hub: <!-- Temporary, needs a query -->
                 <select id = "hub_id" name="hub_id" selectedvalue="0">
                   <option value="0">Hub 0</option>
                   <option value="1">Hub 1</option>
                   <option value="2">Hub 2</option>
                   <option value="3">Hub 3</option>
-                </select>
+                </select><br>
 
                 <!-- Temporary, need to learn cookies -->
                 <input type="hidden" id="user_id" name="user_id" value="0">
