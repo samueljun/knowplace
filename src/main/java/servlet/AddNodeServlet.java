@@ -59,7 +59,7 @@ public class AddNodeServlet extends HttpServlet {
 		
 
 		if (action.equals("addNode")) {
-			String user_id = requst.getParameter("user_id"); //make sure it's implemented on front end
+			// String user_id = requst.getParameter("user_id"); //make sure it's implemented on front end
 			String hub_id = request.getParameter("hub_id"); //make sure it's implemented on front end
 			String input_name = request.getParameter("name");
 			String input_address_high = request.getParameter("address_high");

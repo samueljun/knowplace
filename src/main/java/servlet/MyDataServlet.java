@@ -80,10 +80,10 @@ public class MyDataServlet extends HttpServlet {
 			// String user_id = "0";
 			UserData userData = new UserData(user_id);
 
-			Vector requiredParameterList = new Vector();
+			Vector requiredParameterList2 = new Vector();
 			requiredParameterList.addElement("node_id");
 			requiredParameterList.addElement("new_current_value");
-			if (!checkParameters(requiredParameterList, request.getParameterMap())) {
+			if (!checkParameters(requiredParameterList2, request.getParameterMap())) {
 				returnJsonStatusFailed(response, "Missing Parameter");
 			}
 			else {
