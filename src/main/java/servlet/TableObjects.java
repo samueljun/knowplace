@@ -16,6 +16,15 @@ class UserData {
 	}
 }
 
+class HubData {
+	public String status;
+	public String hub_api_key;
+	public List<Hub> hubs = new ArrayList<Hub>();
+	public HubData(String hub_api_key) {
+		this.hub_api_key = hub_api_key;
+	}
+}
+
 class Hub {
 	public Integer hub_id;
 	public String name;

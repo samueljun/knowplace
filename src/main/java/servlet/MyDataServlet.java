@@ -37,7 +37,7 @@ public class MyDataServlet extends HttpServlet {
 			// String user_id = request.getParameter("user_id");
 			String user_id = "0"; // TEMPORARY
 
-			UserData userData = getData(user_id);
+			UserData userData = getUserData(user_id);
 			Gson gson = new Gson();
 			String json = gson.toJson(userData);
 
@@ -47,21 +47,27 @@ public class MyDataServlet extends HttpServlet {
 		}
 		else if (action.equals("getDataEmbedded")) {
 			String user_id = "0"; // TEMPORARY
-			UserData userData = getData(user_id);
+			String api_key = request.getParameter("api_key");
+			HubData hubData = getHubData(api_key);
+			// UserData hubData = getUserData("0");
 
 			EmbeddedResponse embeddedResponse = new EmbeddedResponse();
 
-			Hub curr_hub = userData.hubs.get(0);
-			for (Node node:curr_hub.nodes) {
-				String address_high = node.address_high;
-				String address_low = node.address_low;
-				String current_value = node.current_value;
-				String type = node.pins.get(0).type;
+			if(hubData.hubs.isEmpty() == false){
+			Hub curr_hub = hubData.hubs.get(0);
+			// for(Hub hub:hubData.hubs){
+				for (Node node:curr_hub.nodes) {
+					String address_high = node.address_high;
+					String address_low = node.address_low;
+					String current_value = node.current_value;
+					String type = node.pins.get(0).type;
 
-				EmbeddedNodes responseNode = new EmbeddedNodes(address_high, address_low, current_value, type);
-				embeddedResponse.nodes.add(responseNode);
+					EmbeddedNodes responseNode = new EmbeddedNodes(address_high, address_low, current_value, type);
+					embeddedResponse.nodes.add(responseNode);
+					//fill in pins later
+				}
+			// }
 			}
-
 			Gson gson = new Gson();
 			String json = gson.toJson(embeddedResponse);
 
@@ -165,8 +171,8 @@ public class MyDataServlet extends HttpServlet {
 		response.getWriter().write("{\"status\":\"FAILED\"}");
 	}
 
-	// public status_code getData(String user_id, UserData data) {
-	public UserData getData(String user_id) {
+	// public status_code getUserData(String user_id, UserData data) {
+	public UserData getUserData(String user_id) {
 		UserData data = new UserData(user_id);
 		List<Hub> hubs = data.hubs;
 		try {
@@ -174,6 +180,99 @@ public class MyDataServlet extends HttpServlet {
 			Statement stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM hubs WHERE users_user_id = '" + user_id + "'");
 			while (rs.next()) {
+				Integer hub_id = rs.getInt("hub_id");
+				String name = rs.getString("name");
+				String api_key = rs.getString("api_key");
+				Integer pan_id = rs.getInt("pan_id");
+				hubs.add(new Hub(hub_id, name, api_key, pan_id));
+			}
+			rs.close();
+			stmt.close();
+			if(hubs.isEmpty() == false){
+				List<Node> nodes = new ArrayList<Node> ();
+				for (Hub hub:hubs) {
+					stmt = connection.createStatement();
+					rs = stmt.executeQuery("SELECT * FROM nodes WHERE hubs_hub_id = '" + hub.hub_id + "'");
+					while (rs.next()) {
+						Integer node_id = rs.getInt("node_id");
+						String name = rs.getString("name");
+						String address_high = rs.getString("address_high");
+						String address_low = rs.getString("address_low");
+						String current_value = rs.getString("current_value");
+						Node node = new Node(node_id, name, address_high, address_low, current_value);
+						hub.nodes.add(node);
+						nodes.add(node);
+					}
+					rs.close();
+					stmt.close();
+				}
+				List<Pin> pins = new ArrayList<Pin> ();
+				for (Node node:nodes) {
+					stmt = connection.createStatement();
+					rs = stmt.executeQuery("SELECT * FROM pins WHERE nodes_node_id = '" + node.node_id + "'");
+					while (rs.next()) {
+						Integer pin_id = rs.getInt("pin_id");
+						String name = rs.getString("name");
+						String type = rs.getString("type");
+						Pin pin = new Pin(pin_id, name, type);
+						node.pins.add(pin);
+						pins.add(pin);
+					}
+					rs.close();
+					stmt.close();
+				}
+
+				for (Pin pin:pins) {
+					stmt = connection.createStatement();
+					rs = stmt.executeQuery("SELECT * FROM pin_data WHERE pins_pin_id = '" + pin.pin_id + "' ORDER BY time");
+					while (rs.next()) {
+						Timestamp time = rs.getTimestamp("time");
+						String pin_value = rs.getString("pin_value");
+						PinData pinData = new PinData(time, pin_value);
+						pin.pin_data.add(pinData);
+					}
+					rs.close();
+					stmt.close();
+				}
+
+				for (Pin pin:pins) {
+					stmt = connection.createStatement();
+					rs = stmt.executeQuery("SELECT * FROM tags WHERE pins_pin_id = '" + pin.pin_id + "'");
+					while (rs.next()) {
+						String tag = rs.getString("tag");
+						Tag t = new Tag(tag);
+						pin.tags.add(t);
+					}
+					rs.close();
+					stmt.close();
+				}
+			}
+			connection.close();
+
+			data.status = "SUCCESS";
+		}
+		catch (SQLException e) {
+			data.status = "FAILED";
+			// returnError(response, "SQLException:\n" + e.getMessage());
+		}
+		catch (URISyntaxException e) {
+			data.status = "FAILED";
+			// returnError(response, "URISyntaxException:\n" + e.getMessage());
+		}
+		return data;
+	}
+
+	// public status_code getHubData(String user_id, HubData data) {
+	public HubData getHubData(String hub_api_key) {
+		HubData data = new HubData(hub_api_key);
+		List<Hub> hubs = data.hubs;
+		try {
+			Connection connection = DbManager.getConnection();
+			Statement stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM hubs WHERE api_key = '" + hub_api_key + "'");
+			// rs.next();
+			while (rs.next()) {
+			// if(rs.next()){
 				Integer hub_id = rs.getInt("hub_id");
 				String name = rs.getString("name");
 				String api_key = rs.getString("api_key");
