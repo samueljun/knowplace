@@ -89,7 +89,7 @@ public class MyDataServlet extends HttpServlet {
 				String input_node_id = request.getParameter("node_id");
 				String input_current_value = request.getParameter("new_current_value");
 
-				if (newPinData(input_node_id, input_current_value) < 0) {
+				if (newPinData(input_node_id, input_current_value) < 0 || bakeRecipes(input_node_id, input_current_value) < 0) {
 					returnJsonStatusFailed(response, "Error");
 				}
 				else {
@@ -124,7 +124,7 @@ public class MyDataServlet extends HttpServlet {
 				String input_node_id = request.getParameter("node_id");
 				String input_current_value = request.getParameter("new_current_value");
 
-				if (newPinData(input_node_id, input_current_value) < 0) {
+				if (newPinData(input_node_id, input_current_value) < 0 || bakeRecipes(input_node_id, input_current_value) < 0) {
 					returnJsonStatusFailed(response, "Error");
 				}
 				else {
@@ -135,7 +135,7 @@ public class MyDataServlet extends HttpServlet {
 
 					response.setContentType("application/json");
 					response.setCharacterEncoding("UTF-8");
-					response.getWriter().write(json);
+					response.getWriter().write(json);	
 				}
 			}
 		}
@@ -367,10 +367,118 @@ public class MyDataServlet extends HttpServlet {
 			rs.next();
 			String node_id = rs.getString("nodes_node_id");
 			stmt.executeUpdate("UPDATE nodes SET current_value = '" + input_pin_value + "' WHERE node_id = " + node_id);
+
+			stmt.executeUpdate("UPDATE pins SET current_value = '" + input_pin_value + "' WHERE pin_id = " + input_pin_id);
 			rs.close();
 			stmt.close();
 			connection.close();
 			return 0;
+		}
+		catch (SQLException e) {
+			System.out.println("SQLException:\n" + e.getMessage());
+			return -1;
+		}
+		catch (URISyntaxException e) {
+			System.out.println("URISyntaxException:\n" + e.getMessage());
+			return -1;
+		}
+	}
+
+	public int compareData(String input_value_str, String trigger_value_str, String comparator){
+		
+			int input_value = Integer.parseInt(input_value_str);
+			int trigger_value = Integer.parseInt(trigger_value_str);
+			int ret = -1;
+
+			if(comparator.equals(">")){
+					if(input_value > trigger_value){
+						ret = 0;				
+					}
+				}
+				else if (comparator.equals(">=")){
+					if(input_value >= trigger_value){
+						ret = 0;
+					}
+				}
+				else if (comparator.equals("<")){
+					if(input_value < trigger_value){
+						ret = 0;
+					}
+				}
+				else if (comparator.equals("<=")){
+					if(input_value <= trigger_value){
+						ret = 0;
+					}
+				}
+				else if (comparator.equals("!=")){
+					if(input_value != trigger_value){
+						ret = 0;
+					}
+				}
+				else{	//default "=="
+				
+					if(input_value == trigger_value){
+						ret = 0;
+					}
+				}
+				return 0;
+		
+	}
+
+	public int bakeRecipes(String input_pin_id, String input_pin_value){
+		try{
+			Connection connection = DbManager.getConnection();
+			Statement stmtRec = connection.createStatement();
+			ResultSet rsRec = stmtRec.executeQuery("SELECT * FROM recipes WHERE trigger_pin_id = " + input_pin_id);
+			int ret = 0;
+
+			while(rsRec.next()){
+				int recipe_id = rsRec.getInt("recipe_id");
+				String recipe_name = rsRec.getString("name");
+				int executed = rsRec.getInt("executed");
+
+			
+				Statement stmtIng = connection.createStatement();
+				ResultSet rsIng = stmtIng.executeQuery("SELECT * FROM ingredients WHERE recipes_recipe_id = " + recipe_id);
+				boolean allIngredientsFound = true;
+				
+				//right now, assuming only one ingredient will be found
+				if(rsIng.next()){	//eventually will change to a while
+
+					int action_pin_id = rsIng.getInt("action_pin_id");
+					String comparator = rsIng.getString("comparator");
+					String  trigger_value = rsIng.getString("trigger_value");
+					String action_value = rsIng.getString("action_value");
+					boolean satisfied = rsIng.getBoolean("satisfied");
+
+					if(compareData(input_pin_value, trigger_value, comparator) < 0)
+					{
+						ret = -1;
+					}
+					else{
+						// rs.updateBoolean("satisfied", true);
+						stmtIng.executeUpdate("UPDATE pins SET current_value = '" + action_value + "' WHERE pin_id = " + action_pin_id);
+						stmtIng.executeUpdate("UPDATE nodes SET current_value = '" + action_value + "' WHERE node_id = " + action_pin_id);
+						
+					}
+				}
+
+				// if(allIngredientsFound == true){
+				// 	stmt.executeUpdate("UPDATE automation_recipes SET executed = TRUE WHERE trigger_pin_id = " + input_pin_id + ", action_pin_id = " + action_pin_id + ", comparitor = " + comparitor);
+				// 	if(executed == 0){
+				// 		rs.updateInt("executed", 1);
+				// 	}
+				// }
+				// else{
+				// 	ret = -1; 
+				// }
+				rsIng.close();
+				stmtIng.close();
+			}
+			rsRec.close();
+			stmtRec.close();
+			connection.close();
+			return ret;
 		}
 		catch (SQLException e) {
 			System.out.println("SQLException:\n" + e.getMessage());

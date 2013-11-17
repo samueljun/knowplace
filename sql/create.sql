@@ -4,7 +4,7 @@ CREATE TABLE public.max_hub_id (
 	id					int4 DEFAULT 0 NOT NULL,
 	CONSTRAINT pk_max_hub_id PRIMARY KEY (id)
 );
-COMMENT ON TABLE public.max_node_id IS 'Keep track of hub id';
+COMMENT ON TABLE public.max_hub_id IS 'Keep track of hub id';
 
 CREATE TABLE public.max_node_id (
 	id					int4 DEFAULT 0 NOT NULL,
@@ -17,6 +17,12 @@ CREATE TABLE public.max_pin_id (
 	CONSTRAINT pk_max_pin_id PRIMARY KEY (id)
 );
 COMMENT ON TABLE public.max_pin_id IS 'Keep track of pin id';
+
+CREATE TABLE public.max_recipe_id (
+	id                  int4 DEFAULT 0 NOT NULL,
+	CONSTRAINT pk_max_recipe_id PRIMARY KEY (id)
+);
+COMMENT ON TABLE public.max_recipe_id IS 'Keep track of recipe id';
 
 CREATE TABLE public.test_lamps (
 	node_address		int4 NOT NULL,
@@ -49,7 +55,7 @@ CREATE TABLE public.nodes (
 	name				varchar(50) NOT NULL,
 	address_high		varchar(8) NOT NULL,
 	address_low			varchar(8) NOT NULL,
-	current_value		varchar(50),
+	current_value		varchar(160),
 	hubs_hub_id			int4 NOT NULL,
 	CONSTRAINT pk_nodes PRIMARY KEY (node_id)
 );
@@ -59,6 +65,7 @@ CREATE TABLE public.pins (
 	pin_id				int4 NOT NULL,
 	name				varchar(50),
 	type				varchar(50),
+	current_value		varchar(160),
 	nodes_node_id		int4 NOT NULL,
 	CONSTRAINT pk_pins PRIMARY KEY (pin_id)
 );
@@ -66,7 +73,7 @@ CREATE INDEX idx_pins ON public.pins (nodes_node_id);
 
 CREATE TABLE public.pin_data (
 	time				timestamp NOT NULL,
-	pin_value			varchar(50),
+	pin_value			varchar(160),
 	pins_pin_id			int4 NOT NULL,
 	CONSTRAINT pk_pin_data PRIMARY KEY (time)
 );
@@ -87,6 +94,26 @@ CREATE TABLE public.tags (
 );
 CREATE INDEX idx_tags ON public.tags (pins_pin_id);
 
+CREATE TABLE public.recipes (
+		recipe_id		int4 NOT NULL,
+		trigger_pin_id 	int4 NOT NULL,
+		type			varchar(50),
+		name 			varchar(50),
+		executed		int4,
+		CONSTRAINT pk_recipes PRIMARY KEY (recipe_id, trigger_pin_id)
+);
+CREATE INDEX idx_recipies ON public.recipes(trigger_pin_id);
+
+CREATE TABLE public.ingredients (
+	action_pin_id  	int4 NOT NULL,
+	comparator 		varchar(2) NOT NULL,
+	trigger_value 	varchar(160),
+	action_value 	varchar(160),
+	satisfied		bool,
+	recipes_recipe_id int4,
+	CONSTRAINT pk_ingredients PRIMARY KEY (action_pin_id, comparator, recipes_recipe_id)
+);
+CREATE INDEX idx_ingredients ON public.ingredients (recipes_recipe_id);
 
 
 ALTER TABLE public.hubs ADD CONSTRAINT fk_hubs_users FOREIGN KEY (users_user_id) REFERENCES public.users( user_id ) ON DELETE CASCADE ON UPDATE CASCADE;

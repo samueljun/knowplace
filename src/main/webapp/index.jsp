@@ -34,7 +34,8 @@
 
   </head>
 
-  <body onload="getCurrentStatus()">
+  <!-- <body onload="getCurrentStatus()"> -->
+    <body>
 
     <div id="fb-root"></div>
 
@@ -122,11 +123,15 @@
         */
 
         function getCurrentStatus() {
+          user_id = document.getElementById("user_id").value;
+
+          // user_id = "0";
           $.ajax({
             type: "get",
             url: "/mydata",
-            data: { "action": "getUserData", "user_id": "0" },
+            data: { "action": "getUserData", "user_id": user_id },
             success: function (response) {
+              alert("in getCurrentStatus");
               var hubs = response["hubs"];
 
               for(var i=0; i < hubs.length;i++){
@@ -397,9 +402,14 @@
                   It's Like Home Automation</div></a></li>
 
             </ul>
-            <form class="navbar-form pull-right" action="#">
-              <button type="button" class="btn">Sign in</button>
-            </form>
+            <!-- I don't know why the form and button doesn't trigger the modal-->
+            <!-- <form class="navbar-form pull-right" action="#"> -->
+              <!-- <button type="button" class="btn"> -->
+                <a href="#signInModal" role="button" data-toggle="modal">
+                  Sign in
+                </a>
+              <!-- </button> -->
+            <!-- </form> -->
           </div><!--/.nav-collapse -->
         </div>
       </div>
@@ -423,6 +433,25 @@
               </p>
             </p>
           </div>
+        </div>
+
+      </div>
+
+<!-- Modal -->
+      <div id="signInModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h3 id="myModalLabel">User Sign-In</h3>
+        </div>
+        <div class="modal-body">
+
+          <br>
+          <form method="post" action="/addNode">
+              User ID <input type="text" id="user_id" name="user_id"><br>
+              <input type="button" inline class="btn" data-dismiss="modal" aria-hidden="true" onclick="getCurrentStatus()" value="Submit">
+            </form>
+          <br><br><br>
+
         </div>
 
       </div>

@@ -5,32 +5,45 @@ INSERT INTO users VALUES ('0', 'eggert@cs.ucla.edu', 'Paul', 'Eggert', 1234);
 -- INSERT INTO max_node_id VALUES (0);
 -- INSERT INTO max_pin_id VALUES (0);
 
-INSERT INTO hubs VALUES (0, 'UCLA Hub', 'api_key_0', 1234, '0');
-INSERT INTO hubs VALUES (1, 'Extra Hub', 'api_key_1', 5678, '0');
-INSERT INTO max_hub_id VALUES (1);
+INSERT INTO hubs VALUES (0, 'iPhone Sang', 'api_key_sang', 1234, '0');
+INSERT INTO hubs VALUES (1, 'iPhone Isaac', 'api_key_isaac', 5678, '0');
+INSERT INTO hubs VALUES (2, 'XBee Hub', 'api_key_xbee', 1991, '0');
+INSERT INTO max_hub_id VALUES (2);
 ---INSERT INTO nodes VALUES (0, 'Air Conditioner', '0013a200', '40315568', '0', 0);
 -- INSERT INTO pins VALUES (0, 'Air Conditioner Pin', 'control_V', 0);
-INSERT INTO nodes VALUES (0, 'Desk Lamp', '0013a200', '40315565', '1', 0);
-INSERT INTO pins  VALUES (0, 'Desk Lamp Pin', 'control_B', 0);
+INSERT INTO nodes VALUES (0, 'Desk Lamp', '0013a200', '40315565', '1', 2);
+INSERT INTO pins  VALUES (0, 'Desk Lamp Pin', 'control_B', '1', 0);
 -- INSERT INTO max_node_id VALUES (1);
 
-INSERT INTO nodes VALUES (1, 'iPhone BT_Isaac', '1', '1', '31415926', 0);
-INSERT INTO pins  VALUES (1, 'iPhone BT_Isaac Pin', 'sensor_M', 1);
+INSERT INTO nodes VALUES (1, 'iPhone BT_Isaac', '1', '1', '31415926', 1);
+INSERT INTO pins  VALUES (1, 'iPhone BT_Isaac Pin', 'sensor_M', '31415926', 1);
 
-INSERT INTO nodes VALUES (2, 'iPhone R_Isaac', '2', '2', 'SuperSectretMessageForIsaac', 0);
-INSERT INTO pins  VALUES (2, 'iPhone R_Isaac Pin', 'control_R', 2);
+INSERT INTO nodes VALUES (2, 'iPhone R_Isaac', '2', '2', 'SuperSectretMessageForIsaac', 1);
+INSERT INTO pins  VALUES (2, 'iPhone R_Isaac Pin', 'control_R', 'SuperSectretMessageForIsaac', 2);
 
 INSERT INTO nodes VALUES (3, 'iPhone BT_Sang', '3', '3', '53589793', 0);
-INSERT INTO pins  VALUES (3, 'iPhone BT_Sang Pin', 'sensor_M', 3);
+INSERT INTO pins  VALUES (3, 'iPhone BT_Sang Pin', 'sensor_M', '53589793', 3);
 
 INSERT INTO nodes VALUES (4, 'iPhone R_Sang', '4', '4', 'SuperSectretMessageForSang', 0);
-INSERT INTO pins  VALUES (4, 'iPhone R_Sang Pin', 'control_R', 4);
+INSERT INTO pins  VALUES (4, 'iPhone R_Sang Pin', 'control_R', 'SuperSectretMessageForSang', 4);
 
-INSERT INTO nodes VALUES (5, 'Extra hub node', '5', '5', 'wat', 1);
-INSERT INTO pins VALUES (5, 'Extra hub node pin5', 'control_R', 5);
-INSERT INTO pins Values (6, 'Extra hub node pin6', 'control_R', 5);
-INSERT INTO max_node_id VALUES (5);
-INSERT INTO max_pin_id VALUES (6);
+INSERT INTO max_node_id VALUES (4);
+INSERT INTO max_pin_id VALUES (4);
+
+INSERT INTO recipes VALUES (0, 3, 'SINGLE', 'Sang->Isaac_BT0', -1);
+INSERT INTO ingredients VALUES (2, '=', '0', 'recipe0_works_sang->isaac!', FALSE, 0);
+
+INSERT INTO recipes VALUES (1, 3, 'SINGLE', 'Sang->Isaac_BT1', -1);
+INSERT INTO ingredients VALUES(2, '=', '1', 'recipe1_works_sang->isaac!', FALSE, 1);
+
+INSERT INTO recipes VALUES (2, 1, 'SINLGE', 'Isaac->Sang_BT2', -1);
+INSERT INTO ingredients VALUES (4, '=', '2', 'recipe2_works_isaac->sang!', FALSE, 2);
+
+INSERT INTO recipes VALUES (3, 1, 'SINGLE', 'Isaac->Sang_BT3', -1);
+INSERT INTO ingredients VALUES(4, '=', '3', 'recipe3_works_isaac->sang!', FALSE, 3);
+
+
+INSERT INTO max_recipe_id VALUES(3);
 -- INSERT INTO tags VALUES ('lamp', 0);
 -- INSERT INTO tags VALUES ('light', 0);
 -- INSERT INTO pin_data VALUES (TIMESTAMP '2013-5-29 10:23:53', '0', 0);

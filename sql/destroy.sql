@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS public.ingredients CASCADE;
+DROP TABLE IF EXISTS public.recipes CASCADE;
 DROP TABLE IF EXISTS public.pin_data CASCADE;
 DROP TABLE IF EXISTS public.permissions CASCADE;
 DROP TABLE IF EXISTS public.tags CASCADE;
@@ -5,6 +7,7 @@ DROP TABLE IF EXISTS public.pins CASCADE;
 DROP TABLE IF EXISTS public.nodes CASCADE;
 DROP TABLE IF EXISTS public.hubs CASCADE;
 DROP TABLE IF EXISTS public.users CASCADE;
+DROP TABLE IF EXISTS public.max_recipe_id CASCADE;
 DROP TABLE IF EXISTS public.max_pin_id CASCADE;
 DROP TABLE IF EXISTS public.max_node_id CASCADE;
 DROP TABLE IF EXISTS public.max_hub_id CASCADE;
