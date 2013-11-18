@@ -46,8 +46,12 @@ public class MyDataServlet extends HttpServlet {
 			response.getWriter().write(json);
 		}
 		else if (action.equals("getDataEmbedded")) {
-			String user_id = "0"; // TEMPORARY
+			// String user_id = "0"; // TEMPORARY
 			String api_key = request.getParameter("api_key");
+			//TEMPORARY, until Ryan can fix the Electric Imp get request
+			if(api_key == null){
+				api_key = "api_key_xbee";
+			}
 			HubData hubData = getHubData(api_key);
 			// UserData hubData = getUserData("0");
 
