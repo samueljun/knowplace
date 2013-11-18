@@ -59,11 +59,13 @@ class Pin {
 	public Integer pin_id;
 	public String name;
 	public String type;
+	public String current_value;
 	public List<PinData> pin_data = new ArrayList<PinData> ();
-	public Pin(Integer pin_id, String name, String type) {
+	public Pin(Integer pin_id, String name, String type, String current_value) {
 		this.pin_id = pin_id;
 		this.name = name;
 		this.type = type;
+		this.current_value = current_value;
 	}
 	public List<Tag> tags = new ArrayList<Tag> ();
 }

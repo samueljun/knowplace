@@ -86,10 +86,10 @@ public class MyDataServlet extends HttpServlet {
 				returnJsonStatusFailed(response, "Missing Parameter");
 			}
 			else {
-				String input_node_id = request.getParameter("node_id");
+				String input_pin_id = request.getParameter("node_id");
 				String input_current_value = request.getParameter("new_current_value");
 
-				if (newPinData(input_node_id, input_current_value) < 0 || bakeRecipes(input_node_id, input_current_value) < 0) {
+				if (newPinData(input_pin_id, input_current_value) < 0 || bakeRecipes(input_pin_id, input_current_value) < 0) {
 					returnJsonStatusFailed(response, "Error");
 				}
 				else {
@@ -121,10 +121,10 @@ public class MyDataServlet extends HttpServlet {
 				returnJsonStatusFailed(response, "Missing Parameter");
 			}
 			else {
-				String input_node_id = request.getParameter("node_id");
+				String input_pin_id = request.getParameter("node_id");
 				String input_current_value = request.getParameter("new_current_value");
 
-				if (newPinData(input_node_id, input_current_value) < 0 || bakeRecipes(input_node_id, input_current_value) < 0) {
+				if (newPinData(input_pin_id, input_current_value) < 0 || bakeRecipes(input_pin_id, input_current_value) < 0) {
 					returnJsonStatusFailed(response, "Error");
 				}
 				else {
@@ -214,7 +214,8 @@ public class MyDataServlet extends HttpServlet {
 						Integer pin_id = rs.getInt("pin_id");
 						String name = rs.getString("name");
 						String type = rs.getString("type");
-						Pin pin = new Pin(pin_id, name, type);
+						String current_value = rs.getString("current_value");
+						Pin pin = new Pin(pin_id, name, type, current_value);
 						node.pins.add(pin);
 						pins.add(pin);
 					}
@@ -306,7 +307,8 @@ public class MyDataServlet extends HttpServlet {
 					Integer pin_id = rs.getInt("pin_id");
 					String name = rs.getString("name");
 					String type = rs.getString("type");
-					Pin pin = new Pin(pin_id, name, type);
+					String current_value = rs.getString("current_value");
+					Pin pin = new Pin(pin_id, name, type, current_value);
 					node.pins.add(pin);
 					pins.add(pin);
 				}

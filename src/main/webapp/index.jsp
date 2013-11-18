@@ -140,7 +140,7 @@
 
                 for (var j=0;j < nodes.length;j++) {
                   var currNode = nodes[j];
-                  var currValue = currNode["current_value"];//Temporary
+                  // var currValue = currNode["current_value"];//Temporary
 
                   var pins = currNode["pins"];
                   for(var k=0;k < pins.length;k++){
@@ -149,6 +149,7 @@
                      var currName = currPin["name"];
                      var currID = currPin["pin_id"];
                      var currType = currPin["type"];
+                     var currValue = currPin["current_value"];//Temporary
                     addToList(currName,currID, currValue, currType);
 
                   }
@@ -163,7 +164,7 @@
           name = document.getElementById("new_name").value;
           address_high = document.getElementById("new_address_high").value;
           address_low = document.getElementById("new_address_low").value;
-          current_value = document.getElementById("new_current_value").value;
+          // current_value = document.getElementById("new_current_value").value;
           type = document.getElementById("new_type").value;
 
           $.ajax({
@@ -220,6 +221,7 @@
             formDiv.appendChild(formElement);
 
             var inputElementType = document.createElement('input');
+            inputElementType.setAttribute('id', pin_id+'Type')
             inputElementType.setAttribute('type','hidden');
             inputElementType.setAttribute('name','type');
             inputElementType.setAttribute('value',currType);
@@ -293,11 +295,15 @@
         function nodeStatusChange(buttonName) {
           var id = (buttonName.split('---'))[0];
           var status = 0;
-
-          if ((document.getElementById(id+"On")).checked == true) {
-            status = 1;
-          } else {
-            status = 0;
+          if((document.getElementById(id+"Type").value == "control_B")){
+            if ((document.getElementById(id+"On")).checked == true) {
+              status = 1;
+            } else {
+              status = 0;
+            }
+          }
+          else{
+            status = document.getElementById(id+"Text").value;
           }
           $.ajax({
             type: "post",
