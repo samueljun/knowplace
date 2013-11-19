@@ -3,7 +3,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Know Place</title>
+    <title>Know Place test</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Know Place helps you control all your devices from one place.">
     <meta name="author" content="">
