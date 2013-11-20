@@ -110,6 +110,45 @@ public class MyDataServlet extends HttpServlet {
 				}
 			}
 		}
+		//does not do much to hide internals
+		else if (action.equals("addBTReminder")) {
+
+			Vector requiredParameterList = new Vector();
+			requiredParameterList.addElement("beacon_pin_id");
+			requiredParameterList.addElement("reminder_pin_id");
+			requiredParameterList.addElement("beacon_id");
+			requiredParameterList.addElement("new_reminder");
+			if (!checkParameters(requiredParameterList, request.getParameterMap())) {
+				returnJsonStatusFailed(response, "Missing Parameter");
+			}
+			else {
+				//beacon_pin_id is the database pin# of the pin that stores the beacon_id
+
+				String beacon_pin_id = request.getParameter("beacon_pin_id");
+				String reminder_pin_id = request.getParameter("reminder_pin_id");
+				String comparator = "=";
+				String beacon_id = request.getParameter("beacon_id");
+				String new_reminder = request.getParameter("new_reminder");
+
+				if(addAutomationRecipe(beacon_pin_id,
+									   reminder_pin_id,
+									   comparator,
+									   beacon_id,
+									   new_reminder) < 0) {
+					returnJsonStatusFailed(response, "Error");
+				}
+				else {
+					Map<String, String> responseJson = new HashMap<String, String>();
+					responseJson.put("status", "SUCCESS");
+					Gson gson = new Gson();
+					String json = gson.toJson(responseJson);
+
+					response.setContentType("application/json");
+					response.setCharacterEncoding("UTF-8");
+					response.getWriter().write(json);
+				}
+			}
+		}
 	}
 
 	@Override
@@ -495,4 +534,53 @@ public class MyDataServlet extends HttpServlet {
 		}
 	}
 
+	public int addAutomationRecipe(String trigger_pin_id,
+							       String action_pin_id,
+							       String comparator,
+							       String trigger_value,
+							       String action_value) {
+		try{
+			int ret = -1;
+			Connection connection = DbManager.getConnection();
+			Statement stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM pins WHERE pin_id = " + trigger_pin_id + "AND type = 'sensor_B'");
+			//could be more elegant
+			if(rs.next() == false){
+				ret = -1;
+			}
+			rs = stmt.executeQuery("SELECT * FROM pins WHERE pin_id = " + action_pin_id + "AND type = 'control_R'");
+			if(rs.next() == false){
+				ret = -1;
+			}
+			else{
+				rs = stmt.executeQuery("SELECT id FROM public.max_recipe_id");
+				rs.next();
+				int prev_recipe_id = rs.getInt(1);
+				int curr_recipe_id = prev_recipe_id + 1;
+
+				stmt.executeUpdate("UPDATE max_recipe_id SET id = " + String.valueOf(curr_recipe_id) + " WHERE id = " + String.valueOf(prev_recipe_id) );
+				stmt.execute("INSERT INTO public.recipes (recipe_id, trigger_pin_id) VALUES (" + String.valueOf(curr_recipe_id) + ", " + trigger_pin_id + ")");
+				stmt.execute("INSERT INTO public.ingredients (action_pin_id, comparator, trigger_value, action_value, recipes_recipe_id) VALUES (" + action_pin_id + ", '" + comparator + "', '" + trigger_value + "', '" + action_value + "', " + String.valueOf(curr_recipe_id) + ")");
+				
+				
+				ret = 0;
+			}
+
+			rs.close();
+			stmt.close();
+			connection.close();
+			return ret;
+		}
+		catch (SQLException e) {
+			System.out.println("SQLException:\n" + e.getMessage());
+			return -1;
+		}
+		catch (URISyntaxException e) {
+			System.out.println("URISyntaxException:\n" + e.getMessage());
+			return -1;
+		}
+	}
+
 };
+
+

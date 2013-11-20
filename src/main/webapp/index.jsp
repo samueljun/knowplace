@@ -123,9 +123,8 @@
         */
 
         function getCurrentStatus() {
-          user_id = document.getElementById("user_id").value;
-
-          // user_id = "0";
+          // user_id = document.getElementById("user_id").value;
+          user_id = "0";
           $.ajax({
             type: "get",
             url: "/mydata",
@@ -164,7 +163,7 @@
           name = document.getElementById("new_name").value;
           address_high = document.getElementById("new_address_high").value;
           address_low = document.getElementById("new_address_low").value;
-          // current_value = document.getElementById("new_current_value").value;
+          current_value = document.getElementById("new_current_value").value; //todo
           type = document.getElementById("new_type").value;
 
           $.ajax({
@@ -208,7 +207,7 @@
           var formDiv = document.createElement('div');
           formDiv.setAttribute('class','shift-right');
           typeDiv.appendChild(formDiv);
-          if(currType === "sensor_M")
+          if(currType === "sensor_M" || currType === "static_ID")
           {
             var sensorText = document.createTextNode(currValue);
             formDiv.appendChild(sensorText);
@@ -217,7 +216,7 @@
             var formElement = document.createElement('form');
             formElement.setAttribute('method','post');
             formElement.setAttribute('style','display:inline');
-            formElement.setAttribute('action','/testlamp');
+            formElement.setAttribute('action','/mydata');
             formDiv.appendChild(formElement);
 
             var inputElementType = document.createElement('input');
@@ -228,6 +227,7 @@
             formElement.appendChild(inputElementType);
             // var inputElementUser = document.createElement('input');
             // inputLement
+            
             if(currType === "control_R"){
 
               
@@ -246,6 +246,47 @@
               
               // formElement.appendChild(htmlBreak);
             }
+            // else if(currTyep === "control_V"){
+               /* Fan Collapse Material*/
+              // <div id="fan1" class="out collapse" style="height: 0px;"><br>
+              //     <form method="post" style="display:inline" action="/mydata" target="hiddenframe">
+              //       <input type="hidden" name="action" value="changeStatus">
+              //       <input type="hidden" name="node_id" value="0">
+              //       <input type="text" name="new_current_value" id="amount" style="float: right; margin-right: 50px; width: 25px; border: 0; color: #f6931f; font-weight: bold;"/>
+              //       <div id="slider"></div><br>
+
+              //       <input inline style="float:right; margin-right: 18px" type="submit" class="btn" value="Submit">
+
+
+              //     </form>
+              //   </div>
+
+            //         var inputElementHiddenAction = document.createElement('input');
+            //         inputElementHiddenAction.setAttribute('type', 'hidden');
+            //         inputElementHiddenAction.setAttribute('name', 'action');
+            //         inputElementHiddenAction.setAttribute('value', 'changeStatus');
+            //         formElement.appendChild(inputElementHiddenAction);
+
+            //         var inputElementHiddenNodeID = document.createElement('input');
+            //         inputElementHiddenNodeID.setAttribute('type', 'hidden');
+            //         inputElementHiddenNodeID.setAttribute('name', 'node_id');
+            //         inputElementHiddenNodeID.setAttribute('value', '0');
+            //         formElement.appendChild(inputElementHiddenNodeID);
+
+            //         var inputElementText = document.createElement('input');
+            //         inputElementText.setAttribute('type', 'text');
+            //         inputElementText.setAttribute('name', 'new_current_value');
+            //         inputElementText.setAttribute('id', 'amount');
+            //         inputElementText.setAttribute('style', 'float: right; margin-right: 50px; width: 25px; border: 0; color: #f6931f; font-weight: bold;');
+            //         formElement.appendChild(inputElementText);
+
+            //         var inputElementDivSlider = document.createElement('div');
+            //         inputElementDivSlicer.setAttribute('id', 'slider');
+            //         formElement.appendChild(inputElementText);
+
+            //         var formatElementBr = document.createElement('br');
+            //         FormElement.appendChild(formatElement);
+            // }
             else{
               var inputElement2 = document.createElement('input');
               inputElement2.setAttribute('type','radio');
@@ -411,9 +452,9 @@
             <!-- I don't know why the form and button doesn't trigger the modal-->
             <!-- <form class="navbar-form pull-right" action="#"> -->
               <!-- <button type="button" class="btn"> -->
-                <a href="#signInModal" role="button" data-toggle="modal">
+                <!-- <a href="#signInModal" role="button" data-toggle="modal">
                   Sign in
-                </a>
+                </a> -->
               <!-- </button> -->
             <!-- </form> -->
           </div><!--/.nav-collapse -->
@@ -443,16 +484,16 @@
 
       </div>
 
-<!-- Modal -->
-      <div id="signInModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <!-- Modal -->
+<!--       <div id="signInModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h3 id="myModalLabel">User Sign-In</h3>
+          <h3 id="signInModalLabel">User Sign-In</h3>
         </div>
         <div class="modal-body">
 
           <br>
-          <form method="post" action="/addNode">
+          <form method="post" action="/mydata">
               User ID <input type="text" id="user_id" name="user_id"><br>
               <input type="button" inline class="btn" data-dismiss="modal" aria-hidden="true" onclick="getCurrentStatus()" value="Submit">
             </form>
@@ -460,7 +501,7 @@
 
         </div>
 
-      </div>
+      </div> -->
 
       <!-- Modal -->
       <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -557,14 +598,14 @@
 
           <iframe style="display:none;" name="hiddenframe"></iframe>
 
-          <div class="large-event" id="space-font">
+          <!-- <div class="large-event" id="space-font"> -->
               <!-- Collapsable Button -->
-              <a data-toggle="collapse" data-target="#fan1" href="#" class="collapsed">
+              <!-- <a data-toggle="collapse" data-target="#fan1" href="#" class="collapsed">
                 Computer Fan
-              </a>
+              </a> -->
 
               <!-- Fan Collapse Material -->
-              <div id="fan1" class="out collapse" style="height: 0px;"><br>
+              <!-- <div id="fan1" class="out collapse" style="height: 0px;"><br>
                   <form method="post" style="display:inline" action="/mydata" target="hiddenframe">
                     <input type="hidden" name="action" value="changeStatus">
                     <input type="hidden" name="node_id" value="0">
@@ -575,8 +616,8 @@
 
 
                   </form>
-                </div>
-          </div>
+                </div> -->
+          <!-- </div> -->
       </div>
 
 

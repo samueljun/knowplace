@@ -106,7 +106,7 @@ CREATE INDEX idx_recipies ON public.recipes(trigger_pin_id);
 
 CREATE TABLE public.ingredients (
 	action_pin_id  	int4 NOT NULL,
-	comparator 		varchar(2) NOT NULL,
+	comparator 		varchar(3) NOT NULL,
 	trigger_value 	varchar(160),
 	action_value 	varchar(160),
 	satisfied		bool,
