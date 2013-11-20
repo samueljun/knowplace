@@ -34,8 +34,8 @@
 
   </head>
 
-  <!-- <body onload="getCurrentStatus()"> -->
-    <body>
+  <body onload="getCurrentStatus()">
+    <!-- <body> -->
 
     <div id="fb-root"></div>
 
@@ -131,7 +131,7 @@
             url: "/mydata",
             data: { "action": "getUserData", "user_id": user_id },
             success: function (response) {
-              alert("in getCurrentStatus");
+              // alert("in getCurrentStatus");
               var hubs = response["hubs"];
 
               for(var i=0; i < hubs.length;i++){

@@ -61,14 +61,16 @@ public class MyDataServlet extends HttpServlet {
 			Hub curr_hub = hubData.hubs.get(0);
 			// for(Hub hub:hubData.hubs){
 				for (Node node:curr_hub.nodes) {
-					String address_high = node.address_high;
-					String address_low = node.address_low;
-					String current_value = node.current_value;
-					String type = node.pins.get(0).type;
+					for(Pin pin:node.pins){
+						String address_high = node.address_high;
+						String address_low = node.address_low;
+						String current_value = pin.current_value;
+						String type = pin.type;
 
-					EmbeddedNodes responseNode = new EmbeddedNodes(address_high, address_low, current_value, type);
-					embeddedResponse.nodes.add(responseNode);
-					//fill in pins later
+						EmbeddedNodes responseNode = new EmbeddedNodes(address_high, address_low, current_value, type);
+						embeddedResponse.nodes.add(responseNode);
+						//fill in pins later
+					}
 				}
 			// }
 			}
@@ -427,7 +429,7 @@ public class MyDataServlet extends HttpServlet {
 						ret = 0;
 					}
 				}
-				return 0;
+				return ret;
 		
 	}
 
@@ -456,12 +458,9 @@ public class MyDataServlet extends HttpServlet {
 					String  trigger_value = rsIng.getString("trigger_value");
 					String action_value = rsIng.getString("action_value");
 					boolean satisfied = rsIng.getBoolean("satisfied");
-
-					if(compareData(input_pin_value, trigger_value, comparator) < 0)
+					
+					if(compareData(input_pin_value, trigger_value, comparator) >= 0)
 					{
-						ret = -1;
-					}
-					else{
 						// rs.updateBoolean("satisfied", true);
 						stmtIng.executeUpdate("UPDATE pins SET current_value = '" + action_value + "' WHERE pin_id = " + action_pin_id);
 						stmtIng.executeUpdate("UPDATE nodes SET current_value = '" + action_value + "' WHERE node_id = " + action_pin_id);

@@ -31,19 +31,25 @@ INSERT INTO max_node_id VALUES (4);
 INSERT INTO max_pin_id VALUES (4);
 
 INSERT INTO recipes VALUES (0, 3, 'SINGLE', 'Sang->Isaac_BT0', -1);
-INSERT INTO ingredients VALUES (2, '=', '0', 'recipe0_works_sang->isaac!', FALSE, 0);
+INSERT INTO ingredients VALUES (2, '=', '0', 'receivedZero', FALSE, 0);
 
 INSERT INTO recipes VALUES (1, 3, 'SINGLE', 'Sang->Isaac_BT1', -1);
-INSERT INTO ingredients VALUES(2, '=', '1', 'recipe1_works_sang->isaac!', FALSE, 1);
+INSERT INTO ingredients VALUES(2, '=', '1', 'receivedOne', FALSE, 1);
 
 INSERT INTO recipes VALUES (2, 1, 'SINLGE', 'Isaac->Sang_BT2', -1);
-INSERT INTO ingredients VALUES (4, '=', '2', 'recipe2_works_isaac->sang!', FALSE, 2);
+INSERT INTO ingredients VALUES (4, '=', '0', 'receivedZero', FALSE, 2);
 
 INSERT INTO recipes VALUES (3, 1, 'SINGLE', 'Isaac->Sang_BT3', -1);
-INSERT INTO ingredients VALUES(4, '=', '3', 'recipe3_works_isaac->sang!', FALSE, 3);
+INSERT INTO ingredients VALUES(4, '=', '1', 'receivedOne', FALSE, 3);
 
+-- lamp automation
+INSERT INTO recipes VALUES (4, 3, 'SINGLE', 'Sang->Isaac_BT0', -1);
+INSERT INTO ingredients VALUES (0, '=', '0', '0', FALSE, 4);
 
-INSERT INTO max_recipe_id VALUES(3);
+INSERT INTO recipes VALUES (5, 3, 'SINGLE', 'Sang->Isaac_BT1', -1);
+INSERT INTO ingredients VALUES(0, '=', '1', '1', FALSE, 5);
+
+INSERT INTO max_recipe_id VALUES(5);
 -- INSERT INTO tags VALUES ('lamp', 0);
 -- INSERT INTO tags VALUES ('light', 0);
 -- INSERT INTO pin_data VALUES (TIMESTAMP '2013-5-29 10:23:53', '0', 0);
