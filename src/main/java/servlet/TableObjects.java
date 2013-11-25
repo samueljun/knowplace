@@ -86,9 +86,9 @@ class Tag {
 	}
 }
 
-class EmbeddedResponse {
+class EmbeddedNodeResponse {
 	public List<EmbeddedNodes> nodes = new ArrayList<EmbeddedNodes> ();
-	public EmbeddedResponse() {}
+	public EmbeddedNodeResponse() {}
 }
 
 class EmbeddedNodes {
@@ -101,5 +101,23 @@ class EmbeddedNodes {
 		this.L = address_low;
 		this.C = current_value;
 		this.T = type;
+	}
+}
+
+class EmbeddedPinResponse {
+	public List<EmbeddedPins> pins = new ArrayList<EmbeddedPins> ();
+	public EmbeddedPinResponse() {}
+}
+
+class EmbeddedPins {
+	public String pin_id;
+	public String name;
+	public String type;
+	public String current_value;
+	public EmbeddedPins(String pin_id, String name, String type, String current_value) {
+		this.pin_id = pin_id;
+		this.name = name;
+		this.type = type;
+		this.current_value = current_value;
 	}
 }

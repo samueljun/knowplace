@@ -171,7 +171,7 @@ INSERT INTO pins  VALUES (2, 'iPhone R_Isaac Pin', 'control_R', 'SuperSectretMes
 
 INSERT INTO nodes VALUES (3, 'iPhone BT_Sang', '3', '3', '53589793', 0);
 INSERT INTO pins  VALUES (3, 'iPhone BT_Sang Pin', 'sensor_M', '53589793', 3);
-INSERT INTO pins  VALUES (6, 'iBeacon_Sang Pin', 'sensor_M', '5496', 3);
+INSERT INTO pins  VALUES (6, 'iBeacon_Sang Pin', 'static_ID', '5496', 3);
 
 INSERT INTO nodes VALUES (4, 'iPhone R_Sang', '4', '4', 'SuperSectretMessageForSang', 0);
 INSERT INTO pins  VALUES (4, 'iPhone R_Sang Pin', 'control_R', 'SuperSectretMessageForSang', 4);

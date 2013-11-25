@@ -55,7 +55,7 @@ public class MyDataServlet extends HttpServlet {
 			HubData hubData = getHubData(api_key);
 			// UserData hubData = getUserData("0");
 
-			EmbeddedResponse embeddedResponse = new EmbeddedResponse();
+			EmbeddedNodeResponse embeddedNodeResponse = new EmbeddedNodeResponse();
 
 			if(hubData.hubs.isEmpty() == false){
 			Hub curr_hub = hubData.hubs.get(0);
@@ -68,14 +68,14 @@ public class MyDataServlet extends HttpServlet {
 						String type = pin.type;
 
 						EmbeddedNodes responseNode = new EmbeddedNodes(address_high, address_low, current_value, type);
-						embeddedResponse.nodes.add(responseNode);
+						embeddedNodeResponse.nodes.add(responseNode);
 						//fill in pins later
 					}
 				}
 			// }
 			}
 			Gson gson = new Gson();
-			String json = gson.toJson(embeddedResponse);
+			String json = gson.toJson(embeddedNodeResponse);
 
 			response.setContentType("application/json");
 			response.setCharacterEncoding("UTF-8");
@@ -148,6 +148,42 @@ public class MyDataServlet extends HttpServlet {
 					response.getWriter().write(json);
 				}
 			}
+		}
+		else if (action.equals("getHubInfo")) {
+
+			String api_key = request.getParameter("api_key");
+			//TEMPORARY, until Ryan can fix the Electric Imp get request
+			if(api_key == null){
+				api_key = "api_key_xbee";
+			}
+			HubData hubData = getHubData(api_key);
+			// UserData hubData = getUserData("0");
+
+			EmbeddedPinResponse embeddedPinResponse = new EmbeddedPinResponse();
+
+			if(hubData.hubs.isEmpty() == false){
+				Hub curr_hub = hubData.hubs.get(0);
+			// for(Hub hub:hubData.hubs){
+				for (Node node:curr_hub.nodes) {
+					for(Pin pin:node.pins){
+						String pin_id = String.valueOf(pin.pin_id);
+						String name = pin.name;
+						String current_value = pin.current_value;
+						String type = pin.type;
+
+						EmbeddedPins responseNode = new EmbeddedPins(pin_id, name, type, current_value);
+						embeddedPinResponse.pins.add(responseNode);
+						//fill in pins later
+					}
+				}
+			// }
+			}
+			Gson gson = new Gson();
+			String json = gson.toJson(embeddedPinResponse);
+
+			response.setContentType("application/json");
+			response.setCharacterEncoding("UTF-8");
+			response.getWriter().write(json);
 		}
 	}
 
@@ -254,7 +290,7 @@ public class MyDataServlet extends HttpServlet {
 				List<Pin> pins = new ArrayList<Pin> ();
 				for (Node node:nodes) {
 					stmt = connection.createStatement();
-					rs = stmt.executeQuery("SELECT * FROM pins WHERE nodes_node_id = '" + node.node_id + "'");
+					rs = stmt.executeQuery("SELECT * FROM pins WHERE nodes_node_id = '" + node.node_id + "' ORDER By pin_id");
 					while (rs.next()) {
 						Integer pin_id = rs.getInt("pin_id");
 						String name = rs.getString("name");
@@ -347,7 +383,7 @@ public class MyDataServlet extends HttpServlet {
 			List<Pin> pins = new ArrayList<Pin> ();
 			for (Node node:nodes) {
 				stmt = connection.createStatement();
-				rs = stmt.executeQuery("SELECT * FROM pins WHERE nodes_node_id = '" + node.node_id + "'");
+				rs = stmt.executeQuery("SELECT * FROM pins WHERE nodes_node_id = '" + node.node_id + "' ORDER BY pin_id");
 				while (rs.next()) {
 					Integer pin_id = rs.getInt("pin_id");
 					String name = rs.getString("name");
