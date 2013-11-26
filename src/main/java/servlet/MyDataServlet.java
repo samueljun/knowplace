@@ -185,6 +185,38 @@ public class MyDataServlet extends HttpServlet {
 			response.setCharacterEncoding("UTF-8");
 			response.getWriter().write(json);
 		}
+		else if (action.equals("getPinHistory")) {
+			//REFACTOR just reusing code for a quick implementation
+			String api_key = request.getParameter("api_key");
+			String pin_id = request.getParameter("pin_id");
+			//TEMPORARY, until Ryan can fix the Electric Imp get request
+			// if(api_key == null){
+			// 	api_key = "api_key_xbee";
+			// }
+			HubData hubData = getHubData(api_key);
+
+			Gson gson = new Gson();
+			String json = new String();
+			if(hubData.hubs.isEmpty() == false){
+				Hub curr_hub = hubData.hubs.get(0);
+			// for(Hub hub:hubData.hubs){
+				for (Node node:curr_hub.nodes) {
+					for(Pin pin:node.pins){
+						if(pin.pin_id == Integer.parseInt(pin_id)){
+
+							json = gson.toJson(pin);
+
+						}
+					}
+				}
+			// }
+			}
+			
+
+			response.setContentType("application/json");
+			response.setCharacterEncoding("UTF-8");
+			response.getWriter().write(json);
+		}
 	}
 
 	@Override
