@@ -338,7 +338,7 @@ public class MyDataServlet extends HttpServlet {
 
 				for (Pin pin:pins) {
 					stmt = connection.createStatement();
-					rs = stmt.executeQuery("SELECT * FROM pin_data WHERE pins_pin_id = '" + pin.pin_id + "' ORDER BY time");
+					rs = stmt.executeQuery("SELECT * FROM pin_data WHERE pins_pin_id = '" + pin.pin_id + "' ORDER BY time DESC");
 					while (rs.next()) {
 						Timestamp time = rs.getTimestamp("time");
 						String pin_value = rs.getString("pin_value");
@@ -431,7 +431,7 @@ public class MyDataServlet extends HttpServlet {
 
 			for (Pin pin:pins) {
 				stmt = connection.createStatement();
-				rs = stmt.executeQuery("SELECT * FROM pin_data WHERE pins_pin_id = '" + pin.pin_id + "' ORDER BY time");
+				rs = stmt.executeQuery("SELECT * FROM pin_data WHERE pins_pin_id = '" + pin.pin_id + "' ORDER BY time DESC");
 				while (rs.next()) {
 					Timestamp time = rs.getTimestamp("time");
 					String pin_value = rs.getString("pin_value");
