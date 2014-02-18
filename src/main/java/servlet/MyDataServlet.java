@@ -13,6 +13,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.*;
 
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.utils.URIBuilder;
+
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Vector;
@@ -85,6 +88,7 @@ public class MyDataServlet extends HttpServlet {
 			String user_id = "0";
 			UserData userData = new UserData(user_id);
 
+			// Check client provided required parameters
 			Vector requiredParameterList = new Vector();
 			requiredParameterList.addElement("node_id");
 			requiredParameterList.addElement("new_current_value");
@@ -284,6 +288,8 @@ public class MyDataServlet extends HttpServlet {
 		response.getWriter().write("{\"status\":\"FAILED\"}");
 	}
 
+
+
 	// public status_code getUserData(String user_id, UserData data) {
 	public UserData getUserData(String user_id) {
 		UserData data = new UserData(user_id);
@@ -478,12 +484,29 @@ public class MyDataServlet extends HttpServlet {
 			// String type = rs.getString("type");
 
 			stmt.executeUpdate("INSERT INTO public.pin_data (time, pin_value, pins_pin_id) VALUES (now(), '" + input_pin_value + "', " + input_pin_id + ")");
-			ResultSet rs = stmt.executeQuery("SELECT nodes_node_id FROM pins WHERE pin_id = " + input_pin_id);
+			ResultSet rs = stmt.executeQuery("SELECT * FROM pins WHERE pin_id = " + input_pin_id);
 			rs.next();
 			String node_id = rs.getString("nodes_node_id");
+			String pin_name = rs.getString("name");
+			String pin_type = rs.getString("type");
 			stmt.executeUpdate("UPDATE nodes SET current_value = '" + input_pin_value + "' WHERE node_id = " + node_id);
-
 			stmt.executeUpdate("UPDATE pins SET current_value = '" + input_pin_value + "' WHERE pin_id = " + input_pin_id);
+			
+			if (pin_type == "incntrl_P") {
+				String api_key = "725ee7ef5f7b540544e6b4a8360707aaa32bde0e";
+				URI uri = new URIBuilder()
+					.setScheme("https")
+					.setHost("api.prowlapp.com")
+					.setPath("publicapi/add")
+					.setParameter("apikey", api_key)
+					.setParameter("application", "KnowPlace")
+					.setParameter("event", pin_name)
+					.setParameter("description", input_pin_value)
+					.build();
+
+				HttpGet httpget = new HttpGet(uri);
+			}
+
 			rs.close();
 			stmt.close();
 			connection.close();
@@ -500,44 +523,42 @@ public class MyDataServlet extends HttpServlet {
 	}
 
 	public int compareData(String input_value_str, String trigger_value_str, String comparator){
-		
-			int input_value = Integer.parseInt(input_value_str);
-			int trigger_value = Integer.parseInt(trigger_value_str);
-			int ret = -1;
+		int input_value = Integer.parseInt(input_value_str);
+		int trigger_value = Integer.parseInt(trigger_value_str);
+		int ret = -1;
 
-			if(comparator.equals(">")){
-					if(input_value > trigger_value){
-						ret = 0;				
-					}
-				}
-				else if (comparator.equals(">=")){
-					if(input_value >= trigger_value){
-						ret = 0;
-					}
-				}
-				else if (comparator.equals("<")){
-					if(input_value < trigger_value){
-						ret = 0;
-					}
-				}
-				else if (comparator.equals("<=")){
-					if(input_value <= trigger_value){
-						ret = 0;
-					}
-				}
-				else if (comparator.equals("!=")){
-					if(input_value != trigger_value){
-						ret = 0;
-					}
-				}
-				else{	//default "=="
-				
-					if(input_value == trigger_value){
-						ret = 0;
-					}
-				}
-				return ret;
+		if(comparator.equals(">")){
+			if(input_value > trigger_value){
+				ret = 0;				
+			}
+		}
+		else if (comparator.equals(">=")){
+			if(input_value >= trigger_value){
+				ret = 0;
+			}
+		}
+		else if (comparator.equals("<")){
+			if(input_value < trigger_value){
+				ret = 0;
+			}
+		}
+		else if (comparator.equals("<=")){
+			if(input_value <= trigger_value){
+				ret = 0;
+			}
+		}
+		else if (comparator.equals("!=")){
+			if(input_value != trigger_value){
+				ret = 0;
+			}
+		}
+		else{	//default "=="
 		
+			if(input_value == trigger_value){
+				ret = 0;
+			}
+		}
+		return ret;
 	}
 
 	public int bakeRecipes(String input_pin_id, String input_pin_value){
@@ -571,7 +592,6 @@ public class MyDataServlet extends HttpServlet {
 						// rs.updateBoolean("satisfied", true);
 						stmtIng.executeUpdate("UPDATE pins SET current_value = '" + action_value + "' WHERE pin_id = " + action_pin_id);
 						stmtIng.executeUpdate("UPDATE nodes SET current_value = '" + action_value + "' WHERE node_id = " + action_pin_id);
-						
 					}
 				}
 

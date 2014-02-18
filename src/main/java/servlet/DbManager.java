@@ -20,5 +20,4 @@ public class DbManager {
 		String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + dbUri.getPath();
 		return DriverManager.getConnection(dbUrl, username, password);
 	}
-
 }
