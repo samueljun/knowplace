@@ -1,0 +1,15 @@
+body {
+	padding-top: 50px;
+	padding-bottom: 20px;
+}
+.navbar {
+	/*background-image: linear-gradient(to bottom, #FFB90F, #CC6600);*/
+}
+.large-event a {
+	display: block;
+}
+#slider {
+	width: 65%;
+	margin-left: 15px;
+	margin-bottom: 10px;
+}

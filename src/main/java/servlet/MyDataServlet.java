@@ -33,7 +33,8 @@ public class MyDataServlet extends HttpServlet {
 	public MyDataServlet () {}
 
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+	throws ServletException, IOException {
 		String action = request.getParameter("action");
 
 		if (action.equals("getUserData")) {
@@ -215,7 +216,7 @@ public class MyDataServlet extends HttpServlet {
 				}
 			// }
 			}
-			
+
 
 			response.setContentType("application/json");
 			response.setCharacterEncoding("UTF-8");
@@ -224,7 +225,8 @@ public class MyDataServlet extends HttpServlet {
 	}
 
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+	throws ServletException, IOException {
 		String action = request.getParameter("action");
 
 		if (action.equals("changeStatus")) {
@@ -252,7 +254,7 @@ public class MyDataServlet extends HttpServlet {
 
 					response.setContentType("application/json");
 					response.setCharacterEncoding("UTF-8");
-					response.getWriter().write(json);	
+					response.getWriter().write(json);
 				}
 			}
 		}
@@ -491,7 +493,7 @@ public class MyDataServlet extends HttpServlet {
 			String pin_type = rs.getString("type");
 			stmt.executeUpdate("UPDATE nodes SET current_value = '" + input_pin_value + "' WHERE node_id = " + node_id);
 			stmt.executeUpdate("UPDATE pins SET current_value = '" + input_pin_value + "' WHERE pin_id = " + input_pin_id);
-			
+
 			if (pin_type == "incntrl_P") {
 				String api_key = "725ee7ef5f7b540544e6b4a8360707aaa32bde0e";
 				URI uri = new URIBuilder()
@@ -529,7 +531,7 @@ public class MyDataServlet extends HttpServlet {
 
 		if(comparator.equals(">")){
 			if(input_value > trigger_value){
-				ret = 0;				
+				ret = 0;
 			}
 		}
 		else if (comparator.equals(">=")){
@@ -553,7 +555,7 @@ public class MyDataServlet extends HttpServlet {
 			}
 		}
 		else{	//default "=="
-		
+
 			if(input_value == trigger_value){
 				ret = 0;
 			}
@@ -573,11 +575,11 @@ public class MyDataServlet extends HttpServlet {
 				String recipe_name = rsRec.getString("name");
 				int executed = rsRec.getInt("executed");
 
-			
+
 				Statement stmtIng = connection.createStatement();
 				ResultSet rsIng = stmtIng.executeQuery("SELECT * FROM ingredients WHERE recipes_recipe_id = " + recipe_id);
 				boolean allIngredientsFound = true;
-				
+
 				//right now, assuming only one ingredient will be found
 				if(rsIng.next()){	//eventually will change to a while
 
@@ -586,7 +588,7 @@ public class MyDataServlet extends HttpServlet {
 					String  trigger_value = rsIng.getString("trigger_value");
 					String action_value = rsIng.getString("action_value");
 					boolean satisfied = rsIng.getBoolean("satisfied");
-					
+
 					if(compareData(input_pin_value, trigger_value, comparator) >= 0)
 					{
 						// rs.updateBoolean("satisfied", true);
@@ -602,7 +604,7 @@ public class MyDataServlet extends HttpServlet {
 				// 	}
 				// }
 				// else{
-				// 	ret = -1; 
+				// 	ret = -1;
 				// }
 				rsIng.close();
 				stmtIng.close();
@@ -649,8 +651,8 @@ public class MyDataServlet extends HttpServlet {
 				stmt.executeUpdate("UPDATE max_recipe_id SET id = " + String.valueOf(curr_recipe_id) + " WHERE id = " + String.valueOf(prev_recipe_id) );
 				stmt.execute("INSERT INTO public.recipes (recipe_id, trigger_pin_id) VALUES (" + String.valueOf(curr_recipe_id) + ", " + trigger_pin_id + ")");
 				stmt.execute("INSERT INTO public.ingredients (action_pin_id, comparator, trigger_value, action_value, recipes_recipe_id) VALUES (" + action_pin_id + ", '" + comparator + "', '" + trigger_value + "', '" + action_value + "', " + String.valueOf(curr_recipe_id) + ")");
-				
-				
+
+
 				ret = 0;
 			}
 
