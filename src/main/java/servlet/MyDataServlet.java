@@ -14,6 +14,9 @@ import java.net.URISyntaxException;
 import java.sql.*;
 
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.http.client.utils.URIBuilder;
 
 import java.util.Map;
@@ -477,7 +480,8 @@ public class MyDataServlet extends HttpServlet {
 		return data;
 	}
 
-	public int newPinData(String input_pin_id, String input_pin_value) {
+	public int newPinData(String input_pin_id, String input_pin_value)
+	throws IOException {
 		try {
 			Connection connection = DbManager.getConnection();
 			Statement stmt = connection.createStatement();
@@ -506,9 +510,9 @@ public class MyDataServlet extends HttpServlet {
 					.setParameter("description", input_pin_value)
 					.build();
 
-				ClosableHttpClient httpclient = HttpClient.createDefault();
+				CloseableHttpClient httpclient = HttpClients.createDefault();
 				HttpGet httpget = new HttpGet(uri);
-				ClosableHttpResponse response = httpclient.execute(httpget);
+				CloseableHttpResponse response = httpclient.execute(httpget);
 				response.close();
 				httpclient.close();
 			}
