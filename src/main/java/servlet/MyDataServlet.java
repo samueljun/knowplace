@@ -506,7 +506,11 @@ public class MyDataServlet extends HttpServlet {
 					.setParameter("description", input_pin_value)
 					.build();
 
+				ClosableHttpClient httpclient = HttpClient.createDefault();
 				HttpGet httpget = new HttpGet(uri);
+				ClosableHttpResponse response = httpclient.execute(httpget);
+				response.close();
+				httpclient.close();
 			}
 
 			rs.close();
