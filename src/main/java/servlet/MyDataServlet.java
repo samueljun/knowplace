@@ -503,13 +503,12 @@ public class MyDataServlet extends HttpServlet {
 			stmt.executeUpdate("UPDATE nodes SET current_value = '" + input_pin_value + "' WHERE node_id = " + node_id);
 			stmt.executeUpdate("UPDATE pins SET current_value = '" + input_pin_value + "' WHERE pin_id = " + input_pin_id);
 
-			if (pin_type == "incntrl_P") {
-				// https://api.prowlapp.com/publicapi/add?apikey=725ee7ef5f7b540544e6b4a8360707aaa32bde0e&application=KnowPlace&event=Mail!&description=TheMailArrived
+			if (pin_type.equals("incntrl_P")) {
 				String api_key = "725ee7ef5f7b540544e6b4a8360707aaa32bde0e";
 				URI uri = new URIBuilder()
 					.setScheme("https")
 					.setHost("api.prowlapp.com")
-					.setPath("publicapi/add")
+					.setPath("/publicapi/add")
 					.setParameter("apikey", api_key)
 					.setParameter("application", "KnowPlace")
 					.setParameter("event", pin_name)
