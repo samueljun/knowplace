@@ -11,7 +11,11 @@ $(document).ready(function() {
 	});
 	$("#amount").val($("#slider").slider("value"));
 
-						console.log(true);
+	$("form.changeStatus").submit(function(e) {
+		e.preventDefault();
+		var data = $(this).serialize();
+		console.log(data);
+	});
 	getCurrentStatus();
 });
 
@@ -26,7 +30,6 @@ function getCurrentStatus() {
 			"user_id": user_id
 		},
 		success: function (response) {
-			// alert("in getCurrentStatus");
 			var hubs = response["hubs"];
 
 			for (var i = 0; i < hubs.length; i++) {
@@ -35,7 +38,6 @@ function getCurrentStatus() {
 
 				for (var j = 0; j < nodes.length; j++) {
 					var currNode = nodes[j];
-					// var currValue = currNode["current_value"]; //Temporary
 
 					var pins = currNode["pins"];
 					for (var k = 0; k < pins.length; k++) {
@@ -44,11 +46,10 @@ function getCurrentStatus() {
 						var currID = currPin["pin_id"];
 						var currType = currPin["type"];
 						var currValue = currPin["current_value"]; // Temporary
-						addToList(currName, currID, currValue, currType);
+						addThingList(currName, currID, currValue, currType);
 					}
 				}
 			}
-			// addToList("what!","0","1","control_B");
 		}
 	});
 }
@@ -85,6 +86,199 @@ function addNode() {
 		}
 	});
 }
+
+function isStaticType(type) {
+	switch (type) {
+		case "sensor_M":
+		case "sensor_V":
+		case "static_ID":
+			return true;
+			break;
+		default:
+			return false;
+			break;
+	}
+}
+
+//========================
+// HTML DOM Creation START
+//========================
+function createHiddenInput(name, value) {
+	var input = document.createElement("input");
+	input.setAttribute("type", "hidden");
+	input.setAttribute("name", name);
+	input.setAttribute("value", value);
+	return input;
+}
+
+function createLabel(text) {
+	var label = document.createElement("label");
+	label.setAttribute("class", "col-sm-3 control-label");
+	label.innerHTML = text;
+	return label;
+}
+
+function createTextInput() {
+	var input = document.createElement("input");
+	input.setAttribute("class", "form-control");
+	input.setAttribute("type", "text");
+	return input;
+}
+
+function createSubmitInput() {
+	var input = document.createElement("input");
+	input.setAttribute("class", "btn btn-default");
+	input.setAttribute("type", "submit");
+	input.setAttribute("value", "Submit");
+	return input;
+}
+
+function createFormGroup(text) {
+	var formGroup = document.createElement("div");
+	formGroup.setAttribute("class", "form-group");
+	formGroup.appendChild(createLabel(text));
+	return formGroup;
+}
+
+function createBinaryFormGroup(pin_id, value) {
+	var formGroup = createFormGroup("New:");
+
+	var div = document.createElement("div");
+	div.setAttribute("class", "col-sm-9");
+	// ON
+	var onLabel = document.createElement("label");
+	onLabel.setAttribute("class", "radio-inline");
+
+	var on = document.createElement("input");
+	on.setAttribute("type", "radio");
+	on.setAttribute("name", "thing" + pin_id + "radio");
+	on.setAttribute("value", value);
+	if (value == 0)
+		on.checked = true;
+
+	onLabel.appendChild(on);
+	onLabel.appendChild(document.createTextNode("On"));
+	div.appendChild(onLabel);
+
+	// OFF
+	var offLabel = document.createElement("label");
+	offLabel.setAttribute("class", "radio-inline");
+
+	var off = document.createElement("input");
+	off.setAttribute("type", "radio");
+	off.setAttribute("name", "thing" + pin_id + "radio");
+	off.setAttribute("value", value);
+	if (value == 1)
+		off.checked = true;
+
+	offLabel.appendChild(off);
+	offLabel.appendChild(document.createTextNode("Off"));
+	div.appendChild(offLabel);
+
+	formGroup.appendChild(div);
+	return formGroup;
+}
+
+function createCurrentFormGroup(value) {
+	var formGroup = createFormGroup("Current:");
+
+	var div = document.createElement("div");
+	div.setAttribute("class", "col-sm-9");
+
+	var p = document.createElement("p");
+	p.setAttribute("class", "form-control-static");
+	p.innerHTML = value;
+	div.appendChild(p);
+
+	formGroup.appendChild(div);
+	return formGroup;
+}
+
+function createTextFormGroup() {
+	var formGroup = createFormGroup("New:");
+
+	var div = document.createElement("div");
+	div.setAttribute("class", "col-sm-9");
+
+	var input = createTextInput();
+	div.appendChild(input);
+	formGroup.appendChild(div);
+
+	return formGroup;
+}
+
+function createSubmitFormGroup() {
+	var formGroup = document.createElement("div");
+	formGroup.setAttribute("class", "form-group");
+
+	var div = document.createElement("div");
+	div.setAttribute("class", "col-sm-offset-3 col-sm-9");
+
+	var input = createSubmitInput();
+
+	div.appendChild(input);
+	formGroup.appendChild(div);
+
+	return formGroup;
+}
+//======================
+// HTML DOM Creation END
+//======================
+
+function addThingList(name, pin_id, value, type) {
+	var thing = document.createElement("li");
+	thing.setAttribute("class", "list-group-item");
+
+	var heading = document.createElement("div");
+	heading.setAttribute("href", "#thing" + pin_id);
+	heading.setAttribute("data-toggle", "collapse");
+	heading.innerHTML = name;
+	thing.appendChild(heading);
+
+	var body = document.createElement("div");
+	body.setAttribute("class", "collapse");
+	body.setAttribute("id", "thing" + pin_id);
+
+	body.appendChild(document.createElement("hr"));
+
+	if (isStaticType(type)) {
+		var div = document.createElement("div");
+		div.setAttribute("class", "form-horizontal");
+		div.appendChild(createCurrentFormGroup(value));
+		body.appendChild(div);
+	}
+	else {
+		var form = document.createElement("form");
+		form.setAttribute("class", "form-horizontal");
+		form.setAttribute("role", "form");
+		form.setAttribute("action", "mydata");
+		form.setAttribute("method", "post");
+
+		form.appendChild(createHiddenInput("action", "changeStatus"));
+		form.appendChild(createHiddenInput("pin_id", pin_id));
+		form.appendChild(createCurrentFormGroup(value));
+
+		if (type === "control_B") {
+			form.appendChild(createBinaryFormGroup(pin_id, value));
+		}
+		else if (type === "control_R") {
+			form.appendChild(createTextFormGroup());
+		}
+		else {
+			form.appendChild(createTextFormGroup());
+		}
+
+		form.appendChild(createSubmitFormGroup());
+		body.appendChild(form);
+	}
+
+	thing.appendChild(body);
+	$("#things").append(thing);
+}
+
+
+
+
 
 function addToList(name, pin_id, currValue, currType) {
 	var iDiv = document.createElement('div');

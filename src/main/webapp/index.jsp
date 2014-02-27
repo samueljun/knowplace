@@ -9,6 +9,7 @@
 
 		<!-- STYLESHEETS -->
 		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/bootstrap-theme.min.css">
 		<link rel="stylesheet" href="css/slider.css">
 
 		<!-- CUSTOM STYLESHEETS -->
@@ -46,51 +47,59 @@
 						</div>
 						<button type="submit" class="btn btn-success">Sign in</button>
 					</form>
-				</div><!--/.navbar-collapse -->
-			</div>
-		</div>
+				</div><!-- /.navbar-collapse -->
+			</div><!-- /.container -->
+		</div><!-- /.navbar -->
 
 		<div class="jumbotron">
 			<div class="container">
 				<h2>There's KnowPlace Like Home...</h2>
 				<div class="spacer">
-					<a class="btn btn-primary btn-medium" data-toggle="collapse" data-target="#info">Info &raquo;</a>
-					<div id="info" class="collapse out">
+					<div id="info" class="collapse">
 						<p>Control your home devices through the internet</p>
 						<p>Created by: Ryan Mercer, Samuel Jun, Roger Lam, Ray Tong, Samir Mody, Se Hun Choi, Yoshinori Osone</p>
 					</div>
+					<a class="btn btn-primary btn-medium" data-toggle="collapse" data-target="#info">Info &raquo;</a>
 				</div>
 			</div>
 		</div>
 
 		<div class="container">
 			<div class="row">
-				<div class="col-md-4" id="places">
+				<div class="col-md-4" id="places-col">
 					<ul class="list-group">
-						<a class="list-group-item list-group-item-info">PLACES<span class="badge">3</span></a>
-						<a class="list-group-item" href="#addPlace" data-toggle="modal">+ Places</a>
-						<a class="list-group-item active">House</a>
+						<a class="list-group-item list-group-item-info" href="#addPlace" data-toggle="modal">
+							PLACES
+							<span class="badge">+</span>
+						</a>
+						<a class="list-group-item active">Home</a>
 						<a class="list-group-item">Office</a>
 						<a class="list-group-item">Yacht</a>
 					</ul>
-				</div>
-				<div class="col-md-4" id="spaces">
+				</div><!-- /.places-col -->
+				<div class="col-md-4" id="spaces-col">
 					<ul class="list-group">
-						<a class="list-group-item list-group-item-info">SPACES<span class="badge">5</span></a>
-						<a class="list-group-item" href="#addSpace" data-toggle="modal">+ Places</a>
+						<a class="list-group-item list-group-item-info" href="#addSpace" data-toggle="modal">
+							SPACES
+							<span class="badge">+</span>
+						</a>
 						<a class="list-group-item">Master Bedroom</a>
 						<a class="list-group-item">Kid's Bedroom</a>
 						<a class="list-group-item">Guest Bedroom</a>
 						<a class="list-group-item">Study Room</a>
 						<a class="list-group-item active">Laundry Room</a>
 					</ul>
-				</div>
-				<div class="col-md-4" id="things">
-					<ul class="list-group">
-						<a class="list-group-item list-group-item-info">THINGS<span class="badge">3</span></a>
-						<a class="list-group-item" href="#addThing" data-toggle="modal">+ Places</a>
+				</div><!-- /.spaces-col -->
+				<div class="col-md-4" id="things-col">
+ 					<ul class="list-group" id="things">
+
+						<a class="list-group-item list-group-item-info" href="#addThing" data-toggle="modal">
+							THINGS
+							<span class="badge">+</span>
+						</a>
+
 					</ul>
-				</div>
+				</div><!-- /.things-col -->
 			</div>
 
 			<hr>
@@ -98,7 +107,7 @@
 			<footer>
 				<p>&copy; Know Place - 2013</p>
 			</footer>
-		</div><!-- /container -->
+		</div><!-- /.container -->
 
 		<!-- Modals -->
 		<div id="addThing" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="Add Thing" aria-hidden="true">
@@ -106,7 +115,7 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-						<h4 id="myModalLabel">Add a New Thing</h4>
+						<h4 id="myModalLabel">Add Thing</h4>
 					</div>
 					<form method="post" action="/addnode" class="form-horizontal" role="form">
 						<div class="modal-body">
