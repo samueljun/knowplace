@@ -122,6 +122,7 @@ function createTextInput() {
 	var input = document.createElement("input");
 	input.setAttribute("class", "form-control");
 	input.setAttribute("type", "text");
+	input.setAttribute("name", "value");
 	return input;
 }
 

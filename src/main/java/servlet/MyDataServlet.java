@@ -235,19 +235,20 @@ public class MyDataServlet extends HttpServlet {
 	throws ServletException, IOException {
 		String action = request.getParameter("action");
 
+		// Input: (action, pin_id, value)
 		if (action.equals("changeStatus")) {
 			String user_id = "0";
 			UserData userData = new UserData(user_id);
 
 			Vector requiredParameterList = new Vector();
-			requiredParameterList.addElement("node_id");
-			requiredParameterList.addElement("new_current_value");
+			requiredParameterList.addElement("pin_id");
+			requiredParameterList.addElement("value");
 			if (!checkParameters(requiredParameterList, request.getParameterMap())) {
 				returnJsonStatusFailed(response, "Missing Parameter");
 			}
 			else {
-				String input_pin_id = request.getParameter("node_id");
-				String input_current_value = request.getParameter("new_current_value");
+				String input_pin_id = request.getParameter("pin_id");
+				String input_current_value = request.getParameter("value");
 
 				if (newPinData(input_pin_id, input_current_value) < 0 || bakeRecipes(input_pin_id, input_current_value) < 0) {
 					returnJsonStatusFailed(response, "Error");
