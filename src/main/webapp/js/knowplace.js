@@ -154,7 +154,7 @@ function createBinaryFormGroup(pin_id, value) {
 	on.setAttribute("type", "radio");
 	on.setAttribute("name", "thing" + pin_id + "radio");
 	on.setAttribute("value", value);
-	if (value == 0)
+	if (value != 0)
 		on.checked = true;
 
 	onLabel.appendChild(on);
@@ -169,7 +169,7 @@ function createBinaryFormGroup(pin_id, value) {
 	off.setAttribute("type", "radio");
 	off.setAttribute("name", "thing" + pin_id + "radio");
 	off.setAttribute("value", value);
-	if (value == 1)
+	if (value == 0)
 		off.checked = true;
 
 	offLabel.appendChild(off);
