@@ -229,12 +229,12 @@ function createSubmitFormGroup() {
 function addThingList(name, pin_id, value, type) {
 	var thing = document.createElement("a");
 	thing.setAttribute("class", "list-group-item");
-	thing.setAttribute("data-toggle", "collapse");
-	thing.setAttribute("data-target", "#thing" + pin_id);
-	// thing.setAttribute("href", "#thing" + pin_id);
 
 	var heading = document.createElement("div");
 	heading.innerHTML = name;
+	heading.setAttribute("data-toggle", "collapse");
+	heading.setAttribute("data-parent", "#things");
+	heading.setAttribute("href", "#thing" + pin_id);
 	thing.appendChild(heading);
 
 	var body = document.createElement("div");
