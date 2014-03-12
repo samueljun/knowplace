@@ -100,6 +100,10 @@ function isStaticType(type) {
 	}
 }
 
+function toggleCollapse(thing) {
+	$(thing).collapse("toggle");
+}
+
 //========================
 // HTML DOM Creation START
 //========================
@@ -222,6 +226,7 @@ function createSubmitFormGroup() {
 
 	return formGroup;
 }
+
 //======================
 // HTML DOM Creation END
 //======================
@@ -234,7 +239,9 @@ function addThingList(name, pin_id, value, type) {
 	heading.innerHTML = name;
 	heading.setAttribute("data-toggle", "collapse");
 	heading.setAttribute("data-parent", "#things");
+	heading.setAttribute("data-target", "#thing" + pin_id);
 	heading.setAttribute("href", "#thing" + pin_id);
+	heading.setAttribute("onclick", "toggleCollapse('thing" + pin_id + "')");
 	thing.appendChild(heading);
 
 	var body = document.createElement("div");
