@@ -227,7 +227,7 @@ function createSubmitFormGroup() {
 //======================
 
 function addThingList(name, pin_id, value, type) {
-	var thing = document.createElement("li");
+	var thing = document.createElement("a");
 	thing.setAttribute("class", "list-group-item");
 
 	var heading = document.createElement("div");
