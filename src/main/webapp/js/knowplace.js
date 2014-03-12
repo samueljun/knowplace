@@ -232,6 +232,7 @@ function addThingList(name, pin_id, value, type) {
 
 	var heading = document.createElement("div");
 	heading.setAttribute("href", "#thing" + pin_id);
+	heading.setAttribute("data-target", "#thing" + pin_id);
 	heading.setAttribute("data-toggle", "collapse");
 	heading.innerHTML = name;
 	thing.appendChild(heading);
