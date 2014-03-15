@@ -156,7 +156,7 @@ function createBinaryFormGroup(pin_id, value) {
 
 	var on = document.createElement("input");
 	on.setAttribute("type", "radio");
-	on.setAttribute("name", "thing" + pin_id + "radio");
+	on.setAttribute("name", "value");
 	on.setAttribute("value", value);
 	if (value != 0)
 		on.checked = true;
@@ -171,7 +171,7 @@ function createBinaryFormGroup(pin_id, value) {
 
 	var off = document.createElement("input");
 	off.setAttribute("type", "radio");
-	off.setAttribute("name", "thing" + pin_id + "radio");
+	off.setAttribute("name", "value");
 	off.setAttribute("value", value);
 	if (value == 0)
 		off.checked = true;
