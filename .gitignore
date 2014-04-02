@@ -35,3 +35,8 @@
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Maven generated files #
+#########################
+target/
+tomcat.8080/
